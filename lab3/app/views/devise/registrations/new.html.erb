@@ -1,0 +1,74 @@
+<%= stylesheet_link_tag 'signup.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<div class="body">
+<div class="container">
+  
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+
+
+<div class="image-container">
+<%
+=begin%>
+This part is for role seclection  
+<%
+=end%>
+<div class="form">
+<div class="header">Sign Up</div>
+<%= image_tag 'osu.png', alt: 'OSU image', width: '375', height: '70' %>
+<div class="mode">
+    <label for="mode">mode:</label>
+<select name="role" id="mode">
+  <option value="student">student</option>
+  <option value="instructor">instructor</option>
+  <option value="admin">admin</option>
+</select>
+
+
+<%
+=begin%>
+ This part is for input detail information 
+<%
+=end%>
+</div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "input"  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password",class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" ,class: "input"%>
+  </div>
+
+  <div class="field">
+  <%= label_tag :first_name, "First Name" %><br />
+  <%= text_field_tag :first_name, nil, autocomplete: "given-name",class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :last_name, "Last Name" %><br />
+    <%= text_field_tag :last_name, nil, autocomplete: "family-name" ,class: "input"%>
+  </div>
+
+  <div div class="actions">
+    <%= f.submit "Sign up",class: "login-button" %>
+  </div>
+ 
+<% end %>
+
+<%= render "devise/shared/links" %>
+ </div>
+</div>
+</div>

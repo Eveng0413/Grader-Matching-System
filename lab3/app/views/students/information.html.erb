@@ -1,0 +1,68 @@
+<%
+=begin%>
+ This page is for lab3 
+<%
+=end%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Information</title>
+    <style>
+        .time-entry {
+            margin-bottom: 10px;
+            display: flex; /* Makes the container use flexbox */
+            justify-content: space-between; /* Distributes the space between the items */
+            align-items: center; /* Aligns items vertically */
+        }
+        .form-group {
+            flex: 1; /* Each child takes up equal space */
+            margin: 0 10px; /* Add some space between the items */
+        }
+    </style>
+</head>
+<body>
+
+<%= form_with url: settime_students_path, method: :post, id: 'student-form' do |form| %>
+    <%
+=begin%>
+ <h1>GPA</h1>
+    <div class="form-group">
+        <%= form.label :gpa, 'GPA' %>
+        <%= form.number_field :gpa, step: :any, class: 'form-control', required: true, pattern: '[0-9]*[.,]?[0-9]{0,2}' %>
+        <small class="form-text text-muted">Please enter a number (up to two decimal places).</small>
+    </div> 
+<%
+=end%>
+    <h2>Available Times</h2>
+    <div id="available-times">
+        <% 15.times do |i| %>
+        <div class="time-entry">
+            <div class="form-group">
+                <%= label_tag "available_times[#{i}][start_time]", 'Start Time' %>
+                <%= time_field_tag "available_times[#{i}][start_time]", nil, class: 'form-control' %>
+            </div>
+            <div class="form-group">
+                <%= label_tag "available_times[#{i}][end_time]", 'End Time' %>
+                <%= time_field_tag "available_times[#{i}][end_time]", nil, class: 'form-control' %>
+            </div>
+            <div class="form-group">
+                <%= label_tag "available_times[#{i}][weekday]", 'Weekday' %>
+                <%= select_tag "available_times[#{i}][weekday]", options_for_select([
+                    ['Monday', 'Monday'],
+                    ['Tuesday', 'Tuesday'],
+                    ['Wednesday', 'Wednesday'],
+                    ['Thursday', 'Thursday'],
+                    ['Friday', 'Friday'],
+                    ['Saturday', 'Saturday'],
+                    ['Sunday', 'Sunday']
+                ]), class: 'form-control' %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+<% end %>
+
+</body>
+</html>

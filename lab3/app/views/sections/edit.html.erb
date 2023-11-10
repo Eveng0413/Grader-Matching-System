@@ -1,0 +1,73 @@
+
+  <%= form_with(model: [@course, @section], local: true) do |form| %>
+  
+  <div class="form-box">
+    <h3 style="margin-bottom:20px;">Edit Section <%=@section.section_id%></h3>
+    <div class="field">
+       <%= form.label :section_id %><br>
+  <%= form.number_field :section_id, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_time %><br>
+    <%= form.text_field :start_time, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_time %><br>
+    <%= form.text_field :end_time, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :weekday %><br>
+    <%= form.text_field :weekday, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :has_grader %><br>
+    <%= form.check_box :has_grader, required: false %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %><br>
+    <%= form.date_field :start_date, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %><br>
+    <%= form.date_field :end_date, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :semester_code %><br>
+    <%= form.text_field :semester_code, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :campus %><br>
+    <%= form.text_field :campus, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :faculty_email, "Instructor Email" %><br>
+    <%= form.collection_select(:faculty_email, Instructor.all, :faculty_email, :full_name, { prompt: true }, required: true) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :course_id %><br>
+    <%= form.number_field :course_id, value: @course.course_id, readonly: true %>
+  </div>
+
+    <div class="actions" style="float:left;">
+    <%= form.submit "Save Section" %>
+  </div>
+
+
+    <% end %>
+
+    <br><br>
+    
+    <div>
+      <%= link_to "Back to courses", courses_path %>
+    </div>
+

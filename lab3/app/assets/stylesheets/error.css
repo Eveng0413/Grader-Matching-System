@@ -1,0 +1,12 @@
+.errorMessage{
+    position: absolute;
+    color: #be1c1c;;
+    top: 40%;
+    left: 150%;
+    transform: translate(-50%,-50%);
+    max-width: 490px;
+    width: 75%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}

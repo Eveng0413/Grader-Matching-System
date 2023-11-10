@@ -1,0 +1,15 @@
+<%
+=begin%>
+ Show if operation is successful 
+<%
+=end%>
+<p style="color: green"><%= notice %></p>
+
+<%= render @section %>
+
+<div>
+  <%= link_to "Edit this section", edit_course_section_path(@course, @section) %> |
+  <%= link_to "Back to courses", courses_path %>
+
+  <%#= button_to "Destroy this section", @section, method: :delete %>
+</div>

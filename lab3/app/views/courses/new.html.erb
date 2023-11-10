@@ -1,0 +1,57 @@
+
+  <%= form_with(model: [@course], local: true) do |form| %>
+
+  <div class="form-box">
+    <h3 style="margin-bottom:20px;">Add Section for CSE <%= @course.catalog_number %></h3>
+    <div class="field">
+      <%= form.label :course_id, "Course ID" %><br>
+      <%= form.number_field :course_id, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :catalog_number %><br>
+      <%= form.text_field :catalog_number, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :course_name, "Course Title" %><br>
+      <%= form.text_area :course_name, required: true, rows: 3, cols: 60 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :term %><br>
+      <%= form.text_field :term, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :campus %><br>
+      <%= form.text_field :campus, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :credit_hour %><br>
+      <%= form.number_field :credit_hour%>
+    </div>
+
+
+    <div class="field">
+      <%= form.label :academic_career %><br>
+      <%= form.text_field :academic_career, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :course_discription %><br>
+      <%= form.text_area :course_discription, required: true, rows: 6, cols: 120 %>
+    </div>
+
+    <div class="actions" style="float:left;">
+      <%= form.submit "Add Course" %>
+    </div>
+
+    <% end %>
+
+    <br><br>
+    
+    <div>
+      <%= link_to "Back to courses", courses_path %>
+    </div>

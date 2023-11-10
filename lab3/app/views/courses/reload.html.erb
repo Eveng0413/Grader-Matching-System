@@ -1,0 +1,16 @@
+<h1> Reload Course and Section</h1>
+
+<p>Are you sure you want reload course and section data? This action will take a while</p>
+
+<%= form_with url: perform_reload_courses_path, method: 'post' do %>
+  <div class="actions">
+    <%= submit_tag 'Confirm' %>
+    <%= button_to 'Go back', courses_index_path, method: :get, form_class: 'button_to-inline' %>
+  </div>
+<% end %>
+
+<style>
+  .button_to-inline {
+    display: inline;
+  }
+</style>

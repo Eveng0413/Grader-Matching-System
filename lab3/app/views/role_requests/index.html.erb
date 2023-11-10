@@ -1,0 +1,39 @@
+<h1>Approve Requests</h1>
+<%
+=begin%>
+This is the page for approve and deny requests 
+<%
+=end%>
+<div class="card">
+  <div class="requestListContainer">
+    <table>
+      <tr>
+        <th>Email</th>
+        <th>Role Requested</th>
+        <th>Status</th>
+      </tr>
+
+      <% @role_requests.each do |request| %>
+        <tr>
+          <td style="padding-right: 20px;"><%= request.email %></td>
+          <td style="padding-right: 20px;"><%= request.role_requested %></td>
+          <td style="padding-right: 20px;"><%= request.status %></td>
+          <td>
+            <% if request.status == 'pending' %>
+                <%= button_to 'Approve', approve_role_request_path(request), method: :put, class: 'btn-approve' %>
+                <%= button_to 'Deny', deny_role_request_path(request), method: :put, class: 'btn-deny' %>
+            <% else %>
+                <!--
+                <span>Status: <%= request.status.capitalize %></span>
+                -->
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<div>
+  <%= link_to "Back to courses", courses_path, class: 'back-button' %>
+</div>

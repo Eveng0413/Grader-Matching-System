@@ -1,0 +1,126 @@
+
+<header class="top-bar">
+  <!-- Left side -->
+  <div class="top-bar-left">
+    <div class="name-box">
+      <span>Welcome, <%= @person.first_name + " " + @person.last_name%></span>
+    </div>
+  </div>
+  <div class="logo">
+      <%= image_tag 'osu.png', alt: 'OSU image'%>
+  </div>
+  <!-- Right side -->
+  <div class="top-bar-right">
+    <!-- notice -->
+    <%= notice %>
+    <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
+    <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
+    <% if @person.role == 'admin'%>
+      <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>
+      <%= form_tag(reset_courses_path, method: :post) do %>
+      <%= hidden_field_tag :reset, true %>
+      <!-- Reset button -->
+      <%= submit_tag "Reset", class: "action-button"%>
+    <% end %>
+    <% end %>
+  </div>
+</header>
+
+
+<!-- Search function for correct courses -->
+<div class="search-inputs">
+  <%= form_tag(courses_path, method: :get) do %>
+    <%= text_field_tag :search_query, params[:search_query], placeholder: "Search Course Catalog Number", name: 'search_query' %>
+    <%= select_tag :academic_career, 
+          options_for_select([['All Academic Career', nil]] + @academic_careers.map { |career| [career, career] }, params[:academic_career]), 
+          include_blank: false, name: 'academic_career' %>
+    <%= select_tag :campus, 
+          options_for_select([['All Campus', nil]] + @campus.map { |career| [career, career] }, params[:campus]), include_blank: false, name: 'campus' %>
+    <%= select_tag :term,
+          options_for_select([['All Term', nil]] + @term.map { |career| [career, career] }, params[:term]), include_blank: false, name: 'term' %>
+    <%= submit_tag "Search" %>
+  <% end %>
+
+</div>
+
+<div id="pagy-nav-top">
+  <%== pagy_nav(@pagy) %>
+</div>
+
+<div class="courses-box">
+
+  <% @courses.each do |course| %>
+
+  <div class="course">
+
+        <h3>CSE <%= course.catalog_number %></h3> 
+        <h4 ><%= course.course_name %></h4> 
+        <p><%= course.course_discription %></p> 
+
+        <ul>
+              <li id="cr-label">
+                <%= course.credit_hour %> units <!-- FIXME: replace these with ruby variables-->
+              </li>
+              <li id="program-label">
+                <%= course.academic_career %>
+              </li>
+              <li id="campus-label">
+                <%= course.campus %>
+              </li>
+              <li class="right" style="display:flex;">
+                <% if @person.role == 'admin'%>
+                  <!-- buttons for add section, add course, edit course, delete course -->
+                  <%= link_to 'Add course', new_course_path(course), class: 'action-button' %>
+                  <%= button_to 'Delete Course', course_path(course), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-button' %>
+                  <%= link_to 'Edit course', edit_course_path(course), class: 'action-button' %>
+                  <%= link_to 'Add section', new_course_section_path(course), class: 'action-button' %>
+                <% end %>
+              </li>
+        </ul>
+  </div>
+
+    <!-- Run the section and only print the selected sections -->
+    <% Section.all.each do |section| %>
+      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus) ||  section.course_id == course.c_id %>
+        <div class="section">
+          <table>
+              <tr>
+                <td><h4> Section <%= section.section_id %> (<%= section.s_id%>)</h4></td>
+                <td><%unless section.faculty_email.to_s.empty?%>
+                    <%person = Person.find(section.faculty_email.to_s)%>
+                    <%=person.first_name%> <%=person.last_name%>
+                    <% end %></td>
+                <td><%= section.weekday.to_s.titleize.delete(",")%></td>
+                <td>Grader: <%= section.has_grader%></td>
+                <td> <% if @person.role == 'admin'%>
+                    <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
+                    <% end %></td>
+              </tr>
+              <tr>
+                <td><h5><%= section.semester_code %></h5></td>
+                <td><%= section.faculty_email%></td>
+                <td><%unless section.start_time.to_s.empty?%>
+                    <%= section.start_time%> - <%= section.end_time%>
+                    <%end %></td>
+                <td></td>
+                <td>
+                  <% if @person.role == 'admin'%>
+                    <!-- button for delete section -->
+                    <%= button_to 'Delete Section', course_section_path(course, section), method: :delete, data: { confirm: 'Are you sure?' }, class:'section-button'%>
+                  <% end %>
+                </td>
+              </tr>
+          </table>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<div id="pagy-nav-bottom">
+  <%== pagy_nav(@pagy) %>
+</div>
+
+
+
+
