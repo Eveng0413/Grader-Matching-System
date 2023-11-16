@@ -42,22 +42,34 @@ class RecommendsController < ApplicationController
     if choice == 'Future consideration'
       # Process data for future in recommends
       # Logic for option A - Save in Recommends model
-      @recommend = Recommend.new(recommend_params)
-      if @recommend.save
-        redirect_to courses_url, notice: "Recommendation was successfully created."
+       # Find or initialize a new Recommend
+      @recommend = Recommend.find_or_initialize_by(recommend_params)
+
+      if @recommend.new_record?
+        if @recommend.save
+          redirect_to courses_url, notice: "Recommendation was successfully created."
+        else
+          render :new, status: :unprocessable_entity
+        end
       else
-        render :new, status: :unprocessable_entity
+        redirect_to courses_url, notice: "The recommendation already exists."
       end
       
 
     elsif choice == 'Request for upcoming semester'
       # Process data for now in requests
       # Logic for option B - Save in Request model
-      @request = Request.new(request_params)
-      if @request.save
-        redirect_to courses_url, notice: "Request was successfully created."
+      # Find or initialize a new Request
+      @request = Request.find_or_initialize_by(request_params)
+
+      if @request.new_record?
+        if @request.save
+          redirect_to courses_url, notice: "Request was successfully created."
+        else
+          render :new, status: :unprocessable_entity
+        end
       else
-        render :new, status: :unprocessable_entity
+        redirect_to courses_url, notice: "The request already exists."
       end
     end
 
@@ -99,7 +111,7 @@ class RecommendsController < ApplicationController
     end
     
     def request_params
-      params.require(:request).permit(:student_email, :course_id, :section_id, :faculty_email)
+      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email)
     end
     
 end

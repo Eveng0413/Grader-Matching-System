@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :requests
   resources :recommends
   resources :sections
   #resources :courses
