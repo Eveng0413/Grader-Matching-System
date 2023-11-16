@@ -100,4 +100,5 @@ class CoursesController < ApplicationController
       params.require(:course).permit(:course_id, :catalog_number, :course_name, :term, :campus, :credit_hour, :academic_career, :course_discription)
     end
 
+
 end

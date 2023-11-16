@@ -20,13 +20,13 @@
     </div>
 
     <div class="field">
-      <%= form.label :course_id, "Which course do you recommend this student for(enter the course_id)" %>
-      <%= form.number_field :course_id, required: true %>
+      <%= form.label :course_id, "Which course do you recommend this student for" %>
+      <%= form.collection_select(:course_id, Course.all, :course_id, :catalog_number_and_course_name, { prompt: true }, required: true) %>
     </div>
 
     <div class="field">
       <%= form.label :faculty_email, "what is your email" %>
-      <%= form.text_field :faculty_email, required: true %>
+      <%= form.collection_select(:faculty_email, Instructor.all, :faculty_email, :faculty_email, { prompt: true }, required: true) %>
     </div>
 
     <div class="field">
