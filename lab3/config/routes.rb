@@ -60,7 +60,8 @@ Rails.application.routes.draw do
   #Redirect show page to course index
   get 'courses/:id', to: 'courses#index'
 
-  get 'courses/:id/sections/:id', to: 'courses#index'
+  # This line will cause add section button not working
+  # get 'courses/:id/sections/:id', to: 'courses#index'
 
   # courses/course_id/section/:id route
   resources :courses do
