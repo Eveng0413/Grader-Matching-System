@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :recommends
   resources :sections
   #resources :courses
 
@@ -62,10 +63,16 @@ Rails.application.routes.draw do
 
   get 'courses/:id/sections/:id', to: 'courses#index'
 
+
   # courses/course_id/section/:id route
   resources :courses do
     resources :sections
   end
+
+  #instructor only: recommends
+  get 'recommends/new', to: 'recommends#new'
+  # Reset database route
+  post '/recommends', to: 'recommends#create'
 
 
   # config/routes.rb

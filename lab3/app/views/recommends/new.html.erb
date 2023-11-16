@@ -1,0 +1,52 @@
+<%= form_with(model: @recommend, local: true, data: { turbo: false }) do |form| %>
+  <!-- Form fields for creating a new recommendation -->
+
+  <div class="form-box">
+    <h3 style="margin-bottom:20px;">Recommendation for student</h3>
+
+     <div class="field">
+      <%= form.label :student_first_name, "Student's first name"%><br>
+      <%= form.text_field :student_first_name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :student_last_name, "Student's last name"%><br>
+      <%= form.text_field :student_last_name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :student_email, "Student's email" %>
+      <%= form.text_field :student_email, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :course_id, "Which course do you recommend this student for" %>
+      <%= form.number_field :course_id, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :faculty_email, "what is your email" %>
+      <%= form.text_field :faculty_email, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :choice, '"Do you recommend this student for future consideration for a this course, or request this students to serve as graders for your section in an upcoming semester"' %>
+      <%= form.select :choice, [['Future conssideration', 'Future consideration'], ['Request for upcoming semester', 'Request for upcoming semester']], required: true  %>
+    </div>
+
+    <div class="field">
+      <%= form.label :section_id, "Request for upcoming semester ONLY: what is the section id that you want the student grading for?" %>
+      <%= form.text_field :section_id%>
+    </div>
+
+    <div class="actions" style="float:left;">
+      <%= form.submit "Submit Recommendation" %>
+    </div>
+
+    <% end %>
+
+<br><br>
+    
+<div>
+  <%= link_to "Back to courses", courses_path %>
+</div>
