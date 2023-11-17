@@ -38,8 +38,10 @@
           options_for_select([['All Campus', nil]] + @campus.map { |career| [career, career] }, params[:campus]), include_blank: false, name: 'campus' %>
     <%= select_tag :term,
           options_for_select([['All Term', nil]] + @term.map { |career| [career, career] }, params[:term]), include_blank: false, name: 'term' %>
+    <% if @person.role == 'admin'%>
     <%= select_tag :grader_needed,
       options_for_select([['Grader Required', nil]] + @grader_needed.map { |num_needed| [num_needed, num_needed] }, params[:grader_needed]), include_blank: false, name: 'grader_needed' %>
+    <% end %>
     <%= submit_tag "Search" %>
   <% end %>
 </div>
