@@ -12,6 +12,9 @@ class CoursesController < ApplicationController
     @academic_careers = Course.pluck(:academic_career).uniq.compact
     @campus = Course.pluck(:campus).uniq.compact
     @term = Course.pluck(:term).uniq.compact
+
+    # Fetch the set of number of grader needed from all sections
+    @grader_needed = Section.where(course_id: @courses.pluck(:course_id)).pluck(:grader_needed).uniq.compact
     
     #Up to 500 items will show when searching
     if params[:academic_career].present?
