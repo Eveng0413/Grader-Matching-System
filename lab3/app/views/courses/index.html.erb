@@ -38,9 +38,10 @@
           options_for_select([['All Campus', nil]] + @campus.map { |career| [career, career] }, params[:campus]), include_blank: false, name: 'campus' %>
     <%= select_tag :term,
           options_for_select([['All Term', nil]] + @term.map { |career| [career, career] }, params[:term]), include_blank: false, name: 'term' %>
+    <%= select_tag :grader_needed,
+      options_for_select([['Grader Required', nil]] + @grader_needed.map { |num_needed| [num_needed, num_needed] }, params[:grader_needed]), include_blank: false, name: 'grader_needed' %>
     <%= submit_tag "Search" %>
   <% end %>
-
 </div>
 
 <div id="pagy-nav-top">
@@ -50,38 +51,44 @@
 <div class="courses-box">
 
   <% @courses.each do |course| %>
-
-  <div class="course">
-
+    <% count = 0 %>
+    <% Section.all.each do |section| %>
+      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) ||  section.course_id == course.c_id %>
+        <% count += 1 %>
+      <% end %>
+    <% end %>  
+    <% if count > 0 %>  
+      <div class="course">
         <h3>CSE <%= course.catalog_number %></h3> 
         <h4 ><%= course.course_name %></h4> 
         <p><%= course.course_discription %></p> 
 
         <ul>
-              <li id="cr-label">
-                <%= course.credit_hour %> units <!-- FIXME: replace these with ruby variables-->
-              </li>
-              <li id="program-label">
-                <%= course.academic_career %>
-              </li>
-              <li id="campus-label">
-                <%= course.campus %>
-              </li>
-              <li class="right" style="display:flex;">
-                <% if @person.role == 'admin'%>
-                  <!-- buttons for add section, add course, edit course, delete course -->
-                  <%= link_to 'Add course', new_course_path(course), class: 'action-button' %>
-                  <%= button_to 'Delete Course', course_path(course), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-button' %>
-                  <%= link_to 'Edit course', edit_course_path(course), class: 'action-button' %>
-                  <%= link_to 'Add section', new_course_section_path(course), class: 'action-button' %>
-                <% end %>
-              </li>
+          <li id="cr-label">
+            <%= course.credit_hour %> units <!-- FIXME: replace these with ruby variables-->
+          </li>
+          <li id="program-label">
+            <%= course.academic_career %>
+          </li>
+          <li id="campus-label">
+            <%= course.campus %>
+          </li>
+          <li class="right" style="display:flex;">
+            <% if @person.role == 'admin'%>
+              <!-- buttons for add section, add course, edit course, delete course -->
+              <%= link_to 'Add course', new_course_path(course), class: 'action-button' %>
+              <%= button_to 'Delete Course', course_path(course), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-button' %>
+              <%= link_to 'Edit course', edit_course_path(course), class: 'action-button' %>
+              <%= link_to 'Add section', new_course_section_path(course), class: 'action-button' %>
+            <% end %>
+          </li>
         </ul>
-  </div>
+      </div>
+    <% end %>
 
     <!-- Run the section and only print the selected sections -->
     <% Section.all.each do |section| %>
-      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus) ||  section.course_id == course.c_id %>
+      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) ||  section.course_id == course.c_id %>
         <div class="section">
           <table>
               <tr>
@@ -91,10 +98,13 @@
                     <%=person.first_name%> <%=person.last_name%>
                     <% end %></td>
                 <td><%= section.weekday.to_s.titleize.delete(",")%></td>
-                <td>Grader: <%= section.has_grader%></td>
-                <td> <% if @person.role == 'admin'%>
-                    <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
-                    <% end %></td>
+                <td>Grader: <%= section.grader%></td>
+                <% if @person.role == 'admin'%>
+                  <td>Grader Needed: <%= section.grader_needed%></td>
+                  <td> 
+                      <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
+                  </td>
+                <% end %>
               </tr>
               <tr>
                 <td><h5><%= section.semester_code %></h5></td>
