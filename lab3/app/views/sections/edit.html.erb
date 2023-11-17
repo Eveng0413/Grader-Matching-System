@@ -24,8 +24,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :has_grader %><br>
-    <%= form.check_box :has_grader, required: false %>
+    <%= form.label :grader_needed %><br>
+    <%= form.number_field :grader_needed, required: false %>
+  </div>
+
+    <div class="field">
+    <%= form.label :grader %><br>
+    <%= form.text_field :grader, required: false %>
   </div>
 
   <div class="field">

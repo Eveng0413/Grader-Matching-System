@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_16_213536) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -77,7 +77,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
     t.string "start_time"
     t.string "end_time"
     t.string "weekday"
-    t.boolean "has_grader"
     t.date "start_date"
     t.date "end_date"
     t.string "semester_code"
@@ -86,6 +85,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
     t.integer "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "grader_needed"
+    t.string "grader"
   end
 
   create_table "student_grade_sections", id: false, force: :cascade do |t|

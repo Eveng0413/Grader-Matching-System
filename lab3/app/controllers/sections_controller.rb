@@ -58,7 +58,7 @@ class SectionsController < ApplicationController
       end
 
       def section_params
-        params.require(:section).permit(:section_id, :start_time, :end_time, :weekday, :has_grader, :start_date, :end_date, :semester_code, :campus, :faculty_email, :course_id)
+        params.require(:section).permit(:section_id, :start_time, :end_time, :weekday, :grader_needed, :grader, :start_date, :end_date, :semester_code, :campus, :faculty_email, :course_id)
       end
       
       
