@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_17_031745) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,6 +96,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "student_request_courses", force: :cascade do |t|
+    t.string "student_email", null: false
+    t.string "courseName"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "students", primary_key: "student_email", id: :string, force: :cascade do |t|
     t.boolean "is_grader"
     t.string "evaluate"
@@ -129,5 +136,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
   add_foreign_key "student_grade_sections", "admins", column: "admin_email", primary_key: "admin_email"
   add_foreign_key "student_grade_sections", "instructors", column: "faculty_email", primary_key: "faculty_email"
   add_foreign_key "student_grade_sections", "students", column: "student_email", primary_key: "student_email"
+  add_foreign_key "student_request_courses", "students", column: "student_email", primary_key: "student_email"
   add_foreign_key "students", "persons", column: "student_email", primary_key: "email"
 end

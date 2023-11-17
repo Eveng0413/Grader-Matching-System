@@ -11,10 +11,10 @@ class DataLoader
         page = 1
         loop do
             response = fetch_courses(page)
-            ## need to reduce load time for page? comment out the below code
-            # if page == 2
-            #     break
-            # end
+            # need to reduce load time for page? comment out the below code
+            if page == 2
+                break
+            end
                 
             if response.empty?
                 if page != 1
