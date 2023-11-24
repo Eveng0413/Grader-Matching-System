@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<%= form_with url: settime_students_path, method: :post, id: 'student-form' do |form| %>
+<%= form_with url: setapplication_students_path, method: :post, id: 'student-form' do |form| %>
     <h2>Available Times</h2>
     <% if current_user %>
         <%= form.hidden_field :student_email, value: current_user.email %>
@@ -60,6 +60,12 @@
             </div>
         </div>
         <% end %>
+    </div>
+
+    <h2>Phone Number</h2>
+    <div class="form-group">
+        <%= label_tag :phone_number, "Phone Number" %>
+        <%= text_field_tag :phone_number, nil, class: 'form-control', placeholder: "Enter your phone number" %>
     </div>
 
     <%= form.submit 'Submit', class: 'btn btn-primary' %>

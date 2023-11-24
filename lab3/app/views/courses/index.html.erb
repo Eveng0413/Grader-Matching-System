@@ -15,8 +15,11 @@
     <%= notice %>
     <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
-    <% if @person.role == 'student' %>
-      <%= link_to "Apply Information", student_information_path, class: 'action-button' %>
+    <% if @person.role == 'student'&&!@already_applied %>
+      <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
+    <% end %>
+    <% if @person.role == 'student'&& @already_applied %>
+      <%= link_to "Update Application", update_student_information_path, class: 'action-button' %>
     <% end %>
     <% if @person.role == 'admin'%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>

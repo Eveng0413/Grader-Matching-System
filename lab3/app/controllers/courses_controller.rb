@@ -6,6 +6,7 @@ class CoursesController < ApplicationController
     if user_signed_in?
       @user = current_user 
       @person = Person.find(@user.email)
+      @already_applied = GraderApplication.exists?(student_email: @person.email)
     end
     # only the course same as selected params
     @pagy, @courses = pagy(Course.all)

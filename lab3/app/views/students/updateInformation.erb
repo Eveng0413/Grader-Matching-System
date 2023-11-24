@@ -1,0 +1,9 @@
+<%= form_with(model: @grader_application, url: updateapplication_students_path, local: true) do |form| %>
+  <% if @grader_application %>
+    <!-- If @grader_application is not nil -->
+    <p>Grader application is present.</p>
+  <% else %>
+    <!-- If @grader_application is nil -->
+    <p>Grader application is not found.</p>
+  <% end %>
+<% end %>
