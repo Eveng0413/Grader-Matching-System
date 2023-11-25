@@ -1,4 +1,5 @@
-<%= form_with(model: @grader_application, url: updateapplication_students_path, local: true) do |form| %>
+<%= form_with(model: @students, local: true) do |form| %>
+  <p> 1<%= @user_email %> </p>
   <% if @grader_application %>
     <!-- If @grader_application is not nil -->
     <p>Grader application is present.</p>

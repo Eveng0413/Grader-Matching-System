@@ -28,12 +28,12 @@ Rails.application.routes.draw do
 
   #lab3 part
   get 'student_information', to: 'students#information', as: 'student_information'
-  get 'update_student_information', to: 'students#updateInformation', as: 'update_student_information'
+  get 'students/edit', to: 'students#edit'
+  # get 'update_student_information', to: 'students#updateInformation', as: 'update_student_information'
   # lab3 part
   resources :students do
     collection do
       post 'setapplication'
-      post 'updateapplication'
     end
   end
 
