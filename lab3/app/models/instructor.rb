@@ -1,6 +1,7 @@
 class Instructor < ApplicationRecord
     self.table_name = "instructors"
     belongs_to :person, foreign_key: 'faculty_email', primary_key: 'email'
+    has_many :evaluations, foreign_key: 'faculty_email'
     #Get Instuctor full name
     def full_name
         [person.first_name, person.last_name].join(' ')
