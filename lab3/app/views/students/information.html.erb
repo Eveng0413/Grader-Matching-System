@@ -19,6 +19,9 @@
 <body>
 
 <%= form_with url: setapplication_students_path, method: :post, id: 'student-form' do |form| %>
+    <% if @already_applied %>
+    <h1>By clicking submit your old application will be update to the new one</h1>
+    <% end %>
     <h2>Available Times</h2>
     <% if current_user %>
         <%= form.hidden_field :student_email, value: current_user.email %>

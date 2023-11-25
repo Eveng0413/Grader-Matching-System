@@ -19,7 +19,7 @@
       <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
     <% end %>
     <% if @person.role == 'student'&& @already_applied %>
-      <%= link_to "Update Application", students_edit_path, class: 'action-button' %>
+      <%= link_to "Update Application", student_information_path, class: 'action-button' %>
     <% end %>
     <% if @person.role == 'admin'%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>

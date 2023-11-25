@@ -14,7 +14,20 @@ class StudentsController < ApplicationController
 
     # This is for lab3
     
+    def information
+      @user_email = current_user.email
+      @grader_application = GraderApplication.find_by(student_email: @user_email)
+      @already_applied = @grader_application.present?
+    end
+
     def setapplication
+      @user_email = current_user.email
+      @grader_application = GraderApplication.find_by(student_email: @user_email)
+      if !@grader_application.nil?
+        @grader_application.available_times.destroy_all
+        @grader_application.student_request_courses.destroy_all
+        @grader_application.destroy
+      end
       phone_number = params[:phone_number]
       time_entries = params[:available_times].values
       course_entries = params[:courses].values
@@ -46,16 +59,6 @@ class StudentsController < ApplicationController
       end
     
       handle_redirection(valid_time_entries, valid_course_entries)
-    end
-
-    def edit
-      @user_email = current_user.email
-      @grader_application = GraderApplication.find_by(student_email: @user_email)
-    end
-    
-    def update
-      # code here
-      
     end
 
     private
