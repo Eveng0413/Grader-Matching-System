@@ -1,6 +1,9 @@
+
 Rails.application.routes.draw do
+  resources :requests
+  resources :recommends
   resources :sections
-  #resources :courses
+  resources :evaluations
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -29,23 +32,18 @@ Rails.application.routes.draw do
   devise_scope :user do
     root to: "devise/sessions#new"
   end
-
+  
+  #lab3 part
+  get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
-  # get 'student_information', to: 'students#information', as: 'student_information'
-
-  # lab3 part
-  # resources :students do
-  #   collection do
-  #     # post 'setgpa' 
-  #     post 'settime'
-  #  end
-  # end 
-
-
+  resources :students do
+    collection do
+      post 'setapplication'
+    end
+  end
+  
   # # Defines the root path route ("/")
   # root "courses#index"
-
-
   resources :courses, only: [:index]
   
    # Reset database route
@@ -63,10 +61,16 @@ Rails.application.routes.draw do
   # This line will cause add section button not working
   # get 'courses/:id/sections/:id', to: 'courses#index'
 
+
   # courses/course_id/section/:id route
   resources :courses do
     resources :sections
   end
+
+  #instructor only: recommends
+  get 'recommends/new', to: 'recommends#new'
+  # Reset database route
+  post '/recommends', to: 'recommends#create'
 
 
   # config/routes.rb

@@ -1,63 +1,100 @@
 class StudentsController < ApplicationController
 
-    before_action :set_student, only: [:show, :edit, :update, :destroy, :setgpa,:settime]
+    before_action :set_student, only: [:show, :update, :destroy, :setapplication,:updateapplication]
+    before_action :authenticate_user!
     def set_student
-        student_email = session[:registered_student_email]
-        @student = Student.find_by(student_email: student_email)
-    
-        # If cannot find student
-        unless @student
-          flash[:alert] = "Student not found!"
-          redirect_to(root_path) 
-        end
+      student_email = params[:student_email]
+      @student = Student.find_by(student_email: student_email)
+      unless @student
+        flash[:alert] = "Student not found!"
+        redirect_to(root_path) 
+      end
     end
-
-    # def setgpa
-    #     new_gpa = params[:gpa]
-    #     if @student.update(gpa: new_gpa)
-    #       flash[:notice] = "GPA Update！"
-    #     else
-    #       flash.now[:alert] = "Faile to Update"
-    #     end
-    #   end
+  
 
     # This is for lab3
-    # def settime
-    #   # Log the student's email for debugging purposes
-    #   logger.debug "Current student email: #{@student.student_email}"
     
-    #   # Retrieve the time entries from the form parameters
-    #   time_entries = params[:available_times].values
-    
-    #   # Counter for the number of valid entries
-    #   valid_entries = 0
-    
-    #   # Iterate over each time entry
-    #   time_entries.each do |time_entry|
-    #     # Skip this iteration if the time entry isn't a Hash or any critical attribute is blank
-    #     next unless time_entry.is_a?(Hash)
-    #     next if time_entry[:start_time].blank? || time_entry[:end_time].blank? || time_entry[:weekday].blank?
-    
-    #     # Create a new available time linked to the current student
-    #     @student.available_times.create!(time_entry)
-    
-    #     # Increment the valid entries counter
-    #     valid_entries += 1
-    #   end
-    
-    #   # Check if any valid entries were processed
-    #   if valid_entries > 0
-    #     # If valid entries were added, redirect to a desired path with a success message
-    #     flash[:notice] = "#{valid_entries} time slot(s) successfully added."
-    #     redirect_to placeholder_welcome_path 
-    #   else
-    #     # If no valid entries, render the current form again with a warning message
-    #     flash.now[:alert] = "Please provide at least one complete time slot."
-    #     redirect_to student_information_path 
-    #   end
-    # end
-    
-      
-      
+    def information
+      @user_email = current_user.email
+      @grader_application = GraderApplication.find_by(student_email: @user_email)
+      @already_applied = @grader_application.present?
+    end
 
+    def setapplication
+      @user_email = current_user.email
+      @grader_application = GraderApplication.find_by(student_email: @user_email)
+      if !@grader_application.nil?
+        @grader_application.available_times.destroy_all
+        @grader_application.student_request_courses.destroy_all
+        @grader_application.destroy
+      end
+      phone_number = params[:phone_number]
+      time_entries = params[:available_times].values
+      course_entries = params[:courses].values
+    
+      valid_time_entries = 0
+      valid_course_entries = 0
+    
+      ActiveRecord::Base.transaction do
+
+        application = GraderApplication.create!(student_email: @student.student_email )
+
+        @student.update!(phone_number: phone_number)
+
+        # Process time entries
+        time_entries.each do |time_entry|
+          next unless time_entry_valid?(time_entry)
+    
+          application.available_times.create!(time_entry)
+          valid_time_entries += 1
+        end
+    
+        # Process course entries
+        course_entries.each do |course_entry|
+          next if course_entry[:name].blank?
+    
+          application.student_request_courses.create!(courseName: course_entry[:name])
+          valid_course_entries += 1
+        end
+      end
+    
+      handle_redirection(valid_time_entries, valid_course_entries)
+    end
+
+    private
+    
+    def update_available_times(application, time_entries)
+      application.available_times.each do |available_time|
+        matching_entry = time_entries.find { |te| te[:id] == available_time.id.to_s }
+        available_time.update!(matching_entry) if matching_entry.present?
+      end
+    end
+    
+    def update_student_request_courses(application, course_entries)
+      application.student_request_courses.each do |course|
+        matching_entry = course_entries.find { |ce| ce[:id] == course.id.to_s }
+        course.update!(courseName: matching_entry[:courseName]) if matching_entry.present?
+      end
+    end
+    
+
+    # Validate the time entry
+    def time_entry_valid?(time_entry)
+      time_entry.is_a?(Hash) && 
+      time_entry[:start_time].present? && 
+      time_entry[:end_time].present? && 
+      time_entry[:weekday].present?
+    end
+    
+    # Handle redirection logic
+    def handle_redirection(valid_time_entries, valid_course_entries)
+      if valid_time_entries > 0 || valid_course_entries > 0
+        flash[:notice] = "#{valid_time_entries} time slot(s) and #{valid_course_entries} course(s) successfully added."
+        redirect_to courses_path
+      else
+        flash.now[:alert] = "Please provide at least one complete time slot or course."
+        render :settime # Or redirect to an appropriate path
+      end
+    end
+    
 end
