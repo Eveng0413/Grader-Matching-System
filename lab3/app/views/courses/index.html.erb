@@ -4,6 +4,9 @@
   <div class="top-bar-left">
     <div class="name-box">
       <span>Welcome, <%= @person.first_name + " " + @person.last_name%></span>
+      <% if @person.role == 'instructor'%>
+        <%= link_to "Recommend Student", new_recommend_path, class: 'action-button' %>
+      <% end%>
     </div>
   </div>
   <div class="logo">

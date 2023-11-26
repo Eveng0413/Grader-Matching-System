@@ -1,3 +1,4 @@
+
 class CoursesController < ApplicationController
   before_action :set_course, only: %i[ show edit update destroy ]
 
@@ -6,7 +7,6 @@ class CoursesController < ApplicationController
     if user_signed_in?
       @user = current_user 
       @person = Person.find(@user.email)
-      @already_applied = GraderApplication.exists?(student_email: @person.email)
     end
     # only the course same as selected params
     @pagy, @courses = pagy(Course.all)
@@ -100,5 +100,6 @@ class CoursesController < ApplicationController
     def course_params
       params.require(:course).permit(:course_id, :catalog_number, :course_name, :term, :campus, :credit_hour, :academic_career, :course_discription)
     end
+
 
 end

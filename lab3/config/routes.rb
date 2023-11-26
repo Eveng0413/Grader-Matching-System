@@ -1,5 +1,7 @@
 
 Rails.application.routes.draw do
+  resources :requests
+  resources :recommends
   resources :sections
   resources :evaluations
 
@@ -59,10 +61,16 @@ Rails.application.routes.draw do
   # This line will cause add section button not working
   # get 'courses/:id/sections/:id', to: 'courses#index'
 
+
   # courses/course_id/section/:id route
   resources :courses do
     resources :sections
   end
+
+  #instructor only: recommends
+  get 'recommends/new', to: 'recommends#new'
+  # Reset database route
+  post '/recommends', to: 'recommends#create'
 
 
   # config/routes.rb
