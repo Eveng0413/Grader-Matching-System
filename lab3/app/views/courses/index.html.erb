@@ -18,6 +18,15 @@
     <%= notice %>
     <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
+    <% if @person.role == 'student'&&!@already_applied %>
+    <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
+    <% end %>
+    <% if @person.role == 'student'&& @already_applied %>
+      <%= link_to "Update Application", student_information_path, class: 'action-button' %>
+    <% end %>
+    <% if @person.role == 'instructor'%>
+      <%= link_to "Evaluate Student", new_evaluation_path, class: 'action-button' %>
+    <% end %>
     <% if @person.role == 'admin'%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>
       <%= form_tag(reset_courses_path, method: :post) do %>
@@ -25,6 +34,7 @@
       <!-- Reset button -->
       <%= submit_tag "Reset", class: "action-button"%>
     <% end %>
+
     <% end %>
   </div>
 </header>
@@ -123,6 +133,7 @@
 <div id="pagy-nav-bottom">
   <%== pagy_nav(@pagy) %>
 </div>
+
 
 
 

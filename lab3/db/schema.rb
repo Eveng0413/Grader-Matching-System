@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_173119) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -18,11 +19,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
 
   create_table "available_times", primary_key: "time_id", force: :cascade do |t|
     t.string "weekday"
-    t.string "student_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "start_time"
     t.time "end_time"
+    t.integer "applications_id"
+    t.index ["applications_id"], name: "index_available_times_on_applications_id"
   end
 
   create_table "courses", primary_key: "c_id", force: :cascade do |t|
@@ -38,6 +40,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
     t.string "term"
     t.string "course_discription"
     t.string "catalog_number"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.string "student_email"
+    t.string "faculty_email"
+    t.string "course_name"
+    t.integer "rate"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["faculty_email"], name: "index_evaluations_on_faculty_email"
+    t.index ["student_email"], name: "index_evaluations_on_student_email"
+  end
+
+  create_table "grader_applications", force: :cascade do |t|
+    t.string "student_email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_email"], name: "index_grader_applications_on_student_email", unique: true
   end
 
   create_table "instructors", primary_key: "faculty_email", id: :string, force: :cascade do |t|
@@ -108,12 +129,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "student_request_courses", force: :cascade do |t|
+    t.string "courseName"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "applications_id"
+    t.index ["applications_id"], name: "index_student_request_courses_on_applications_id"
+  end
+
   create_table "students", primary_key: "student_email", id: :string, force: :cascade do |t|
     t.boolean "is_grader"
     t.string "evaluate"
     t.float "gpa"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "phone_number"
   end
 
   create_table "users", force: :cascade do |t|
@@ -129,9 +159,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
   end
 
   add_foreign_key "admins", "persons", column: "admin_email", primary_key: "email"
-  add_foreign_key "available_times", "students", column: "student_email", primary_key: "student_email"
+  add_foreign_key "available_times", "grader_applications", column: "applications_id"
   add_foreign_key "courses", "admins", column: "admin_email", primary_key: "admin_email"
   add_foreign_key "courses", "students", column: "student_email", primary_key: "student_email"
+  add_foreign_key "grader_applications", "students", column: "student_email", primary_key: "student_email"
   add_foreign_key "instructors", "persons", column: "faculty_email", primary_key: "email"
   add_foreign_key "persons", "users"
   add_foreign_key "recommends", "admins", column: "admin_email", primary_key: "admin_email"
@@ -141,5 +172,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_025157) do
   add_foreign_key "student_grade_sections", "admins", column: "admin_email", primary_key: "admin_email"
   add_foreign_key "student_grade_sections", "instructors", column: "faculty_email", primary_key: "faculty_email"
   add_foreign_key "student_grade_sections", "students", column: "student_email", primary_key: "student_email"
+  add_foreign_key "student_request_courses", "grader_applications", column: "applications_id"
   add_foreign_key "students", "persons", column: "student_email", primary_key: "email"
 end
