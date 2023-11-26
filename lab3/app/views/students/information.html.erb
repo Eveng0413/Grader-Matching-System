@@ -1,8 +1,4 @@
-<%
-=begin%>
- This page is for lab3 
-<%
-=end%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,18 +18,14 @@
 </head>
 <body>
 
-<%= form_with url: settime_students_path, method: :post, id: 'student-form' do |form| %>
-    <%
-=begin%>
- <h1>GPA</h1>
-    <div class="form-group">
-        <%= form.label :gpa, 'GPA' %>
-        <%= form.number_field :gpa, step: :any, class: 'form-control', required: true, pattern: '[0-9]*[.,]?[0-9]{0,2}' %>
-        <small class="form-text text-muted">Please enter a number (up to two decimal places).</small>
-    </div> 
-<%
-=end%>
+<%= form_with url: setapplication_students_path, method: :post, id: 'student-form' do |form| %>
+    <% if @already_applied %>
+    <h1>By clicking submit your old application will be update to the new one</h1>
+    <% end %>
     <h2>Available Times</h2>
+    <% if current_user %>
+        <%= form.hidden_field :student_email, value: current_user.email %>
+    <% end %>
     <div id="available-times">
         <% 15.times do |i| %>
         <div class="time-entry">
@@ -61,7 +53,26 @@
         <% end %>
     </div>
 
+    <h2>Course Names</h2>
+    <div id="course-names">
+        <% 5.times do |i| %>
+        <div class="course-entry">
+            <div class="form-group">
+                <%= label_tag "courses[#{i}][name]", "Course Name #{i+1}" %>
+                <%= text_field_tag "courses[#{i}][name]", nil, class: 'form-control' %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+
+    <h2>Phone Number</h2>
+    <div class="form-group">
+        <%= label_tag :phone_number, "Phone Number" %>
+        <%= text_field_tag :phone_number, nil, class: 'form-control', placeholder: "Enter your phone number" %>
+    </div>
+
     <%= form.submit 'Submit', class: 'btn btn-primary' %>
+    <%= link_to "Back", courses_path, class: 'action-button' %>
 <% end %>
 
 </body>

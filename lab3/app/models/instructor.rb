@@ -7,3 +7,5 @@ class Instructor < ApplicationRecord
         [person.first_name, person.last_name].join(' ')
     end
 end
+
+

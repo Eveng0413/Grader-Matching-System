@@ -1,3 +1,4 @@
+
 Rails.application.routes.draw do
   resources :sections
   resources :evaluations
@@ -29,23 +30,18 @@ Rails.application.routes.draw do
   devise_scope :user do
     root to: "devise/sessions#new"
   end
-
+  
+  #lab3 part
+  get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
-  # get 'student_information', to: 'students#information', as: 'student_information'
-
-  # lab3 part
-  # resources :students do
-  #   collection do
-  #     # post 'setgpa' 
-  #     post 'settime'
-  #  end
-  # end 
-
-
+  resources :students do
+    collection do
+      post 'setapplication'
+    end
+  end
+  
   # # Defines the root path route ("/")
   # root "courses#index"
-
-
   resources :courses, only: [:index]
   
    # Reset database route
