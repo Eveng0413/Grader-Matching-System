@@ -16,10 +16,13 @@
     <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
     <% if @person.role == 'student'&&!@already_applied %>
-      <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
+    <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
     <% end %>
     <% if @person.role == 'student'&& @already_applied %>
       <%= link_to "Update Application", student_information_path, class: 'action-button' %>
+    <% end %>
+    <% if @person.role == 'instructor'%>
+      <%= link_to "Evaluate Student", new_evaluation_path, class: 'action-button' %>
     <% end %>
     <% if @person.role == 'admin'%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>
@@ -28,6 +31,7 @@
       <!-- Reset button -->
       <%= submit_tag "Reset", class: "action-button"%>
     <% end %>
+
     <% end %>
   </div>
 </header>
@@ -97,7 +101,7 @@
                     <%=person.first_name%> <%=person.last_name%>
                     <% end %></td>
                 <td><%= section.weekday.to_s.titleize.delete(",")%></td>
-                <td>Grader: <%= %></td>
+                <td>Grader: <%= section.has_grader%></td>
                 <td> <% if @person.role == 'admin'%>
                     <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
                     <% end %></td>
@@ -126,6 +130,7 @@
 <div id="pagy-nav-bottom">
   <%== pagy_nav(@pagy) %>
 </div>
+
 
 
 

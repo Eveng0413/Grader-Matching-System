@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_183918) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_173119) do
+
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -41,11 +43,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_183918) do
     t.string "catalog_number"
   end
 
-  create_table "grader_applications", force: :cascade do |t|
-    t.string "student_email", null: false
+  create_table "evaluations", force: :cascade do |t|
+    t.string "student_email"
+    t.string "faculty_email"
+    t.string "course_name"
+    t.integer "rate"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_email"], name: "index_grader_applications_on_student_email", unique: true
+    t.index ["faculty_email"], name: "index_evaluations_on_faculty_email"
+    t.index ["student_email"], name: "index_evaluations_on_student_email"
   end
 
   create_table "instructors", primary_key: "faculty_email", id: :string, force: :cascade do |t|
