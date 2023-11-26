@@ -11,7 +11,7 @@ class DataLoader
         page = 1
         loop do
             response = fetch_courses(page)
-            # # need to reduce load time for page? comment out the below code
+            ## need to reduce load time for page? comment out the below code
             # if page == 2
             #     break
             # end
@@ -178,13 +178,13 @@ class DataLoader
                 start_time: section_data['meetings'][0]['startTime'],
                 end_time: section_data['meetings'][0]['endTime'],
                 weekday: weekday_getter(section_data),
-                has_grader: false,
                 start_date: section_data['startDate'],
                 end_date: section_data['endDate'],
                 semester_code: section_data['term'],
                 campus: section_data['campus'],
                 faculty_email: section_data['meetings'][0]['instructors'][0]['email'],
                 course_id: section_data['courseId'],
+                grader_needed: 1
             )
         end
     end
@@ -215,5 +215,4 @@ class DataLoader
 end
 
 DataLoader.load_data
-
 
