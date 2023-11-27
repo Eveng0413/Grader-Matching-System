@@ -2,49 +2,54 @@
 
 <h1>Grader Applications</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Application ID</th>
-      <th>Name</th>
-      <th>Emial</th>
-      <th>Course(s)</th>
-      <th>Available Time</th>
-      <th>Recommendation</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="card">
+  <div class="requestListContainer">
+    <table>
+      <thead>
+        <tr>
+          <th>Application ID</th>
+          <th>Name</th>
+          <th>Emial</th>
+          <th>Course(s)</th>
+          <th>Available Time</th>
+          <th>Recommendation</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @applications.each do |application| %>
-      <tr style="color: white !important;">
-        <td><%= application.id %></td>
-        <td><% student = Person.find_by(email: application.student_email) %>
-            <%= full_name = student.first_name + " " + student.last_name %></td>
-        <td><%= application.student_email %></td>
-        <td><% student_request_courses = StudentRequestCourse.where(applications_id: application.id) %>
-            <%= student_request_courses.pluck(:courseName).join(', ') %></td>
+      <tbody>
+        <% @applications.each do |application| %>
+          <tr style="color: white !important;">
+            <td><%= application.id %></td>
+            <td><% student = Person.find_by(email: application.student_email) %>
+                <%= full_name = student.first_name + " " + student.last_name %></td>
+            <td><%= application.student_email %></td>
+            <td><% student_request_courses = StudentRequestCourse.where(applications_id: application.id) %>
+                <%= student_request_courses.pluck(:courseName).join(', ') %></td>
 
-        <% available_times = AvailableTime.where(applications_id: application.id) %>
-        <% result = "" %>
-        <% available_times.each do |available_time| %>
-            <% weekday = available_time.weekday%>
-            <% start_time = available_time.start_time.strftime("%H:%M:%S") %>
-            <% end_time = available_time.end_time.strftime("%H:%M:%S") %>
-            <%  %>
-            <% result += "#{weekday} #{start_time.to_s} - #{end_time.to_s}\n" %>
-        <% end %>
-        <td><%= result %></td>
-        
-        <td>
-            <% if Recommend.where(student_email: application.student_email).exists? || Request.where(student_email: application.student_email).exists? %>
-                <%= link_to "Details", application_path(application), class: 'action-button' %>
+            <% available_times = AvailableTime.where(applications_id: application.id) %>
+            <% result = "" %>
+            <% available_times.each do |available_time| %>
+                <% weekday = available_time.weekday%>
+                <% start_time = available_time.start_time.strftime("%H:%M:%S") %>
+                <% end_time = available_time.end_time.strftime("%H:%M:%S") %>
+                <%  %>
+                <% result += "#{weekday} #{start_time.to_s} - #{end_time.to_s}\n" %>
             <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            <td><%= result %></td>
+            
+            <td>
+                <% if Recommend.where(student_email: application.student_email).exists? || Request.where(student_email: application.student_email).exists? %>
+                    <%= link_to "Details", application_path(application), class: 'action-button' %>
+                <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <div>
   <%= link_to "Back to courses", courses_path %>
 </div>
