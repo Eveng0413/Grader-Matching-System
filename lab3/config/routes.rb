@@ -83,5 +83,8 @@ Rails.application.routes.draw do
 
   resources :applications
 
+
+  get '*path', to: redirect('/')
+
 end
 
