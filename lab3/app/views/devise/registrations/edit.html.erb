@@ -29,6 +29,7 @@
   <div class="mode">
     <label for="mode">mode:</label>
     <select name="role" id="mode">
+      <option value=""selected></option>
       <option value="instructor">instructor</option>
       <option value="admin">admin</option>
     </select>
@@ -73,5 +74,5 @@
 =end%>
 <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
 
-<%= link_to "Back", :back %>
+<%= link_to "Back", courses_path %>
 </div>
