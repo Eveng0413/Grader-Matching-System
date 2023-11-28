@@ -1,6 +1,6 @@
 class RecommendsController < ApplicationController
   before_action :set_recommend, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_instructor!
   # GET /recommends or /recommends.json
   def index
     @recommends = Recommend.all

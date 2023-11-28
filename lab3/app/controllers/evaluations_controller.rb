@@ -1,4 +1,5 @@
 class EvaluationsController < ApplicationController
+    before_action :authenticate_instructor!
     def create
         @evaluation = Evaluation.new(evaluation_params)
     

@@ -4,7 +4,7 @@
   <div class="top-bar-left">
     <div class="name-box">
       <span>Welcome, <%= @person.first_name + " " + @person.last_name%></span>
-      <% if @person.role == 'instructor'%>
+      <% if instructor?%>
         <%= link_to "Recommend Student", new_recommend_path, class: 'action-button' %>
       <% end%>
     </div>
@@ -18,16 +18,16 @@
     <%= notice %>
     <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
-    <% if @person.role == 'student'&&!@already_applied %>
+    <% if student?&&!@already_applied %>
     <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
     <% end %>
-    <% if @person.role == 'student'&& @already_applied %>
+    <% if student?&& @already_applied %>
       <%= link_to "Update Application", student_information_path, class: 'action-button' %>
     <% end %>
-    <% if @person.role == 'instructor'%>
+    <% if instructor?%>
       <%= link_to "Evaluate Student", new_evaluation_path, class: 'action-button' %>
     <% end %>
-    <% if @person.role == 'admin'%>
+    <% if admin?%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>
       <%= link_to "Manage Application", applications_path, class: 'action-button' %>
       <%= form_tag(reset_courses_path, method: :post) do %>
@@ -90,7 +90,7 @@
             <%= course.campus %>
           </li>
           <li class="right" style="display:flex;">
-            <% if @person.role == 'admin'%>
+            <% if admin?%>
               <!-- buttons for add section, add course, edit course, delete course -->
               <%= link_to 'Add course', new_course_path(course), class: 'action-button' %>
               <%= button_to 'Delete Course', course_path(course), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action-button' %>
@@ -115,7 +115,7 @@
                     <% end %></td>
                 <td><%= section.weekday.to_s.titleize.delete(",")%></td>
                 <td>Grader: <%= section.grader%></td>
-                <% if @person.role == 'admin'%>
+                <% if admin?%>
                   <td>Grader Needed: <%= section.grader_needed%></td>
                   <td> 
                       <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
@@ -130,7 +130,7 @@
                     <%end %></td>
                 <td></td>
                 <td>
-                  <% if @person.role == 'admin'%>
+                  <% if admin?%>
                     <!-- button for delete section -->
                     <%= button_to 'Delete Section', course_section_path(course, section), method: :delete, data: { confirm: 'Are you sure?' }, class:'section-button'%>
                   <% end %>

@@ -1,4 +1,5 @@
 class RoleRequestsController < ApplicationController
+    before_action :authenticate_admin!
     #before_action :set_role_request
     # def new
     #   @role_requests = RoleRequest.all 

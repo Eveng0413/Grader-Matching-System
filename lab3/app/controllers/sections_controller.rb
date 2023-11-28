@@ -1,4 +1,5 @@
 class SectionsController < ApplicationController
+    before_action :authenticate_admin!
     before_action :set_course, only: [:new, :create] 
     before_action :set_section, only: [:show, :edit, :update, :destroy]
   

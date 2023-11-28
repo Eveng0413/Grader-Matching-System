@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_admin!, only: [:new, :edit, :create, :update, :destroy, :reset]
   # GET /courses or /courses.json
   def index
     if user_signed_in?

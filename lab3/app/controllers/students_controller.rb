@@ -1,7 +1,7 @@
 class StudentsController < ApplicationController
 
     before_action :set_student, only: [:show, :update, :destroy, :setapplication,:updateapplication]
-    before_action :authenticate_user!
+    before_action :authenticate_student!
     def set_student
       student_email = params[:student_email]
       @student = Student.find_by(student_email: student_email)
