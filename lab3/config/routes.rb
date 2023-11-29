@@ -82,7 +82,8 @@ Rails.application.routes.draw do
   end
 
   resources :applications
-
+  resources :reload
+  patch 'reload_OSU_API', to: 'reload#update'
 
   get '*path', to: redirect('/')
 

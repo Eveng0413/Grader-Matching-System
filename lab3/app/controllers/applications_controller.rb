@@ -18,17 +18,10 @@ class ApplicationsController < ApplicationController
     def edit
     end
   
-    def update
-      if @application.update(application_params)
-        redirect_to @application, notice: 'Application was successfully updated.'
-      else
-        render :edit
-      end
+    def approve
     end
   
-    def destroy
-      @application.destroy
-      redirect_to applications_url, notice: 'Application was successfully destroyed.'
+    def deny
     end
   
     private
@@ -38,7 +31,7 @@ class ApplicationsController < ApplicationController
     end
   
     def application_params
-      params.require(:application).permit(:name, :description, :version)
+      params.require(:application).permit()
     end
   end
   
