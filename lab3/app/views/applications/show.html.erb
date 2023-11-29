@@ -1,6 +1,6 @@
 <!-- app/views/applications/show.html.erb -->
 
-<h1>Recommendation Details</h1>
+<h1>Applicant Details</h1>
 
 <p style="color: rgb(255, 255, 255);">Application ID: <%= @application.id %></p>
 <p style="color: rgb(255, 255, 255);">Name: <%= @name %></p>
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-    <h2>Upcomming Semester Recommendations</h2>
+<h2>Upcomming Semester Recommendations</h2>
 <div class="card">
   <div class="requestListContainer">
     <% requests = Request.where(student_email: @application.student_email) %>
@@ -53,7 +53,11 @@
         <th>Semester</th>
         <th>Recommended by</th>
         <th>Faculty Email</th>
-        <th>Status</th>
+        <%
+=begin%>
+ <th>Status</th> 
+<%
+=end%>
         <th colspan="3"></th>
         </tr>
     </thead>
@@ -64,11 +68,15 @@
                 <tr>
                     <td>CSE <%= Course.find_by(course_id: request.course_id).catalog_number %></td>
                     <td><%= request.section_id %></td>
-                    <td><%= Section.find_by(s_id: request.section_id).semester_code %></td>
+                    <td><%= request.semester %></td>
                     <% faculty = Person.find_by(email: request.faculty_email) %>
                     <td><%= faculty.first_name + " " + faculty.last_name %></td>
                     <td><%= request.faculty_email %></td>
-                    <td><%= request.status %></td>
+                    <%
+=begin%>
+ <td><%= request.status %></td> 
+<%
+=end%>
                 </tr>
             <% end %>
         <% else %>
@@ -78,6 +86,42 @@
     </table>
   </div>
 </div>
+
+
+<h2>Evaluation</h2>
+<div class="card">
+  <div class="requestListContainer">
+    <% evaluations = Evaluation.where(student_email: @application.student_email) %>
+
+    <table>
+    <thead>
+        <tr>
+        <th>Evaluated by</th>
+        <th>Course Graded</th>
+        <th>Rate(Out of 5)</th>
+        <th>Description</th>
+        <th colspan="3"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% if evaluations.exists? %>
+            <% evaluations.each do |evaluation| %>
+                <tr>
+                    <td><%= evaluation.faculty_email%></td>
+                    <td><%= evaluation.course_name%></td>
+                    <td><%= evaluation.rate%></td>
+                    <td><%= evaluation.description%></td>
+                </tr>
+            <% end %>
+        <% else %>
+            <p>No Evaluation available.</p>
+        <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>
+
 <br><br><br>
 <div>
   <%= link_to "Back", applications_path %>
@@ -86,5 +130,5 @@
 
 
 <div>
-  <%= link_to "Back to courses", courses_path %>
+  <%= link_to "Back to main page", courses_path %>
 </div>

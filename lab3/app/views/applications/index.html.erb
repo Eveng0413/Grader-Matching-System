@@ -1,6 +1,7 @@
 <!-- app/views/applications/index.html.erb -->
 
 <h1>Grader Applications</h1>
+<h1>You need to manually add grader in courses main page by click edit section</h1>
 
 <div class="card">
   <div class="requestListContainer">
@@ -12,7 +13,7 @@
           <th>Emial</th>
           <th>Course(s)</th>
           <th>Available Time</th>
-          <th>Recommendation</th>
+          <th>Recommendation & Evaluation</th>
           <th colspan="3"></th>
         </tr>
       </thead>
@@ -39,7 +40,7 @@
             <td><%= result %></td>
             
             <td>
-                <% if Recommend.where(student_email: application.student_email).exists? || Request.where(student_email: application.student_email).exists? %>
+                <% if Evaluation.where(student_email: application.student_email).exists? ||Recommend.where(student_email: application.student_email).exists? || Request.where(student_email: application.student_email).exists? %>
                     <%= link_to "Details", application_path(application), class: 'action-button' %>
                 <% end %>
             </td>

@@ -107,11 +107,11 @@ class RecommendsController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def recommend_params
-      params.require(:recommend).permit(:student_email, :course_id, :faculty_email)
+      params.require(:recommend).permit(:student_email, :course_id, :faculty_email, :semester)
     end
     
     def request_params
-      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email)
+      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email, :semester)
     end
     
 end
