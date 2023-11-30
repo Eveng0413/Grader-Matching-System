@@ -1,5 +1,7 @@
 
-<h2>Requested Courses</h2>
+<h2>Select a Section</h2>
+<%= link_to 'Back to Main Page', courses_path, class: 'btn btn-primary' %>
+<%= link_to 'Back to last Page', 'javascript:history.back()', class: 'back-button' %>
 <ul>
   <% @courses.each do |course| %>
     <% count = 0 %>
@@ -57,9 +59,6 @@
                 choose_section_real_application_path(real_application_id: @real_application.id, section_id: section.id), 
                 method: :post, 
                 class: 'choose-section-button' %>
-                <td>
-                  <%= link_to 'Back', 'javascript:history.back()', class: 'back-button' %>
-                </td>
                 </td>
               </tr>
           </table>

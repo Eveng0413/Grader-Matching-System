@@ -91,7 +91,7 @@ Rails.application.routes.draw do
 
   resources :real_applications
   post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
-
+  
   
 
   resources :reload

@@ -15,11 +15,11 @@
 
 
   <div class="actions">
-    <%= form.submit "Next Step" %>
+    <%= form.submit "Create a new applicaitona and Next Step" %>
   </div>
 
   <% if @user_applications.any? %>
-  <h2>Your Applications</h2>
+  <h1>Your old applications</h1>
   <table>
     <thead>
       <tr>
@@ -35,7 +35,9 @@
           <td><%= application.course_intrested %></td>
           <td><%= application.section_intrested %></td>
           <td><%= application.status %></td>
-          <!-- 其他列 -->
+          <td>
+            <%= link_to 'Edit', edit_real_application_path(application), class: 'edit-button' %>
+          </td>
         </tr>
       <% end %>
     </tbody>

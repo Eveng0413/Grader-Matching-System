@@ -1,8 +1,9 @@
 class RealApplicationsController < ApplicationController
     before_action :authenticate_student!, only: [:new, :edit, :create, :update, :destroy, :select_sections]
-    before_action :authenticate_admin!, only: [:approve,:denied]
+    before_action :authenticate_admin!, only: [:approve,:deny]
     def new
        @real_application = RealApplication.new
+       @user_applications = RealApplication.where(student_email: current_user.email)
     end
     
     def create
@@ -16,7 +17,7 @@ class RealApplicationsController < ApplicationController
             end
           else
             redirect_to courses_path, notice: 'Email address not found in student records.'
-          end
+        end
     end
 
     def show
@@ -45,8 +46,24 @@ class RealApplicationsController < ApplicationController
         else
           redirect_to courses_path, notice: 'Failed to choose section.'
         end
-      end
+    end
 
+      def edit
+        @real_application = RealApplication.find(params[:id])
+      end
+      
+    def update
+      @real_application = RealApplication.find(params[:id])
+      if Student.exists?(student_email: real_application_params[:student_email])
+        if @real_application.update(real_application_params)
+          redirect_to real_application_path(@real_application), notice: 'Application updated successfully. Please choose a section.'
+        else
+          render :edit
+        end
+      else
+        redirect_to courses_path, notice: 'Email address not found in student records.'
+      end
+    end 
     private
     
     def real_application_params
@@ -56,4 +73,7 @@ class RealApplicationsController < ApplicationController
     def setApplication
         @real_application = RealApplication.find_by!(student_email: current_user.email)
     end 
+
+    
+
 end
