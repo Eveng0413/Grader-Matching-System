@@ -18,10 +18,11 @@
 </head>
 <body>
 
-<%= form_with url: setapplication_students_path, method: :post, id: 'student-form' do |form| %>
+<%= form_with url: setInfo_students_path, method: :post, id: 'student-form' do |form| %>
     <% if @already_applied %>
-    <h1>By clicking submit your old application will be update to the new one</h1>
+    <h1>By clicking submit your current informat1 will be replaced to the new one</h1>
     <% end %>
+    
     <h2>Available Times</h2>
     <% if current_user %>
         <%= form.hidden_field :student_email, value: current_user.email %>
@@ -53,13 +54,13 @@
         <% end %>
     </div>
 
-    <h2>Course Names</h2>
+    <h2>What courses are you qualified to grade</h2>
     <div id="course-names">
-        <% 5.times do |i| %>
+        <% 10.times do |i| %>
         <div class="course-entry">
             <div class="form-group">
-                <%= label_tag "courses[#{i}][name]", "Course Name #{i+1}" %>
-                <%= text_field_tag "courses[#{i}][name]", nil, class: 'form-control' %>
+                <%= label_tag "courses[#{i}][name]", "Course Name #{i+1} CSE " %>
+                <%= select_tag "courses[#{i}][name]", options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), include_blank: true, class: 'form-control' %>
             </div>
         </div>
         <% end %>

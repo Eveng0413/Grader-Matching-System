@@ -16,13 +16,16 @@
   <div class="top-bar-right">
     <!-- notice -->
     <%= notice %>
-    <%= link_to "Change my info", edit_user_registration_path, class: 'action-button' %>
+    <%= link_to "Change Account info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
-    <% if student?&&!@already_applied %>
-    <%= link_to "Grader Application", student_information_path, class: 'action-button' %>
+    <% if student?&&!@has_info %>
+    <%= link_to "Information", student_information_path, class: 'action-button' %>
     <% end %>
-    <% if student?&& @already_applied %>
-      <%= link_to "Update Application", student_information_path, class: 'action-button' %>
+    <% if student?&& @has_info %>
+      <%= link_to "Update Information", student_information_path, class: 'action-button' %>
+    <% end %>
+    <% if student? %>
+      <%= link_to "Grader Application", new_real_application_path, class: 'action-button' %>
     <% end %>
     <% if instructor?%>
       <%= link_to "Evaluate Student", new_evaluation_path, class: 'action-button' %>

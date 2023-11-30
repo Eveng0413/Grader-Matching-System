@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
 
-    before_action :set_student, only: [:show, :update, :destroy, :setapplication,:updateapplication]
+    before_action :set_student, only: [:show, :update, :destroy, :setInfo]
     before_action :authenticate_student!
     def set_student
       student_email = params[:student_email]
@@ -16,17 +16,17 @@ class StudentsController < ApplicationController
     
     def information
       @user_email = current_user.email
-      @grader_application = GraderApplication.find_by(student_email: @user_email)
-      @already_applied = @grader_application.present?
+      @grader_info = GraderApplication.find_by(student_email: @user_email)
+      @has_info = @grader_application.present?
     end
 
-    def setapplication
+    def setInfo
       @user_email = current_user.email
-      @grader_application = GraderApplication.find_by(student_email: @user_email)
+      @grader_info = GraderApplication.find_by(student_email: @user_email)
       if !@grader_application.nil?
-        @grader_application.available_times.destroy_all
-        @grader_application.student_request_courses.destroy_all
-        @grader_application.destroy
+        @grader_info.available_times.destroy_all
+        @grader_info.student_request_courses.destroy_all
+        @grader_info.destroy
       end
       phone_number = params[:phone_number]
       time_entries = params[:available_times].values
@@ -53,7 +53,7 @@ class StudentsController < ApplicationController
         course_entries.each do |course_entry|
           next if course_entry[:name].blank?
     
-          application.student_request_courses.create!(courseName: course_entry[:name])
+          application.student_request_courses.create!(catalog_number: course_entry[:name])
           valid_course_entries += 1
         end
       end
@@ -72,8 +72,8 @@ class StudentsController < ApplicationController
     
     def update_student_request_courses(application, course_entries)
       application.student_request_courses.each do |course|
-        matching_entry = course_entries.find { |ce| ce[:id] == course.id.to_s }
-        course.update!(courseName: matching_entry[:courseName]) if matching_entry.present?
+        matching_entry = course_entries.find { |ce| ce[:catalog_number] == course.catalog_number }
+        course.update!(catalog_number: matching_entry[:catalog_number]) if matching_entry.present?
       end
     end
     
