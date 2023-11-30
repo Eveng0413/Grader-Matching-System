@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   # lab3 part
   resources :students do
     collection do
-      post 'setapplication'
+      post 'setInfo'
     end
   end
   
@@ -81,7 +81,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :applications
+  resources :applications do
+    member do
+      patch 'approve', to: 'applications#approve'
+      patch 'deny', to: 'applications#deny'
+      get 'assign_grader'
+    end
+  end
+
+  resources :real_applications
+  post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
+  
+  
+
   resources :reload
   patch 'reload_OSU_API', to: 'reload#update'
 

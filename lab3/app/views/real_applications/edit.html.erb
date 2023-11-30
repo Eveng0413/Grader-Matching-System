@@ -1,0 +1,24 @@
+<%# app/views/real_applications/edit.html.erb %>
+
+<%= form_with model: @real_application, local: true do |form| %>
+  <!-- 表单字段 -->
+  <%= form.label :student_email %>
+  <%= form.text_field :student_email %>
+
+  <div class="field">
+    <%= form.label :course_intrested, "Course Interested CSE" %>
+    <%= form.select :course_intrested, 
+        Course.select(:catalog_number).distinct.order(:catalog_number).pluck(:catalog_number, :catalog_number), 
+        {  selected: @real_application.course_intrested } %>
+  </div>
+
+
+  <div class="field">
+  <%= form.label :section_intrested, "Current Section Interested" %>
+  <%= form.text_field :section_intrested, value: (@real_application.section_intrested.present? ? @real_application.section_intrested : "No section selected"), readonly: true, onclick: "alert('You can modify your section choice on section select page.')" %>
+</div>
+
+  <%= form.submit "Update Application & Go to section select page" %>
+  <%= link_to 'Back to Main Page', courses_path, class: 'btn btn-primary' %>
+  <%= link_to 'Back to last Page', 'javascript:history.back()', class: 'back-button' %>
+<% end %>

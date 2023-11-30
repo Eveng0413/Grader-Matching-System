@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_29_044752) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_30_053421) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,6 +75,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_044752) do
     t.index ["user_id"], name: "index_persons_on_user_id"
   end
 
+  create_table "real_applications", force: :cascade do |t|
+    t.string "student_email"
+    t.string "course_intrested"
+    t.string "section_intrested"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status", default: "pending"
+  end
+
   create_table "recommends", id: false, force: :cascade do |t|
     t.string "student_email"
     t.string "faculty_email"
@@ -132,7 +141,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_044752) do
   end
 
   create_table "student_request_courses", force: :cascade do |t|
-    t.string "courseName"
+    t.string "catalog_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "applications_id"
