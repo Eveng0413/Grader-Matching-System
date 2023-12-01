@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   resources :students do
     collection do
       post 'setInfo'
+      delete 'delete_all_times'
     end
   end
   
@@ -89,7 +90,18 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :real_applications
+  resources :real_applications do
+    collection do
+      get 'manage'
+    end
+
+    member do
+      get 'show_applicant'
+      put 'approve'
+      put 'deny'
+    end
+  end
+
   post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
   
   
