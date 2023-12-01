@@ -1,0 +1,80 @@
+<%
+=begin%>
+  author Yiheng Zhou
+<%
+=end%>
+<style>
+.table{
+    background: white;
+    width: 90%;
+    margin: 20px auto;
+}
+
+</style>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #e5e5e5;
+  }
+
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  td, th {
+    text-align: left;
+    font-size: 14px;
+  }
+ 
+</style>
+
+
+<div class="form-box table"  >
+    <table>
+    <tr>
+        <th>Course Id</th>
+        <th>Section Id</th>
+        <th>Email</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Interests</th>
+        <th class="options">Options</th>
+    </tr>
+    <% @applicationList.each do |item| %>
+        <% if (@person.role=='student' and item.flag=1) or @person.role != 'student'%>
+            <tr>
+                <td><%=item.course_id%></td> 
+                <td><%=item.section_id%></td> 
+                <td><%=item.email%></td> 
+                <td><%=item.first_name%></td> 
+                <td><%=item.last_name%></td> 
+                <td><%=item.interests%></td> 
+                <td class="options">
+                    <% if @person.role == 'admin' and item.flag==0%>
+                       <a href="/section/applications/check/<%=item.id%>/<%=@sid%>">Check</a>
+                    <% end %>
+                    <% if @person.role =='admin'%>
+                        <a href="/section/applications/delete/<%=item.id%>/<%=@sid%>">Delete</a>
+                    <%end%>
+                </td>
+            </tr>               
+        <% end %>
+    <% end %>
+</table>
+</div>
+

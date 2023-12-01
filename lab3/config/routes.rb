@@ -47,6 +47,7 @@ Rails.application.routes.draw do
 
 
   resources :courses, only: [:index]
+  resources :section_applications
   
    # Reset database route
   post '/reset_courses', to: 'courses#reset'
@@ -60,8 +61,13 @@ Rails.application.routes.draw do
   #Redirect show page to course index
   get 'courses/:id', to: 'courses#index'
 
-  # This line will cause add section button not working
-  # get 'courses/:id/sections/:id', to: 'courses#index'
+  get 'courses/:id/sections/:id', to: 'courses#index'
+
+  get 'section/applications/form/:id', to: 'section_applications#new'
+  get 'section/applications/list/:id', to: 'section_applications#show'
+  get 'section/applications/delete/:id/:sid', to: 'section_applications#delete'
+  get 'section/applications/check/:id/:sid', to: 'section_applications#check'
+
 
   # courses/course_id/section/:id route
   resources :courses do

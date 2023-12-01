@@ -1,0 +1,46 @@
+<%
+=begin%>
+  author Yiheng Zhou
+<%
+=end%>
+<%= form_with(model: @section_applications, local: true) do |form| %>
+
+<style>
+    .form-box .field label{
+        display:block;
+    }
+</style> 
+
+<div class="form-box"> 
+    <h3 style="margin-bottom:20px;">Section Applications Section:<%=@section_applications.section_id%></h3>
+    <p><%= @message %></p>
+    <div class="field">
+        <%= form.label :course_id %><br>
+        <%= form.number_field :course_id, required: true, readonly: true %> 
+    </div>
+    <div class="field">
+        <%= form.label :section_id %><br>
+        <%= form.number_field :section_id, required: true, readonly: true %> 
+    </div>
+    <div class="field">
+        <%= form.label :email %><br>
+        <%= form.text_field :email, required: true, readonly:@person.role=='student' %> 
+    </div>
+    <div class="field">
+        <%= form.label :first_name %><br>
+        <%= form.text_field :first_name, required: true, readonly:@person.role=='student' %> 
+    </div>
+    <div class="field">
+        <%= form.label :last_name %><br>
+        <%= form.text_field :last_name, required: true, readonly:@person.role=='student' %> 
+    </div>
+    <div class="field">
+        <%= form.label :interests %><br>
+        <%= form.text_field :interests, required: true %>  
+    </div>
+    <div class="actions" style="float:left;">
+        <%= form.submit "Application Section" %>
+    </div>
+
+</div>
+<% end %>

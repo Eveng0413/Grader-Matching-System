@@ -94,7 +94,10 @@
                 <td>Grader: <%= section.has_grader%></td>
                 <td> <% if @person.role == 'admin'%>
                     <%= link_to 'Edit Section', edit_course_section_path(course, section), class:'section-button'%>
-                    <% end %></td>
+                    <% end %> 
+                    <a class="section-button" href="/section/applications/form/<%=section.s_id%>">Application</a>
+                    <a class="section-button" href="/section/applications/list/<%=section.s_id%>">Assistant</a>
+                </td>
               </tr>
               <tr>
                 <td><h5><%= section.semester_code %></h5></td>

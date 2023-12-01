@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_30_070404) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -70,6 +70,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_024020) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_role_requests_on_email", unique: true
+  end
+
+  create_table "section_applications", force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "section_id"
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.text "interests"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "flag"
   end
 
   create_table "sections", primary_key: "s_id", force: :cascade do |t|

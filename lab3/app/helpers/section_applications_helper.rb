@@ -1,0 +1,2 @@
+module SectionApplicationsHelper
+end
