@@ -33,6 +33,10 @@ class SectionsController < ApplicationController
     # PATCH/PUT /sections/:id for editing a section
     def update
       @course = Course.find(params[:course_id])
+      if params[:grader].present?
+        # The grader parameter has a value
+        params[:grader_needed] = params[:grader_needed] - 1
+      end
       if @section.update(section_params)
         redirect_to course_section_path(@course, @section), notice: 'Section was successfully updated.'
       else

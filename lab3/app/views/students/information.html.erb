@@ -28,53 +28,78 @@
         <%= form.hidden_field :student_email, value: current_user.email %>
     <% end %>
     <div id="available-times">
-        <% 15.times do |i| %>
-        <div class="time-entry">
-            <div class="form-group">
-                <%= label_tag "available_times[#{i}][start_time]", 'Start Time' %>
-                <%= time_field_tag "available_times[#{i}][start_time]", nil, class: 'form-control' %>
+    <% existing_count = @times.length %>
+    <% @time_slots_count.times do |i| %>
+        <% time = i < existing_count ? @times[i] : nil %>
+            <div class="time-entry">
+                <!-- Start Time -->
+                <div class="form-group">
+                    <%= label_tag "available_times[#{i}][start_time]", 'Start Time' %>
+                    <%= time_field_tag "available_times[#{i}][start_time]", time&.start_time&.strftime('%H:%M'), class: 'form-control' %>
+                </div>
+                <!-- End Time -->
+                <div class="form-group">
+                    <%= label_tag "available_times[#{i}][end_time]", 'End Time' %>
+                    <%= time_field_tag "available_times[#{i}][end_time]", time&.end_time&.strftime('%H:%M'), class: 'form-control' %>
+                </div>
+                <!-- Weekday -->
+                <div class="form-group">
+                    <%= label_tag "available_times[#{i}][weekday]", 'Weekday' %>
+                    <%= select_tag "available_times[#{i}][weekday]", 
+                        options_for_select([['', '']] + 
+                        [
+                            ['Monday', 'Monday'],
+                            ['Tuesday', 'Tuesday'],
+                            ['Wednesday', 'Wednesday'],
+                            ['Thursday', 'Thursday'],
+                            ['Friday', 'Friday'],
+                            ['Saturday', 'Saturday'],
+                            ['Sunday', 'Sunday']
+                        ], time&.weekday), class: 'form-control' %>
+                </div>
             </div>
-            <div class="form-group">
-                <%= label_tag "available_times[#{i}][end_time]", 'End Time' %>
-                <%= time_field_tag "available_times[#{i}][end_time]", nil, class: 'form-control' %>
-            </div>
-            <div class="form-group">
-                <%= label_tag "available_times[#{i}][weekday]", 'Weekday' %>
-                <%= select_tag "available_times[#{i}][weekday]", options_for_select([
-                    ['Monday', 'Monday'],
-                    ['Tuesday', 'Tuesday'],
-                    ['Wednesday', 'Wednesday'],
-                    ['Thursday', 'Thursday'],
-                    ['Friday', 'Friday'],
-                    ['Saturday', 'Saturday'],
-                    ['Sunday', 'Sunday']
-                ]), class: 'form-control' %>
-            </div>
-        </div>
         <% end %>
     </div>
-
+    <%= link_to 'Add More Time Slots', student_information_path(time_slots_count: @time_slots_count + 1), class: 'btn btn-secondary' %>
+    
     <h2>What courses are you qualified to grade</h2>
     <div id="course-names">
-        <% 10.times do |i| %>
+    <% if @grader_info %>
+        <% existing_course_count = @grader_info.student_request_courses.count %>
+    <% else %>
+        <% existing_course_count = 0 %>
+    <% end %>
+    <% total_course_count = [10, existing_course_count + 1].max %> 
+
+    <div id="course-names">
+    <% @course_count.times do |i| %>
         <div class="course-entry">
-            <div class="form-group">
-                <%= label_tag "courses[#{i}][name]", "Course Name #{i+1} CSE " %>
-                <%= select_tag "courses[#{i}][name]", options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), include_blank: true, class: 'form-control' %>
-            </div>
-        </div>
+        <% if @grader_info && i < @grader_info.student_request_courses.count %>
+            <% course = @grader_info.student_request_courses[i] %>
+        <% else %>
+            <% course = StudentRequestCourse.new %>
         <% end %>
+        <%= label_tag "courses[#{i}][name]", "Course #{i + 1}" %>
+        <%= select_tag "courses[#{i}][name]",
+            options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number),
+                                                :catalog_number, :catalog_number, course.catalog_number),
+            include_blank: true, class: 'form-control' %>
+        </div>
+    <% end %>
+    </div>
+
+    <%= link_to "Add More Courses", student_information_path(course_count: @course_count + 1), class: "btn" %>
     </div>
 
     <h2>Phone Number</h2>
     <div class="form-group">
-        <%= label_tag :phone_number, "Phone Number" %>
-        <%= text_field_tag :phone_number, nil, class: 'form-control', placeholder: "Enter your phone number" %>
+    <%= label_tag :phone_number, "Phone Number" %>
+    <%= text_field_tag :phone_number, @student.phone_number, class: 'form-control', placeholder: "Enter your phone number" %>
     </div>
 
     <%= form.submit 'Submit', class: 'btn btn-primary' %>
     <%= link_to "Back", courses_path, class: 'action-button' %>
 <% end %>
-
+<%= button_to 'Delete All Time', delete_all_times_students_path, method: :delete, class: 'btn btn-danger' %>
 </body>
 </html>

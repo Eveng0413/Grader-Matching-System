@@ -1,7 +1,6 @@
 
 Rails.application.routes.draw do
   resources :requests
-  resources :recommends
   resources :sections
   resources :evaluations
 
@@ -34,11 +33,22 @@ Rails.application.routes.draw do
   end
   
   #lab3 part
+
+  resources :recommends do
+    member do
+      get 'show_student'
+      put 'approve_request'
+      put 'deny_request'
+    end
+  end
+  
+
   get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
   resources :students do
     collection do
       post 'setInfo'
+      delete 'delete_all_times'
     end
   end
   
@@ -89,7 +99,18 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :real_applications
+  resources :real_applications do
+    collection do
+      get 'manage'
+    end
+
+    member do
+      get 'show_applicant'
+      put 'approve'
+      put 'deny'
+    end
+  end
+
   post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
   
   

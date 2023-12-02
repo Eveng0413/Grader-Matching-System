@@ -1,0 +1,94 @@
+<%# app/views/real_applications/manage.html.erb %>
+<%= link_to 'Back to Main Page', courses_path, class: 'action-button' %>
+<h1>Manage Applications</h1>
+<% if flash[:notice] %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if @real_applications.empty? %>
+  <p>No application available.</p>
+<% else %>
+<table>
+  <thead>
+    <tr>
+      <th>Student Email</th>
+      <th>Course Interested</th>
+      <th>Section Interested</th>
+      <th>Status</th>
+      <th>Actions</th>
+      <th>Applicant Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @real_applications.each do |application| %>
+      <tr>
+        <td><%= application.student_email %></td>
+        <td><%= application.course_intrested %></td>
+        <td><%= application.section_intrested %></td>
+        <td><%= application.status %></td>
+        <td> 
+        <% if application.status != 'approved' && application.status != 'denied' %>
+            <%= button_to 'Approve', approve_real_application_path(application), method: :put, class: 'action-button' %>
+            <%= button_to 'Deny', deny_real_application_path(application), method: :put, class: 'action-button' %>
+        <% end %>
+        </td>
+        <td>
+          <%= link_to 'View Details', show_applicant_real_application_path(application), class: 'action-button' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<h1>Manage Teacher Requests</h1>
+
+<% if @teacher_requests.empty? %>
+  <p>No requests available.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Faculty Email</th>
+        <th>Student Email</th>
+        <th>Course Interested</th>
+        <th>Section Interested</th>
+        <th>Status</th>
+        <th>Actions</th>
+        <th>Student Information</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teacher_requests.each do |request| %>
+        <tr>
+          <td><%= request.faculty_email %></td>
+          <td><%= request.course_interested %></td>
+          <td><%= request.section_interested %></td>
+          <td><%= request.status %></td>
+          <td>
+            <% if request.status != 'approved' && request.status != 'denied' %>
+              <%= button_to 'Approve', approve_teacher_request_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Deny', deny_teacher_request_path(request), method: :put, class: 'action-button' %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'View Details', show_student_request_path(request), class: 'action-button' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
+
+
+

@@ -16,12 +16,7 @@
 
     <div class="field">
       <%= form.label :student_email, "Student's email" %>
-      <%= form.text_field :student_email, required: true %>
-    </div>
-
-    <div class="field">
-      <%= form.label :semester, "Semester(If you haven't decide you can write Future)" %><br>
-      <%= form.text_field :semester, required: true %>
+      <%= form.collection_select(:student_email, Student.order(:student_email), :student_email, :student_email, { prompt: 'Select a Student' }, required: true) %>
     </div>
 
     <div class="field">
@@ -30,8 +25,8 @@
     </div>
 
     <div class="field">
-      <%= form.label :faculty_email, "what is your email" %>
-      <%= form.collection_select(:faculty_email, Instructor.all, :faculty_email, :faculty_email, { prompt: true }, required: true) %>
+      <%= form.label :faculty_email, "What is your email" %>
+      <%= form.collection_select(:faculty_email, Instructor.order(:faculty_email), :faculty_email, :faculty_email, { prompt: 'Select Your Email' }, required: true) %>
     </div>
 
     <div class="field">

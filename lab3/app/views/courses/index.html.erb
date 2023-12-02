@@ -32,7 +32,7 @@
     <% end %>
     <% if admin?%>
       <%= link_to "Manage Request", role_requests_path, class: 'action-button' %>
-      <%= link_to "Manage Application", magage_real_applications_path, class: 'action-button' %>
+      <%= link_to 'Manage Applications', manage_real_applications_path, class: 'action-button' %>
       <%= link_to "Reset", reload_index_path, class: 'action-button' %>
       <!-- 
       <%= form_tag(reset_courses_path, method: :post) do %>
