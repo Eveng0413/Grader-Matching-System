@@ -12,7 +12,11 @@
         <%= select_tag "real_application[course_intrested]", options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), include_blank: true, class: 'form-control' %>
     </div>
   </div>
-
+  
+  <div class="field">
+    <%= form.label :time_intrested, "Time Interested" %>
+    <%= form.select :time_intrested, [['Morning', 'morning'], ['Afternoon', 'afternoon'], ['Evening', 'evening']], include_blank: true, class: 'form-control' %>
+  </div>
 
   <div class="actions">
     <%= form.submit "Create a new applicaitona and Next Step" %>
