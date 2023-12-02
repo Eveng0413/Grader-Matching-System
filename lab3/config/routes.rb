@@ -1,7 +1,6 @@
 
 Rails.application.routes.draw do
   resources :requests
-  resources :recommends
   resources :sections
   resources :evaluations
 
@@ -34,6 +33,16 @@ Rails.application.routes.draw do
   end
   
   #lab3 part
+
+  resources :recommends do
+    member do
+      get 'show_student'
+      put 'approve_request'
+      put 'deny_request'
+    end
+  end
+  
+
   get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
   resources :students do

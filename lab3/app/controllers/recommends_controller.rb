@@ -1,6 +1,7 @@
 class RecommendsController < ApplicationController
   before_action :set_recommend, only: %i[ show edit update destroy ]
-  before_action :authenticate_instructor!
+  before_action :authenticate_instructor!, only:[:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :authenticate_admin!, only: [:show_student, :approve_request, :deny_request]
   # GET /recommends or /recommends.json
   def index
     @recommends = Recommend.all
@@ -98,13 +99,48 @@ class RecommendsController < ApplicationController
     end
   end
 
-  def show_student
-    @student = Student.find_by(student_email: @request.student_email)
-    @informationID = GraderApplication.find_by(student_email: @application.student_email)
-    @times = AvailableTime.where(applications_id: @informationID.id)
-    @courses = StudentRequestCourse.where(applications_id: @informationID.id)
-    @evaluations = Evaluation.where(student_email: @application.student_email)  
+
+  def approve_request
   end
+
+  def deny_request
+  end
+
+  def show_student
+    # First, ensure that you have a valid request object.
+    # If not, redirect or handle the error appropriately.
+    if @request.nil?
+      flash[:alert] = "Request not found."
+      redirect_to manage_real_applications_path
+      return
+    end
+  
+    # Find the student based on the email from the request.
+    @student = Student.find_by(student_email: @request.student_email)
+  
+    # If the student is found, proceed to find their application and associated information.
+    if @student
+      @informationID = GraderApplication.find_by(student_email: @student.student_email)
+  
+      # Only fetch times and courses if a valid GraderApplication is found.
+      if @informationID
+        @times = AvailableTime.where(applications_id: @informationID.id)
+        @courses = StudentRequestCourse.where(applications_id: @informationID.id)
+      else
+        # Set times and courses to empty arrays if no GraderApplication is found.
+        @times = []
+        @courses = []
+      end
+  
+      # Fetch evaluations for the student.
+      @evaluations = Evaluation.where(student_email: @student.student_email)
+    else
+      # Handle the scenario where the student is not found.
+      # You can redirect or set a flash message to indicate the student was not found.
+      redirect_to some_path, alert: "Student not found."
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_recommend

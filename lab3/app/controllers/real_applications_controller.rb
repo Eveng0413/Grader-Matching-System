@@ -31,7 +31,6 @@ class RealApplicationsController < ApplicationController
       redirect_to manage_real_applications_path
     end
     
-
     def new
        @real_application = RealApplication.new
        @user_applications = RealApplication.where(student_email: current_user.email)
@@ -62,8 +61,17 @@ class RealApplicationsController < ApplicationController
       if @real_application.update(status: 'approved')
         if @real_application.section_intrested.present?
           section = Section.find_by(s_id: @real_application.section_intrested)
-          if section && section.grader_needed > 0
-            section.update(grader_needed: section.grader_needed - 1)
+          if section
+            # Reduce the grader needed count if applicable
+            section.update(grader_needed: section.grader_needed - 1) if section.grader_needed > 0
+            
+            # Append student email to grader string
+            if section.grader.blank?
+              section.grader = @real_application.student_email
+            else
+              section.grader += ", " + @real_application.student_email
+            end
+            section.save
           end
         end
         redirect_to manage_real_applications_path, notice: 'Application approved successfully.'
@@ -94,9 +102,9 @@ class RealApplicationsController < ApplicationController
         end
     end
 
-      def edit
-        @real_application = RealApplication.find(params[:id])
-      end
+    def edit
+      @real_application = RealApplication.find(params[:id])
+    end
       
     def update
       @real_application = RealApplication.find(params[:id])
