@@ -2,11 +2,11 @@
   <%= form_with(url: reload_OSU_API_path, local: true) do |form| %>
   
     <div class="form-box">
-      <h3 style="margin-bottom:20px;">Load data from OSU API</h3>
+      <h3 style="margin-bottom:20px;">Load CSE courses from OSU API</h3>
       <div class="field">
         <h4>Key word:</h4>
         <ul>
-          <li><strong>Software, Fundation, and etc.</strong>Anything you want to search</li>
+          <li><strong>cse,Software, Fundation, and etc.</strong>Anything you want to search</li>
         </ul>
         <%# <%= form.label :search_string %><br>
         <%= form.text_field :q, required: true %>
@@ -15,12 +15,9 @@
       <div class="field">
         <h4>Term Values:</h4>
         <ul>
-          <li><strong>1222:</strong> Spring 2022</li>
-          <li><strong>1228:</strong> Autumn 2022</li>
-          <li><strong>1232:</strong> Spring 2023</li>
           <li><strong>1234:</strong> Summer 2023</li>
           <li><strong>1238:</strong> Autumn 2023</li>
-          <li><strong>1242:</strong> Spring 2023</li>
+          <li><strong>1242:</strong> Spring 2024</li>
         </ul>
         <%# <%= form.label :term, "Academic Term" %><br>
         <%= form.text_field :term %>
@@ -43,7 +40,7 @@
       <div class="field">
         <h4>Academic Career Values:</h4>
         <ul>
-          <li><strong>ugrad:</strong> Undergraduate</li>
+          <li><strong>ugrd:</strong> Undergraduate</li>
           <li><strong>grad:</strong> Graduate</li>
           <li><strong>PHP:</strong> Pharmacy</li>
           <li><strong>LAW:</strong> Law</li>
@@ -53,75 +50,14 @@
           <li><strong>DENT:</strong> Dentistry</li>
         </ul>
         <%# <%= form.label :academic_career, "Academic Career" %><br>
-        <%= form.text_field :academic_career %>
-      </div>
-
-      <div class="field">
-        <h4>Catalog Number Values:</h4>
-        <ul>
-          <li><strong>1xxx</strong></li>
-          <li><strong>2xxx</strong></li>
-          <li><strong>3xxx</strong></li>
-          <li><strong>4xxx</strong></li>
-          <li><strong>5xxx</strong></li>
-          <li><strong>6xxx</strong></li>
-          <li><strong>7xxx</strong></li>
-          <li><strong>8xxx</strong></li>
-        </ul>
-        <%# <%= form.label :catalog_number, "Catalog Number" %><br>
-        <%= form.text_field :catalog_number %>
-      </div>
-
-      <div class="field">
-        <h4>Component Values:</h4>
-        <ul>
-          <li><strong>ind:</strong> Independent Study</li>
-          <li><strong>lab:</strong> Laboratory</li>
-          <li><strong>lec:</strong> Lecture</li>
-          <li><strong>REC:</strong> Recitation</li>
-          <li><strong>SEM:</strong> Seminar</li>
-          <li><strong>FLD:</strong> Field Experience</li>
-          <li><strong>WRK:</strong> Workshop</li>
-          <li><strong>CLN:</strong> Clinical Instruction</li>
-        </ul>
-        <%# <%= form.label :component, "Component" %><br>
-        <%= form.text_field :component %>
-      </div>
-
-      <div class="field">
-        <h4>Academic Program Values (subject):</h4>
-        <ul>
-          <li><strong>eng:</strong> Engineering</li>
-          <li><strong>ASC:</strong> Arts and Sciences</li>
-          <li><strong>BUS:</strong> Business</li>
-          <li><strong>EHE:</strong> Education & Human Ecology</li>
-          <li><strong>AGR:</strong> Food, Agric & Environ Science</li>
-          <li><strong>HRS:</strong> Health & Rehabilitation Sci</li>
-          <li><strong>PHR:</strong> Pharmacy</li>
-          <li><strong>PBH:</strong> Public Health</li>
-          <li><strong>SWK:</strong> Social Work</li>
-          <li><strong>MED:</strong> The College of Medicine</li>
-        </ul>
-        <%# <%= form.label :subject, "Subject" %><br>
-        <%= form.text_field :subject %>
-      </div>
-
-      <div class="field">
-        <h4>Mode Values:</h4>
-        <ul>
-          <li><strong>dh:</strong> Distance Enhanced</li>
-          <li><strong>dl:</strong> Distance Learning</li>
-          <li><strong>hy:</strong> Hybrid Delivery</li>
-          <li><strong>p:</strong> In Person</li>
-        </ul>
-        <%# <%= form.label :instruction_mode, "Instruction Mode" %><br>
-        <%= form.text_field :instruction_mode %>
+        <%= form.text_field :academic_career, name: "academic-career" %>
       </div>
 
       <!-- Display the final URL in real-time -->
       <div id="finalUrlContainer" style="margin-top: 20px;">
-        <h4>Final URL:</h4>
+        <h4>Your final URL:</h4>
         <p id="finalUrl"></p>
+        <p3>If your final URL is not showing up, refresh the page and try again!</p3>
       </div>
 
       <div class="actions" style="float:left;">
@@ -133,19 +69,28 @@
 
   <div>
     <%= link_to "Back to courses", courses_path %>
+    <%= link_to "Delete all courses and sections", reload_delete_all_path, class: 'action-button' %>
   </div>
 
 <!-- JavaScript to update the final URL in real-time -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var base_url = 'https://content.osu.edu/v2/classes/search'; // Replace with your actual base URL
+    var base_url = 'https://content.osu.edu/v2/classes/search';
     var form = document.querySelector('form');
     var finalUrlContainer = document.getElementById('finalUrlContainer');
     var finalUrlElement = document.getElementById('finalUrl');
 
     form.addEventListener('input', function() {
-      var params = new URLSearchParams(new FormData(form)).toString();
-      var finalUrl = base_url + '?' + params;
+      // Construct URL without authenticity token
+      var params = new URLSearchParams(new FormData(form));
+      params.delete('authenticity_token'); // Remove authenticity_token
+
+      var queryString = Array.from(params.entries())
+        .filter(([key, value]) => value.trim() !== '') // Filter out empty values
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join('&');
+
+      var finalUrl = base_url + (queryString.length > 0 ? '?' + queryString : '') + "&subject=cse";
 
       finalUrlElement.textContent = finalUrl;
     });
