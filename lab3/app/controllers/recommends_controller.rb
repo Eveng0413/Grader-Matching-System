@@ -98,6 +98,13 @@ class RecommendsController < ApplicationController
     end
   end
 
+  def show_student
+    @student = Student.find_by(student_email: @request.student_email)
+    @informationID = GraderApplication.find_by(student_email: @application.student_email)
+    @times = AvailableTime.where(applications_id: @informationID.id)
+    @courses = StudentRequestCourse.where(applications_id: @informationID.id)
+    @evaluations = Evaluation.where(student_email: @application.student_email)  
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_recommend

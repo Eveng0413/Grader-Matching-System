@@ -2,10 +2,13 @@
 
 <h1>Applicant Information</h1>
 
-<!-- 显示申请人的详细信息 -->
-<p>Email: <%=  @student.student_email %></p>
-<p>PhoneNumber: <%=  @student.phone_number %></p>
-<!-- 其他信息 -->
+<!-- Email -->
+<p>Email: <%= @student.student_email.presence || "No email provided" %></p>
+
+<!-- Phone Number -->
+<p>Phone Number: <%= @student.phone_number.presence || "No phone number provided" %></p>
+
+<!-- Other information -->
 <h2>Available Times</h2>
 <% if @times.any? %>
   <table>
@@ -41,7 +44,7 @@
     </tbody>
   </table>
 <% else %>
-  <p>No Qualified courses found for this applicant.</p>
+  <p>No qualified courses found for this applicant.</p>
 <% end %>
 
 <h2>Evaluation</h2>
