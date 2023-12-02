@@ -95,7 +95,8 @@ Rails.application.routes.draw do
   
 
   resources :reload
-  patch 'reload_OSU_API', to: 'reload#update'
+  post 'reload_OSU_API', to: 'reload#update'
+  get 'reload_delete_all', to: 'reload#delete_all'
 
   get '*path', to: redirect('/')
 

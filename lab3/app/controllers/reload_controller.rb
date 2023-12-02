@@ -6,47 +6,63 @@ class ReloadController < ApplicationController
     base_uri 'https://content.osu.edu/v2/classes/search'
   
     def index
+      render :index
       @url = 'https://content.osu.edu/v2/classes/search'
+      
     end
   
   
     def update
         get_url_params
-        self.load_data
+        load_data
+        # Redirect to the index page to generate a clean URL without parameters
+        redirect_to courses_path, notice: "Database reload successful."
+    end
+
+    # DELETE database
+    def delete_all
+        Section.delete_all
+        Course.delete_all
+
+        redirect_to courses_path, notice: "Courses and Sections deleted successfully."
+    end
+
+    def load_data
+        # Initialize the DataLoader and load courses, sections, instructors into the database
+        load_courses
+        load_instructors_sections
     end
   
     private
   
     def get_url_params
-        @search_string = params[:search_string]
+        @q = params[:q]
         @term = params[:term]
         @campus = params[:campus]
-        @academic_career = params[:academic_career]
-        @catalog_number = params[:catalog_number]
-        @component = params[:component]
-        @subject = params[:subject]
-        @instruction_mode = params[:instruction_mode]
-
-        # Build the query hash based on instance variables
+        @academic_career = params[:"academic-career"]
+        @subject = "cse"
+        
+        # Build the query hash based on params
         @query_params = {
-            q: @search_string,
+            q: @q,
             term: @term,
             campus: @campus,
-            academic_career: @academic_career,
-            catalog_number: @catalog_number,
-            component: @component,
+            "academic-career": @academic_career,
             subject: @subject,
-            instruction_mode: @instruction_mode
-            # p: 0
+            p: 1
         }
         
         # Remove nil or empty values from the query_params
-        @query_params.reject! { |_, v| v.nil? || v.empty? }
+        @query_params.reject! { |_, v| v.nil? || (v.respond_to?(:empty?) ? v.empty? : false) }
+        puts "Valid params: "
+        puts @query_params
     end
 
     # fetch and parse JSON data from API
     def fetch_courses(page)
-        # @query_params[:p] = page
+        @query_params[:p] = page
+        full_url = "#{self.class.base_uri}?#{URI.encode_www_form(@query_params)}"
+        puts "Fetching data from: #{full_url}"
         response = self.class.get('', query: @query_params)
         return [] unless response.success?
         JSON.parse(response.body)['data'] || []
@@ -62,7 +78,7 @@ class ReloadController < ApplicationController
             #     break
             # end
                 
-            if response.empty?
+            if response['courses'].empty?
                 if page != 1
                     puts "Course information was loaded into database!"
                     puts "End of page reached."
@@ -218,14 +234,6 @@ class ReloadController < ApplicationController
             end
         end
         return result
-    end
-
-    def self.load_data
-        # Initialize the DataLoader and load courses, sections, instructors into the database
-        data_loader = DataLoader.new
-        data_loader.load_courses
-        data_loader.load_instructors_sections
-        data_loader.add_default_admin
     end
    
 end
