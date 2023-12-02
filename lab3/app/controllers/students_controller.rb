@@ -29,13 +29,18 @@ class StudentsController < ApplicationController
     def information
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)
-      @has_info = @grader_application.present?
+      @has_info = @grader_info.present?
       @student = Student.find_by(student_email: @user_email)
       @time_slots_count = params[:time_slots_count].to_i > 0 ? params[:time_slots_count].to_i : 15
       @times = @grader_info ? @grader_info.available_times.order(:created_at).limit(@time_slots_count) : []
-      @course_count = params[:course_count].to_i > 0 ? params[:course_count].to_i : @grader_info.student_request_courses.count
+      
+      if @grader_info
+        @course_count = params[:course_count].to_i > 0 ? params[:course_count].to_i : @grader_info.student_request_courses.count
+      else
+        @course_count = params[:course_count].to_i > 0 ? params[:course_count].to_i : 10
+      end
     end
-
+    
     def setInfo
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)

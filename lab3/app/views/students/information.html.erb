@@ -64,13 +64,21 @@
     
     <h2>What courses are you qualified to grade</h2>
     <div id="course-names">
-    <% existing_course_count = @grader_info.student_request_courses.count %>
+    <% if @grader_info %>
+        <% existing_course_count = @grader_info.student_request_courses.count %>
+    <% else %>
+        <% existing_course_count = 0 %>
+    <% end %>
     <% total_course_count = [10, existing_course_count + 1].max %> 
 
     <div id="course-names">
     <% @course_count.times do |i| %>
         <div class="course-entry">
-        <% course = @grader_info.student_request_courses[i] || StudentRequestCourse.new %>
+        <% if @grader_info && i < @grader_info.student_request_courses.count %>
+            <% course = @grader_info.student_request_courses[i] %>
+        <% else %>
+            <% course = StudentRequestCourse.new %>
+        <% end %>
         <%= label_tag "courses[#{i}][name]", "Course #{i + 1}" %>
         <%= select_tag "courses[#{i}][name]",
             options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number),
