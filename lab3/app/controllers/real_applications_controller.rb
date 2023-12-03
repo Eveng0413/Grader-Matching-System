@@ -41,6 +41,7 @@ class RealApplicationsController < ApplicationController
         @real_application = RealApplication.new(real_application_params)
         if Student.exists?(student_email: @real_application.student_email)
             if @real_application.save
+              @filtered_sections = filter_sections_by_time(@real_application.course_intrested, @real_application.time_intrested)
               redirect_to real_application_path(@real_application)
             else
               render :new
@@ -93,6 +94,7 @@ class RealApplicationsController < ApplicationController
     def choose_section
         @real_application = RealApplication.find(params[:real_application_id])
         @section = Section.find(params[:section_id])
+        
       
         if @real_application && @section
           @real_application.update(section_intrested: @section.id)
@@ -129,4 +131,20 @@ class RealApplicationsController < ApplicationController
     def setApplication
         @real_application = RealApplication.find_by!(student_email: current_user.email)
     end 
+end
+
+private
+
+def filter_sections_by_time(course_intrested, time_intrested)
+  sections = Section.where(course_id: course_intrested)
+  case time_intrested
+  when 'morning'
+    sections.where(start_time: '08:00'..'12:00')
+  when 'afternoon'
+    sections.where(start_time: '12:00'..'17:00')
+  when 'evening'
+    sections.where(start_time: '17:00'..'21:00')
+  else
+    sections
+  end
 end
