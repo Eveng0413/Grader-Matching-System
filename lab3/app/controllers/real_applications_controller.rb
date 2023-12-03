@@ -40,6 +40,7 @@ class RealApplicationsController < ApplicationController
       @user_applications = RealApplication.where(student_email: current_user.email)
       @real_application = RealApplication.new(real_application_params)
       
+      session[:accessed_from_edit] = true 
       if Student.exists?(student_email: @real_application.student_email)
         if @real_application.save
           redirect_to show_section_real_application_path(@real_application)
@@ -61,7 +62,7 @@ class RealApplicationsController < ApplicationController
         # Reset the session variable
         session[:accessed_from_edit] = nil
       else
-        redirect_to some_other_path, notice: "Direct access is not allowed."
+        redirect_to courses_path, notice: "Direct access is not allowed."
       end
     end
     

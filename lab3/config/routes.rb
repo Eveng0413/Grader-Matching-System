@@ -96,7 +96,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :real_applications, only: [:new, :create, :edit,:update] do
+  resources :real_applications, only: [:new, :create, :edit, :update] do
     collection do
       get 'manage'
     end
@@ -113,13 +113,10 @@ Rails.application.routes.draw do
   
 
 
-  resources :reload, only: [:index] do
-    collection do
-      post 'reload_OSU_API', to: 'reload#update'
-      get 'reload_delete_all', to: 'reload#delete_all'
-    end
-  end
-
+  resources :reload, only: [:index] 
+  post 'reload_OSU_API', to: 'reload#update'
+  get 'reload_delete_all', to: 'reload#delete_all'
+  
   get '*path', to: redirect('/')
 
 end
