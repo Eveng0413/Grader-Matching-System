@@ -53,10 +53,18 @@ class RealApplicationsController < ApplicationController
     
 
     def show_section
+      # only access the page from edit button
+      if session[:accessed_from_edit]
         @real_application = RealApplication.find(params[:id])
         @courses = Course.where(catalog_number: @real_application.course_intrested)
         @sections = @selected_course.sections if @selected_course.present?
+        # Reset the session variable
+        session[:accessed_from_edit] = nil
+      else
+        redirect_to some_other_path, notice: "Direct access is not allowed."
+      end
     end
+    
       
     def approve
       @real_application = RealApplication.find(params[:id])
@@ -105,14 +113,16 @@ class RealApplicationsController < ApplicationController
     end
 
     def edit
+      session[:accessed_from_edit] = true
       @real_application = RealApplication.find(params[:id])
     end
       
     def update
+      session[:accessed_from_edit] = true
       @real_application = RealApplication.find(params[:id])
       if Student.exists?(student_email: real_application_params[:student_email])
         if @real_application.update(real_application_params)
-          redirect_to real_application_path(@real_application), notice: 'Application updated successfully. Please choose a section.'
+          redirect_to show_section_real_application_path(@real_application), notice: 'Application updated successfully. Please choose a section.'
         else
           render :edit
         end
