@@ -30,11 +30,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     root to: "devise/sessions#new"
   end
-  
-  #lab3 part
-
-
-  
 
   get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
@@ -82,7 +77,6 @@ Rails.application.routes.draw do
   #get 'recommends/new', to: 'recommends#new'
   # Reset database route
   post '/recommends', to: 'recommends#create'
-
   post 'recommends/:request_id/choose_section/:section_id', to: 'recommends#choose_section', as: 'choose_section_request'
   get 'recommends/show_student/:request_id', to: 'recommends#show_student', as: 'unique_show_student_recommend'
 
@@ -102,12 +96,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :real_applications do
+  resources :real_applications, only: [:new, :create, :edit,:update] do
     collection do
       get 'manage'
     end
 
     member do
+      get 'show_section'
       get 'show_applicant'
       put 'approve'
       put 'deny'

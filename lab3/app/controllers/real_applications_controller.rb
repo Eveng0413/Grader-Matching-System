@@ -1,5 +1,5 @@
 class RealApplicationsController < ApplicationController
-    before_action :authenticate_student!, only: [:new, :edit, :create, :update, :destroy, :select_sections]
+    before_action :authenticate_student!, only: [:new, :edit, :create, :update, :destroy, :choose_sections, :show_section]
     before_action :authenticate_admin!, only: [:approve,:deny, :manage, :show_applicant]
     def manage
       @real_applications = RealApplication.all
@@ -26,15 +26,9 @@ class RealApplicationsController < ApplicationController
       end
     
       @evaluations = Evaluation.where(student_email: @application.student_email)
-
-      if @recommend.present?
-        @recommends = Recommend.where(student_email: @recommend.student_email)
-      else
-        @recommends = []
-      end
-
     rescue ActiveRecord::RecordNotFound
-      redirect_to manage_real_applications_path, notice: 'Application not found!' 
+      flash[:alert] = "Application not found."
+      redirect_to manage_real_applications_path
     end
     
     def new
@@ -43,25 +37,25 @@ class RealApplicationsController < ApplicationController
     end
     
     def create
-        @user_applications = RealApplication.where(student_email: current_user.email)
-        @real_application = RealApplication.new(real_application_params)
-        if Student.exists?(student_email: @real_application.student_email)
-            if @real_application.save
-              redirect_to real_application_path(@real_application)
-            else
-              render :new
-            end
-          else
-            redirect_to courses_path, notice: 'Email address not found in student records.'
+      @user_applications = RealApplication.where(student_email: current_user.email)
+      @real_application = RealApplication.new(real_application_params)
+      
+      if Student.exists?(student_email: @real_application.student_email)
+        if @real_application.save
+          redirect_to show_section_real_application_path(@real_application)
+        else
+          render :new
         end
+      else
+        redirect_to courses_path, notice: 'Email address not found in student records.'
+      end
     end
+    
 
-    def show
+    def show_section
         @real_application = RealApplication.find(params[:id])
         @courses = Course.where(catalog_number: @real_application.course_intrested)
         @sections = @selected_course.sections if @selected_course.present?
-        rescue ActiveRecord::RecordNotFound
-          redirect_to root_path, notice: 'Application not found!'
     end
       
     def approve
@@ -112,8 +106,6 @@ class RealApplicationsController < ApplicationController
 
     def edit
       @real_application = RealApplication.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        redirect_to root_path, notice: 'Application not found!'
     end
       
     def update
@@ -138,7 +130,5 @@ class RealApplicationsController < ApplicationController
 
     def setApplication
         @real_application = RealApplication.find_by!(student_email: current_user.email)
-        rescue ActiveRecord::RecordNotFound
-          redirect_to root_path, notice: 'Application not found!'
     end 
 end

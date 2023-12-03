@@ -45,9 +45,9 @@ class StudentsController < ApplicationController
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)
 
-      phone_number = params[:phone_number]
-      time_entries = params[:available_times].values
-      course_entries = params[:courses].values
+      phone_number = params[:phone_number] || ""  
+      time_entries = params[:available_times] ? params[:available_times].values : []
+      course_entries = params[:courses] ? params[:courses].values : []
     
       valid_time_entries = 0
       valid_course_entries = 0
@@ -88,8 +88,7 @@ class StudentsController < ApplicationController
             valid_course_entries += 1
           end
         end
-    
-        # 更新学生的电话号码
+  
         @student.update!(phone_number: phone_number)
       end
     
