@@ -73,6 +73,27 @@
   <p>No evaluation found for this applicant.</p>
 <% end %>
 
+<% if @recommends.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Recommend By</th>
+        <th>Recommended Course</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recommends.each do |recommend| %>
+        <tr>
+           <td><%= recommend.faculty_email %></td>
+           <td><%= recommend.course_id %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No recommend found for this applicant.</p>
+<% end %>
+
 
 
 <%= link_to 'Back to Manage Applications', manage_real_applications_path, class: 'btn btn-primary' %>

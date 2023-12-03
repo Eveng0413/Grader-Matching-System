@@ -26,6 +26,13 @@ class RealApplicationsController < ApplicationController
       end
     
       @evaluations = Evaluation.where(student_email: @application.student_email)
+
+      if @recommend.present?
+        @recommends = Recommend.where(student_email: @recommend.student_email)
+      else
+        @recommends = []
+      end
+
     rescue ActiveRecord::RecordNotFound
       flash[:alert] = "Application not found."
       redirect_to manage_real_applications_path
