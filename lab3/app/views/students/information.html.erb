@@ -10,7 +10,7 @@
     <div class="left-box">
     <%= form_with url: setInfo_students_path, method: :post, id: 'student-form' do |form| %>
         <% if @already_applied %>
-        <h1>By clicking submit your current informat1 will be replaced to the new one</h1>
+        <h1>By clicking submit your current information will be replaced with the new one</h1>
         <% end %>
         
         <h4>Available Times</h4>
@@ -84,7 +84,7 @@
         </div>
 
         <br>
-
+        <div>
         <%= link_to "Add More Courses", student_information_path(course_count: @course_count + 1), class: "btn" %>
         </div>
 
