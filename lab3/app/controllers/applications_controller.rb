@@ -39,6 +39,8 @@ class ApplicationsController < ApplicationController
   
     def set_application
       @application = GraderApplication.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_path, notice: 'Application not found!'
     end
   
     def application_params

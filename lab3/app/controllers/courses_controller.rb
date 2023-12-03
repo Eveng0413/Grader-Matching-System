@@ -6,6 +6,8 @@ class CoursesController < ApplicationController
     if user_signed_in?
       @user = current_user 
       @person = Person.find(@user.email)
+    else
+      redirect_to root_path, notice: 'Login Please!'
     end
     # only the course same as selected params
     @pagy, @courses = pagy(Course.all)
@@ -79,23 +81,12 @@ class CoursesController < ApplicationController
     redirect_to courses_url, notice: 'Course was successfully deleted.'
   end
 
-  # reset database
-  def reset
-    if params[:reset] == 'true'
-      # Call to reset the database
-      load "#{Rails.root}/db/seeds.rb"
-      
-      # Redirect to the index page to generate a clean URL without parameters
-      redirect_to courses_path, notice: "Database reset successful."
-    else
-      redirect_to courses_path, notice: "Database reset failed"
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_path, notice: 'Course not found!'
     end
 
     # Only allow a list of trusted parameters through.

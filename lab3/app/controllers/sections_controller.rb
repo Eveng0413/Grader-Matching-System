@@ -55,11 +55,15 @@ class SectionsController < ApplicationController
 
       def set_course
         @course = Course.find(params[:course_id])
+        rescue ActiveRecord::RecordNotFound
+          redirect_to root_path, notice: 'Course not found!'
       end
   
 
       def set_section
         @section = Section.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          redirect_to root_path, notice: 'Section not found!'
       end
 
       def section_params

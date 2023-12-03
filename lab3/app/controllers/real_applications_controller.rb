@@ -34,8 +34,7 @@ class RealApplicationsController < ApplicationController
       end
 
     rescue ActiveRecord::RecordNotFound
-      flash[:alert] = "Application not found."
-      redirect_to manage_real_applications_path
+      redirect_to manage_real_applications_path, notice: 'Application not found!' 
     end
     
     def new
@@ -61,6 +60,8 @@ class RealApplicationsController < ApplicationController
         @real_application = RealApplication.find(params[:id])
         @courses = Course.where(catalog_number: @real_application.course_intrested)
         @sections = @selected_course.sections if @selected_course.present?
+        rescue ActiveRecord::RecordNotFound
+          redirect_to root_path, notice: 'Application not found!'
     end
       
     def approve
@@ -111,6 +112,8 @@ class RealApplicationsController < ApplicationController
 
     def edit
       @real_application = RealApplication.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_path, notice: 'Application not found!'
     end
       
     def update
@@ -135,5 +138,7 @@ class RealApplicationsController < ApplicationController
 
     def setApplication
         @real_application = RealApplication.find_by!(student_email: current_user.email)
+        rescue ActiveRecord::RecordNotFound
+          redirect_to root_path, notice: 'Application not found!'
     end 
 end
