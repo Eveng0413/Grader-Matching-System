@@ -4,6 +4,13 @@ For the third project, we created a web application that helps students, instruc
 
 ## Navigating the Web Application
 Once the rails server is running, the user is at the login page, which is our root page. The user can sign up to create an account, by clicking the signup button on the login page. Once the account is created the user can go back to the login in page and sign in. After you have applied for instructor/admin access at signup, you would by default be logged in as a student at the time and will enjoy the privilege of admin/instructor access after the access is approved by one of the admins.  
+##  Login Page
+<img width="1440" alt="Screenshot 2023-12-03 at 18 19 58" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/96990768/5d4e9310-741b-4e93-8e32-96eac7862b85">
+
+##  Signup Page
+<img width="1440" alt="Screenshot 2023-12-03 at 18 20 05" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/96990768/5f7efc36-0574-4c73-b29e-98a03572ae4f">
+
+##  Student View
 <img width="1440" alt="Screenshot 2023-12-03 at 18 18 41" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/96990768/0a4cfec1-6821-4725-8204-09606baf7348">
 
 --Student view: After you are logged in as a student you can search through the course catalog and search by "Course Number" and get all the available Information that you need for that course and available sections.         
