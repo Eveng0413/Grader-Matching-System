@@ -2,6 +2,8 @@ require 'httparty'
 require 'json'
 
 class ReloadController < ApplicationController
+    before_action :authenticate_admin!
+
     include HTTParty
     base_uri 'https://content.osu.edu/v2/classes/search'
   

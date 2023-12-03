@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_02_233816) do
     t.string "status", default: "pending"
   end
 
-  create_table "recommends", id: false, force: :cascade do |t|
+  create_table "recommends", force: :cascade do |t|
     t.string "student_email"
     t.string "faculty_email"
     t.string "admin_email"
