@@ -3,7 +3,17 @@ For the third project, we created a web application that helps students, instruc
 
 
 ## Navigating the Web Application
-Once the rails server is running, the user is at the login page, which is our root page. The user can sign up to create an account, by clicking the signup button on the login page. Once the account is created the user can go back to the login in page and sign in. If the user has selected to sign up as an admin, student, or instructor the user will see the course catalog page, unless the user uses the default admin user name and password upon logging in. The default admin user name is admin.1@osu.edu and the password is admin123. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. 
+Once the rails server is running, the user is at the login page, which is our root page. The user can sign up to create an account, by clicking the signup button on the login page. Once the account is created the user can go back to the login in page and sign in. After you have applied for instructor/admin access at signup, you would by default be logged in as a student at the time and will enjoy the privilege of the admin/instructor access after the acces is apporved by one of the admins.   
+-Student view: After you are logged in as student you can search through the course catalog and search by "Course Number" and get all the available Information that you need for that course and available sections.         
+   --Change Account Info button: Students can change their name,lastname,password and apply for instructor or admin access by clicking on this button.   
+   --Logout Button: By clicking this button the student will be logged out and will land on the login page.  
+   --Grader Application: The Student can select sections and their preferences for the availability(Mornings/Afternoon/Evening) and then apply for grader position.  
+   --Information Button:The Student can add their availability in this sections and also the courses they think they are qualified for being a grader. The availability can be taken into account by the admin when they look throught applications.   
+  
+Instructor view:
+Admin view:
+
+The default admin user name is admin.1@osu.edu and the password is admin123. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. 
 
 All users can search for courses with the search bar, the academic career drop-down, the campus drop-down, and the term drop-down. When a user is in the course catalog without any inputs in the search parameters, the courses are paginated, and when a user searches for a class all the results of the search will be on one page.
 
