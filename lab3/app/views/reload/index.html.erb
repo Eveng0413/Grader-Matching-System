@@ -20,7 +20,12 @@
           <li><strong>1242:</strong> Spring 2024</li>
         </ul>
         <%# <%= form.label :term, "Academic Term" %><br>
-        <%= form.text_field :term %>
+            <%= select_tag :term, options_for_select([
+            ['', 'Select Term'],
+            ['1234', 'Summer 2023'],
+            ['1238', 'Autumn 2023'],
+            ['1242', 'Spring 2024']
+        ]), class: 'form-control' %>
       </div>
 
       <div class="field">
@@ -33,8 +38,15 @@
           <li><strong>nwk:</strong> Newark</li>
           <li><strong>wst:</strong> Wooster</li>
         </ul>
-        <%# <%= form.label :campus, "Campus" %><br>
-        <%= form.text_field :campus %>
+            <%= select_tag :campus, options_for_select([
+            ['', 'Select Campus'],
+            ['col', 'Columbus'],
+            ['lma', 'Lima'],
+            ['mns', 'Mansfield'],
+            ['mrn', 'Marion'],
+            ['nwk', 'Newark'],
+            ['wst', 'Wooster']
+        ]), class: 'form-control' %>
       </div>
 
       <div class="field">
@@ -49,8 +61,17 @@
           <li><strong>MED:</strong> Medicine</li>
           <li><strong>DENT:</strong> Dentistry</li>
         </ul>
-        <%# <%= form.label :academic_career, "Academic Career" %><br>
-        <%= form.text_field :academic_career, name: "academic-career" %>
+        <%= select_tag :academic_career, options_for_select([
+            ['', 'Select Academic Career'],
+            ['ugrd', 'Undergraduate'],
+            ['grad', 'Graduate'],
+            ['PHP', 'Pharmacy'],
+            ['LAW', 'Law'],
+            ['VMED', 'Veterinary Medicine'],
+            ['OPT', 'Optometry'],
+            ['MED', 'Medicine'],
+            ['DENT', 'Dentistry']
+        ]), class: 'form-control' %>
       </div>
 
       <!-- Display the final URL in real-time -->
