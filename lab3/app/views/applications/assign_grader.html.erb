@@ -47,7 +47,7 @@
                     </td>
                   </tr>
                 <% end %>
-                <td><h4> Section <%= section.section_id %> (<%= section.s_id %>)</h4></td>
+                <td><h4> Section <%= section.section_id %> (<%= section.s_id %></h4></td>
                 <td>
                   <% unless section.faculty_email.to_s.empty? %>
                     <% person = Person.find(section.faculty_email.to_s) %>
