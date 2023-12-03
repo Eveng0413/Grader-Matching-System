@@ -36,9 +36,9 @@ Rails.application.routes.draw do
 
   resources :recommends do
     member do
-      get 'show_student'
-      put 'approve_request'
-      put 'deny_request'
+      get 'show_student', to: 'recommends#show_student'
+      put 'approve_request', to: 'recommends#approve_request'
+      put 'deny_request', to: 'recommends#deny_request'
     end
   end
   

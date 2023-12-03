@@ -101,9 +101,35 @@ class RecommendsController < ApplicationController
 
 
   def approve_request
+    @request = Request.find_by(params[:id])
+    if @request.update(status: 'approved')
+      if @request.section_id.present?
+        section = Section.find_by(s_id: @request.section_id)
+        if section
+          # Reduce the grader needed count if applicable
+          section.update(grader_needed: section.grader_needed - 1) if section.grader_needed > 0
+          # Append student email to grader string
+          if section.grader.blank?
+            section.grader = @request.student_email
+          else
+            section.grader += ", " + @request.student_email
+          end
+          section.save
+        end
+      end
+      redirect_to manage_real_applications_path, notice: 'Request approved successfully.'
+    else
+      redirect_to manage_real_applications_path, notice: 'Failed to approve Request.'
+    end
   end
 
   def deny_request
+    @request = Request.find_by(params[:id])
+      if @real_application.update(status: 'denied')
+        redirect_to manage_real_applications_path, notice: 'Request denied successfully.'
+      else
+        redirect_to manage_real_applications_path, notice: 'Failed to deny request.'
+      end
   end
 
   def show_student

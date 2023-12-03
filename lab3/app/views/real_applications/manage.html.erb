@@ -59,8 +59,8 @@
       <tr>
         <th>Faculty Email</th>
         <th>Student Email</th>
-        <th>Course Interested</th>
-        <th>Section Interested</th>
+        <th>Course </th>
+        <th>Section </th>
         <th>Status</th>
         <th>Actions</th>
         <th>Student Information</th>
@@ -70,13 +70,13 @@
       <% @teacher_requests.each do |request| %>
         <tr>
           <td><%= request.faculty_email %></td>
-          <td><%= request.course_interested %></td>
-          <td><%= request.section_interested %></td>
+          <td>CSEs<%= request.course_id %></td>
+          <td><%= request.section_id %></td>
           <td><%= request.status %></td>
           <td>
             <% if request.status != 'approved' && request.status != 'denied' %>
-              <%= button_to 'Approve', approve_teacher_request_path(request), method: :put, class: 'action-button' %>
-              <%= button_to 'Deny', deny_teacher_request_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Approve', approve_request_recommend_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Deny', approve_request_recommend_path(request), method: :put, class: 'action-button' %>
             <% end %>
           </td>
           <td>
