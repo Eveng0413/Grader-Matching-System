@@ -1,7 +1,6 @@
 
 Rails.application.routes.draw do
   resources :requests
-  resources :recommends
   resources :sections
   resources :evaluations
 
@@ -34,6 +33,16 @@ Rails.application.routes.draw do
   end
   
   #lab3 part
+
+  resources :recommends do
+    member do
+      get 'show_student', to: 'recommends#show_student'
+      put 'approve_request', to: 'recommends#approve_request'
+      put 'deny_request', to: 'recommends#deny_request'
+    end
+  end
+  
+
   get 'student_information', to: 'students#information', as: 'student_information'
   # lab3 part
   resources :students do
@@ -109,7 +118,8 @@ Rails.application.routes.draw do
   
 
   resources :reload
-  patch 'reload_OSU_API', to: 'reload#update'
+  post 'reload_OSU_API', to: 'reload#update'
+  get 'reload_delete_all', to: 'reload#delete_all'
 
   get '*path', to: redirect('/')
 

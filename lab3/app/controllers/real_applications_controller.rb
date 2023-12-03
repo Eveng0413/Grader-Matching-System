@@ -3,17 +3,41 @@ class RealApplicationsController < ApplicationController
     before_action :authenticate_admin!, only: [:approve,:deny, :manage, :show_applicant]
     def manage
       @real_applications = RealApplication.all
+      @teacher_requests = Request.all
     end
 
     def show_applicant
       @application = RealApplication.find(params[:id])
       @student = Student.find_by(student_email: @application.student_email)
+    
+      if @student.nil?
+        flash[:alert] = "Student not found."
+        redirect_to manage_real_applications_path and return
+      end
+    
       @informationID = GraderApplication.find_by(student_email: @application.student_email)
-      @times = AvailableTime.where(applications_id: @informationID.id)
-      @courses = StudentRequestCourse.where(applications_id: @informationID.id)
+      
+      if @informationID
+        @times = AvailableTime.where(applications_id: @informationID.id)
+        @courses = StudentRequestCourse.where(applications_id: @informationID.id)
+      else
+        @times = []
+        @courses = []
+      end
+    
       @evaluations = Evaluation.where(student_email: @application.student_email)
-    end
 
+      if @recommend.present?
+        @recommends = Recommend.where(student_email: @recommend.student_email)
+      else
+        @recommends = []
+      end
+
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "Application not found."
+      redirect_to manage_real_applications_path
+    end
+    
     def new
        @real_application = RealApplication.new
        @user_applications = RealApplication.where(student_email: current_user.email)
@@ -44,8 +68,17 @@ class RealApplicationsController < ApplicationController
       if @real_application.update(status: 'approved')
         if @real_application.section_intrested.present?
           section = Section.find_by(s_id: @real_application.section_intrested)
-          if section && section.grader_needed > 0
-            section.update(grader_needed: section.grader_needed - 1)
+          if section
+            # Reduce the grader needed count if applicable
+            section.update(grader_needed: section.grader_needed - 1) if section.grader_needed > 0
+            
+            # Append student email to grader string
+            if section.grader.blank?
+              section.grader = @real_application.student_email
+            else
+              section.grader += ", " + @real_application.student_email
+            end
+            section.save
           end
         end
         redirect_to manage_real_applications_path, notice: 'Application approved successfully.'
@@ -76,9 +109,9 @@ class RealApplicationsController < ApplicationController
         end
     end
 
-      def edit
-        @real_application = RealApplication.find(params[:id])
-      end
+    def edit
+      @real_application = RealApplication.find(params[:id])
+    end
       
     def update
       @real_application = RealApplication.find(params[:id])
@@ -103,7 +136,4 @@ class RealApplicationsController < ApplicationController
     def setApplication
         @real_application = RealApplication.find_by!(student_email: current_user.email)
     end 
-
-    
-
 end
