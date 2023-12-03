@@ -41,7 +41,7 @@ class RealApplicationsController < ApplicationController
         @real_application = RealApplication.new(real_application_params)
         if Student.exists?(student_email: @real_application.student_email)
             if @real_application.save
-              @filtered_sections = filter_sections_by_time(@real_application.course_intrested, @real_application.time_intrested)
+              
               redirect_to real_application_path(@real_application)
             else
               render :new
@@ -133,18 +133,26 @@ class RealApplicationsController < ApplicationController
     end 
 end
 
-private
 
-def filter_sections_by_time(course_intrested, time_intrested)
-  sections = Section.where(course_id: course_intrested)
-  case time_intrested
-  when 'morning'
-    sections.where(start_time: '08:00'..'12:00')
-  when 'afternoon'
-    sections.where(start_time: '12:00'..'17:00')
-  when 'evening'
-    sections.where(start_time: '17:00'..'21:00')
-  else
-    sections
+
+def section_in_time_interest?(section)
+  
+    return false if section.start_time.nil?
+
+    case @real_application.time_intrested
+    when 'morning'
+      start_time, _end_time = section.start_time.split(' - ')
+      start_time.between?('08:00', '12:00')
+    when 'afternoon'
+      _start_time, end_time = section.start_time.split(' - ')
+      end_time.between?('12:00', '15:00')
+    when 'evening'
+      _start_time, end_time = section.start_time.split(' - ')
+      end_time.between?('16:00', '21:00')
+    else
+      true
+    end
   end
-end
+  
+
+
