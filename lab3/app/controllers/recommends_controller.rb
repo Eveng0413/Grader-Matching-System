@@ -1,7 +1,8 @@
 class RecommendsController < ApplicationController
-  before_action :set_recommend, only: %i[ show edit update destroy ]
+
   before_action :authenticate_instructor!, only:[:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :authenticate_admin!, only: [:show_student, :approve_request, :deny_request]
+
   # GET /recommends or /recommends.json
   def index
     @recommends = Recommend.all
@@ -9,6 +10,15 @@ class RecommendsController < ApplicationController
 
   # GET /recommends/1 or /recommends/1.json
   def show
+    # Ensure that @request is set
+    @request = Request.find_by_id(params[:id])
+
+    if @request.present?
+      @courses = Course.where(catalog_number: @request.course_id)
+    else
+      # Handle the case where @request is not found
+      redirect_to course_path, alert: "Request not found."
+    end
   end
 
   # GET /recommends/new
@@ -18,10 +28,12 @@ class RecommendsController < ApplicationController
 
   # GET /recommends/1/edit
   def edit
+    @recommend=Recommend.find(params[:id]);
   end
 
   # POST /recommends or /recommends.json
   def create
+    #@recommend = Recommend.find(params[:id])
 
     choice = params[:recommend][:choice]
 
@@ -65,7 +77,7 @@ class RecommendsController < ApplicationController
 
       if @request.new_record?
         if @request.save
-          redirect_to courses_url, notice: "Request was successfully created."
+          redirect_to recommend_path(@request), notice: "Request was successfully created and please select your section."
         else
           render :new, status: :unprocessable_entity
         end
@@ -76,11 +88,27 @@ class RecommendsController < ApplicationController
 
   end
 
+  #if selected section, update request with that section num
+  def choose_section
+    @request = Request.find(params[:request_id])
+    @section = Section.find(params[:section_id])
+
+    if @request && @section
+      @request.update(section_id: @section.id)
+      redirect_to courses_url, notice: 'Section chosen successfully.' 
+    else
+      redirect_to courses_url, alert: 'Failed to choose section.' 
+    end
+  end
+
+
   # PATCH/PUT /recommends/1 or /recommends/1.json
   def update
+    @request = Request.find(params[:id])
+
     respond_to do |format|
       if @recommend.update(recommend_params)
-        format.html { redirect_to recommend_url(@recommend), notice: "Recommend was successfully updated." }
+        format.html { redirect_to recommend_url(@recommend), notice: "Request was successfully updated." }
         format.json { render :show, status: :ok, location: @recommend }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -101,17 +129,62 @@ class RecommendsController < ApplicationController
 
 
   def approve_request
+    # Find the request by ID
+    @request = Request.find_by(id: params[:id])
+  
+    # Check if the request exists
+    if @request.nil?
+      redirect_to manage_real_applications_path, alert: 'Request not found.'
+      return
+    end
+  
+    # Update the request status to 'approved'
+    if @request.update(status: 'approved')
+      # Check if the request has an associated section
+      if @request.section_id.present?
+        section = Section.find_by(s_id: @request.section_id)
+  
+        if section
+          # Update section details
+          section.grader_needed -= 1 if section.grader_needed > 0
+          section.grader = if section.grader.blank?
+                             @request.student_email
+                           else
+                             "#{section.grader}, #{@request.student_email}"
+                           end
+  
+          section.save
+        end
+      end
+  
+      redirect_to manage_real_applications_path, notice: 'Request approved successfully.'
+    else
+      redirect_to courses_path, alert: 'Failed to approve Request.'
+    end
   end
+  
 
   def deny_request
+    @request = Request.find_by(id: params[:id])
+  
+    if @request.nil?
+      redirect_to courses_path, alert: 'Request not found.'
+      return
+    end
+  
+    if @request.update(status: 'denied')
+      redirect_to manage_real_applications_path, notice: 'Request denied successfully.'
+    else
+      redirect_to courses_path, notice: 'Failed to deny request.'
+    end
   end
 
   def show_student
+    @request = Request.find_by_id(params[:request_id])
     # First, ensure that you have a valid request object.
     # If not, redirect or handle the error appropriately.
     if @request.nil?
-      flash[:alert] = "Request not found."
-      redirect_to manage_real_applications_path
+      redirect_to courses_url, notice: 'Student Not found.'
       return
     end
   
@@ -137,24 +210,19 @@ class RecommendsController < ApplicationController
     else
       # Handle the scenario where the student is not found.
       # You can redirect or set a flash message to indicate the student was not found.
-      redirect_to some_path, alert: "Student not found."
+      redirect_to courses_path, alert: "Student not found."
     end
   end
   
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_recommend
-      @recommend = Recommend.find(params[:id])
-    end
-
     # Only allow a list of trusted parameters through.
 
     def recommend_params
-      params.require(:recommend).permit(:student_email, :course_id, :faculty_email, :semester)
+      params.require(:recommend).permit(:student_email, :course_id, :faculty_email)
     end
     
     def request_params
-      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email, :semester)
+      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email)
     end
     
 end

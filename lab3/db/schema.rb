@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema[7.0].define(version: 2023_12_03_002838) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -85,7 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_03_002838) do
     t.string "time_intrested"
   end
 
-  create_table "recommends", id: false, force: :cascade do |t|
+  create_table "recommends", force: :cascade do |t|
     t.string "student_email"
     t.string "faculty_email"
     t.string "admin_email"
@@ -93,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_03_002838) do
     t.datetime "updated_at", null: false
     t.integer "course_id"
     t.string "semester"
+    t.index ["student_email", "faculty_email", "course_id"], name: "index_recommends_on_student_email_faculty_email_course_id", unique: true
   end
 
   create_table "requests", force: :cascade do |t|

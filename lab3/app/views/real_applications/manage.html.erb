@@ -61,8 +61,8 @@
       <tr>
         <th>Faculty Email</th>
         <th>Student Email</th>
-        <th>Course Interested</th>
-        <th>Section Interested</th>
+        <th>Course </th>
+        <th>Section </th>
         <th>Status</th>
         <th>Actions</th>
         <th>Student Information</th>
@@ -72,17 +72,18 @@
       <% @teacher_requests.each do |request| %>
         <tr>
           <td><%= request.faculty_email %></td>
-          <td><%= request.course_interested %></td>
-          <td><%= request.section_interested %></td>
+          <td><%= request.student_email %></td>
+          <td>CSE<%= request.course_id %></td>
+          <td><%= request.section_id %></td>
           <td><%= request.status %></td>
           <td>
             <% if request.status != 'approved' && request.status != 'denied' %>
-              <%= button_to 'Approve', approve_teacher_request_path(request), method: :put, class: 'action-button' %>
-              <%= button_to 'Deny', deny_teacher_request_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Approve', approve_request_recommend_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Deny', deny_request_recommend_path(request), method: :put, class: 'action-button' %>
             <% end %>
           </td>
           <td>
-            <%= link_to 'View Details', show_student_request_path(request), class: 'action-button' %>
+            <%= link_to 'View Details', unique_show_student_recommend_path(request_id: request.id), class: 'action-button' %>
           </td>
         </tr>
       <% end %>

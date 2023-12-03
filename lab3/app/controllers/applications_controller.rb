@@ -1,4 +1,5 @@
 class ApplicationsController < ApplicationController
+    before_action :authenticate_admin!
     before_action :set_application, only: [:show, :edit, :update, :destroy, :deny, :approve, :assign_grader ]
   
     def index
@@ -38,6 +39,8 @@ class ApplicationsController < ApplicationController
   
     def set_application
       @application = GraderApplication.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_path, notice: 'Application not found!'
     end
   
     def application_params

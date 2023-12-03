@@ -1,6 +1,6 @@
 class RequestsController < ApplicationController
   before_action :set_request, only: %i[ show edit update destroy ]
-  before_action : authenticate_admin, only:[:destroy]
+  before_action :authenticate_admin, only:[:destroy]
   # GET /requests or /requests.json
   def index
     @requests = Request.all
@@ -61,6 +61,8 @@ class RequestsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_request
       @request = Request.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        redirect_to root_path, notice: 'Request not found!'
     end
 
     # Only allow a list of trusted parameters through.

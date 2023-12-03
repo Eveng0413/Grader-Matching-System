@@ -1,5 +1,5 @@
 # Project introduction
-For the second project, we created a web application that helps students, instructors and admin browse the course catalog. However, lab2 is apart of the third lab which is to streamline the process of matching student graders to course sections. Overall, this lab entails creating users for the student, instructor and admin. Additionally, admins will be able to approve or deny requests to view the admin view from users who sign up as the admin or instructor. The admins can also edit the course catalog, reload the course catalog and browse the course catalog. The users who sign up as students or instructors can browse the course catalog and instructors can request access to view admin view. The web application utilizes sql lite for the database, Ruby/Rails program to use the enclosed API to process the section and course info from the publicly accessible OSU course catalog.
+For the third project, we created a web application that helps students, instructors and admin browse the course catalog and also helps streamline the process of matching student graders to course sections. Overall, this lab entails creating users for the student, instructor and admin. Additionally, admins will be able to approve or deny requests to view the admin view from users who sign up as the admin or instructor. The admins can also edit the course catalog, reload the course catalog and browse the course catalog. The users who sign up as students or instructors can browse the course catalog and instructors can request access to view admin view. The web application utilizes sql lite for the database, Ruby/Rails program to use the enclosed API to process the section and course info from the publicly accessible OSU course catalog.
 
 
 ## Navigating the Web Application
@@ -20,3 +20,4 @@ All users can search for courses with the search bar, the academic career drop-d
  1. If there is an issue with the steps on installing ruby or rails, try turning off the computer and turning it on the going through the steps again
  2. If there is some gem that cannot be installed after 'bundle', refer to the Gemfile to make sure correct version of ruby and rails are there
 
+![alt text](http://url/to/osu.png)

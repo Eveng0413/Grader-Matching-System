@@ -16,13 +16,14 @@
 
     <div class="field">
       <%= form.label :student_email, "Student's email" %>
-      <%= form.collection_select(:student_email, Student.order(:student_email), :student_email, :student_email, { prompt: 'Select a Student' }, required: true) %>
+      <%= form.text_field :student_email, required: true %>
     </div>
 
     <div class="field">
       <%= form.label :course_id, "Which course do you recommend this student for" %>
-      <%= form.collection_select(:course_id, Course.all, :course_id, :catalog_number_and_course_name, { prompt: true }, required: true) %>
+      <%= form.select(:course_id, options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), { include_blank: true }, { required: true, class: 'form-control' }) %>
     </div>
+
 
     <div class="field">
       <%= form.label :faculty_email, "What is your email" %>
@@ -34,13 +35,8 @@
       <%= form.select :choice, [['Future conssideration', 'Future consideration'], ['Request for upcoming semester', 'Request for upcoming semester']], required: true  %>
     </div>
 
-    <div class="field">
-      <%= form.label :section_id, "Request for upcoming semester ONLY: what is the section id that you want the student grading for?" %>
-      <%= form.text_field :section_id%>
-    </div>
-
     <div class="actions" style="float:left;">
-      <%= form.submit "Submit Recommendation" %>
+      <%= form.submit "Submit and Process for Section selection" %>
     </div>
 
     <% end %>
