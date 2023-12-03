@@ -1,4 +1,5 @@
 class ApplicationsController < ApplicationController
+    #All of this controller is used for our old design. We won't use them 
     before_action :authenticate_admin!
     before_action :set_application, only: [:show, :edit, :update, :destroy, :deny, :approve, :assign_grader ]
   

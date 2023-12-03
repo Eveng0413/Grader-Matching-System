@@ -15,7 +15,9 @@
   <!-- Right side -->
   <div class="top-bar-right">
     <!-- notice -->
-    <%= notice %>
+    <% if notice %>
+      <p><%= notice %></p>
+    <% end %>
     <%= link_to "Change Account info", edit_user_registration_path, class: 'action-button' %>
     <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
     <% if student?&&!@has_info %>

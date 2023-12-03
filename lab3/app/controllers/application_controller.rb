@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
 
     private
 
+    #This part define functions to verify user's role
     def admin?
       current_user && current_user.person.role == 'admin'
     end
