@@ -17,6 +17,7 @@ class RecommendsController < ApplicationController
 
   # GET /recommends/1/edit
   def edit
+    @recommend=Recommend.find(params[:id]);
   end
 
   # POST /recommends or /recommends.json
@@ -64,7 +65,7 @@ class RecommendsController < ApplicationController
 
       if @request.new_record?
         if @request.save
-          redirect_to courses_url, notice: "Request was successfully created."
+          redirect_to recommend_path(@request), notice: "Request was successfully created and please select your section."
         else
           render :new, status: :unprocessable_entity
         end
@@ -75,8 +76,21 @@ class RecommendsController < ApplicationController
 
   end
 
+  def choose_section
+    @request = Request.find(params[:id])
+    @section = Section.find(params[:section_id])
+  
+    if @request && @section
+      @request.update(section_intrested: @section.id)
+      redirect_to courses_path, notice: 'Section chosen successfully.'
+    else
+      redirect_to courses_path, notice: 'Failed to choose section.'
+    end
+end
+
   # PATCH/PUT /recommends/1 or /recommends/1.json
   def update
+
     respond_to do |format|
       if @recommend.update(recommend_params)
         format.html { redirect_to recommend_url(@recommend), notice: "Recommend was successfully updated." }
@@ -107,11 +121,11 @@ class RecommendsController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def recommend_params
-      params.require(:recommend).permit(:student_email, :course_id, :faculty_email, :semester)
+      params.require(:recommend).permit(:student_email, :course_id, :faculty_email)
     end
     
     def request_params
-      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email, :semester)
+      params.require(:recommend).permit(:student_email, :course_id, :section_intrested, :faculty_email)
     end
     
 end
