@@ -73,7 +73,7 @@ Rails.application.routes.draw do
   # Reset database route
   post '/recommends', to: 'recommends#create'
 
-  post 'request/:request_id/choose_section/:section_id', to: 'requests#choose_section', as: 'choose_section_request'
+  post 'recommends/:request_id/choose_section/:section_id', to: 'recommends#choose_section', as: 'choose_section_request'
 
 
   # config/routes.rb

@@ -1,5 +1,4 @@
 class RecommendsController < ApplicationController
-  before_action :set_recommend, only: %i[ show edit update destroy ]
   before_action :authenticate_instructor!
   # GET /recommends or /recommends.json
   def index
@@ -8,6 +7,15 @@ class RecommendsController < ApplicationController
 
   # GET /recommends/1 or /recommends/1.json
   def show
+    # Ensure that @request is set
+    @request = Request.find_by_id(params[:id])
+
+    if @request.present?
+      @courses = Course.where(catalog_number: @request.course_id)
+    else
+      # Handle the case where @request is not found
+      redirect_to course_path, alert: "Request not found."
+    end
   end
 
   # GET /recommends/new
@@ -22,6 +30,7 @@ class RecommendsController < ApplicationController
 
   # POST /recommends or /recommends.json
   def create
+    #@recommend = Recommend.find(params[:id])
 
     choice = params[:recommend][:choice]
 
@@ -76,24 +85,27 @@ class RecommendsController < ApplicationController
 
   end
 
+  #if selected section, update request with that section num
   def choose_section
-    @request = Request.find(params[:id])
+    @request = Request.find(params[:request_id])
     @section = Section.find(params[:section_id])
-  
+
     if @request && @section
-      @request.update(section_intrested: @section.id)
-      redirect_to courses_path, notice: 'Section chosen successfully.'
+      @request.update(section_id: @section.id)
+      redirect_to courses_url, notice: 'Section chosen successfully.' 
     else
-      redirect_to courses_path, notice: 'Failed to choose section.'
+      redirect_to courses_url, alert: 'Failed to choose section.' 
     end
-end
+  end
+
 
   # PATCH/PUT /recommends/1 or /recommends/1.json
   def update
+    @request = Request.find(params[:id])
 
     respond_to do |format|
       if @recommend.update(recommend_params)
-        format.html { redirect_to recommend_url(@recommend), notice: "Recommend was successfully updated." }
+        format.html { redirect_to recommend_url(@recommend), notice: "Request was successfully updated." }
         format.json { render :show, status: :ok, location: @recommend }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -113,11 +125,6 @@ end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_recommend
-      @recommend = Recommend.find(params[:id])
-    end
-
     # Only allow a list of trusted parameters through.
 
     def recommend_params
@@ -125,7 +132,7 @@ end
     end
     
     def request_params
-      params.require(:recommend).permit(:student_email, :course_id, :section_intrested, :faculty_email)
+      params.require(:recommend).permit(:student_email, :course_id, :section_id, :faculty_email)
     end
     
 end
