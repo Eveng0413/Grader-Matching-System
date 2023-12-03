@@ -27,13 +27,14 @@ class ReloadController < ApplicationController
         redirect_to courses_path, notice: "Courses and Sections deleted successfully."
     end
 
+  
+    private
+
     def load_data
         # Initialize the DataLoader and load courses, sections, instructors into the database
         load_courses
         load_instructors_sections
     end
-  
-    private
   
     def get_url_params
         @q = params[:q]

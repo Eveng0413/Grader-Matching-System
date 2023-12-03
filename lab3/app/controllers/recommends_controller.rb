@@ -1,6 +1,6 @@
 class RecommendsController < ApplicationController
 
-  before_action :authenticate_instructor!, only:[:index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :authenticate_instructor!, only:[:new, :create]
   before_action :authenticate_admin!, only: [:show_student, :approve_request, :deny_request]
 
   # GET /recommends or /recommends.json
@@ -28,7 +28,7 @@ class RecommendsController < ApplicationController
 
   # GET /recommends/1/edit
   def edit
-    @recommend=Recommend.find(params[:id]);
+    #@recommend=Recommend.find(params[:id]);
   end
 
   # POST /recommends or /recommends.json
@@ -90,6 +90,7 @@ class RecommendsController < ApplicationController
 
   #if selected section, update request with that section num
   def choose_section
+    
     @request = Request.find(params[:request_id])
     @section = Section.find(params[:section_id])
 

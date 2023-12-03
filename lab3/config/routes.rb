@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :requests
+  resources :requests, only: [:create, :new]
   resources :sections
-  resources :evaluations
+  resources :evaluations, only: [:create, :new]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     resources :sections
   end
 
-  resources :recommends do
+  resources :recommends, only: [:index, :create, :new] do
     member do
       get 'show_student', to: 'recommends#show_student'
       put 'approve_request', to: 'recommends#approve_request'
@@ -79,7 +79,7 @@ Rails.application.routes.draw do
   end
   
   #instructor only: recommends
-  get 'recommends/new', to: 'recommends#new'
+  #get 'recommends/new', to: 'recommends#new'
   # Reset database route
   post '/recommends', to: 'recommends#create'
 
@@ -87,14 +87,14 @@ Rails.application.routes.draw do
   get 'recommends/show_student/:request_id', to: 'recommends#show_student', as: 'unique_show_student_recommend'
 
   # config/routes.rb
-  resources :role_requests do
+  resources :role_requests, only: [:index] do
     member do
       put 'approve'
       put 'deny'
     end
   end
 
-  resources :applications do
+  resources :applications , only: [:index, :show] do
     member do
       patch 'approve', to: 'applications#approve'
       patch 'deny', to: 'applications#deny'
@@ -116,11 +116,14 @@ Rails.application.routes.draw do
 
   post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
   
-  
 
-  resources :reload
-  post 'reload_OSU_API', to: 'reload#update'
-  get 'reload_delete_all', to: 'reload#delete_all'
+
+  resources :reload, only: [:index] do
+    collection do
+      post 'reload_OSU_API', to: 'reload#update'
+      get 'reload_delete_all', to: 'reload#delete_all'
+    end
+  end
 
   get '*path', to: redirect('/')
 
