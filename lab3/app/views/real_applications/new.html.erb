@@ -29,6 +29,7 @@
       <tr>
         <th>Course Interested</th>
         <th>Section Interested</th>
+        <th>Time Interested</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -37,6 +38,7 @@
         <tr>
           <td><%= application.course_intrested %></td>
           <td><%= application.section_intrested %></td>
+          <td><%= application.time_intrested %></td>
           <td><%= application.status %></td>
           <td>
             <%= link_to 'Edit', edit_real_application_path(application), class: 'edit-button' %>

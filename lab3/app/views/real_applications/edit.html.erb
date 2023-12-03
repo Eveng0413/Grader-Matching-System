@@ -12,6 +12,10 @@
         {  selected: @real_application.course_intrested } %>
   </div>
 
+  <div class="field">
+        <%= form.label :time_intrested, "Time Interested" %>
+        <%= form.select :time_intrested, [['Morning', 'morning'], ['Afternoon', 'afternoon'], ['Evening', 'evening']], include_blank: true, class: 'form-control' %>
+    </div>
 
   <div class="field">
   <%= form.label :section_intrested, "Current Section Interested" %>
