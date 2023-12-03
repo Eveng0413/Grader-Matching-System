@@ -136,19 +136,17 @@ end
 
 
 def section_in_time_interest?(section)
-  
     return false if section.start_time.nil?
-
+  
+    start_time = section.start_time.split(' - ').first
+  
     case @real_application.time_intrested
     when 'morning'
-      start_time, _end_time = section.start_time.split(' - ')
       start_time.between?('08:00', '12:00')
     when 'afternoon'
-      _start_time, end_time = section.start_time.split(' - ')
-      end_time.between?('12:00', '15:00')
+      start_time.between?('12:00', '15:00')
     when 'evening'
-      _start_time, end_time = section.start_time.split(' - ')
-      end_time.between?('16:00', '21:00')
+      start_time.between?('16:00', '21:00')
     else
       true
     end
