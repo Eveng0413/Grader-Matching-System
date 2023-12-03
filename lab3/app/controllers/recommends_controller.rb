@@ -1,6 +1,5 @@
 class RecommendsController < ApplicationController
 
-  before_action :set_recommend, only: %i[ show edit update destroy ]
   before_action :authenticate_instructor!, only:[:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :authenticate_admin!, only: [:show_student, :approve_request, :deny_request]
 
