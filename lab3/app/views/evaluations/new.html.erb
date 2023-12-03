@@ -1,26 +1,49 @@
 <%= form_with model: @evaluation, url: evaluations_path, local: true, data: { turbo: false } do |form| %>
 
-  <%= form.hidden_field :faculty_email, value: current_user.email, name: 'evaluation[faculty_email]' %>
+  <div class="form-box" style="width:50%;">
+    <h3 style="margin-bottom:20px;">Evaluate Student</h3>
 
-  <%= form.label :student_email %>
-  <%= form.text_field :student_email, placeholder: "Enter student's email", name: 'evaluation[student_email]' %>
+    <div class="field">
+      <%= form.hidden_field :faculty_email, value: current_user.email, name: 'evaluation[faculty_email]' %>
+    </div>
 
-  <%= form.label :course_name %>
-  <%= form.text_field :course_name, placeholder: "Enter course name", name: 'evaluation[course_name]' %>
+    <div class="field">
+      <%= form.label :student_email %>
+      <br>
+      <%= form.text_field :student_email, placeholder: "Enter student's email", name: 'evaluation[student_email]' %>
+    </div>
 
-  <%= form.label :rate %>
-  <%= form.number_field :rate, in: 1..5, placeholder: "Rate from 1 to 5", name: 'evaluation[rate]' %>
+    <div class="field">
+      <%= form.label :course_name %>
+      <br>
+      <%= form.text_field :course_name, placeholder: "Enter course name", name: 'evaluation[course_name]' %>
+    </div>
 
-  <%= form.label :description %>
-  <%= form.text_area :description, placeholder: "Describe your feedback", name: 'evaluation[description]' %>
+    <div class="field">
+      <%= form.label :rate %>
+      <br>
+      <%= form.number_field :rate, in: 1..5, placeholder: "Rate from 1 to 5", name: 'evaluation[rate]' %>
+    </div>
 
-  <%= form.submit "Submit Evaluation" %>
-  <% if flash[:alert] %>
-  <div class="alert alert-warning">
-    <%= flash[:alert] %>
+    <div class="field">
+      <%= form.label :description %>
+      <br>
+      <%= form.text_area :description, placeholder: "Describe your feedback", name: 'evaluation[description]' %>
+    </div>
+
+    <br>
+
+    <%= form.submit "Submit Evaluation" %>
+    <% if flash[:alert] %>
+    <div class="alert alert-warning">
+      <%= flash[:alert] %>
+    </div>
+    <% end %>
+
+    <br>
+    <br>
+    <%= link_to "Back", courses_path %>
+
   </div>
-  <% end %>
-
-  <%= link_to "Back", courses_path %>
 <% end %>
 

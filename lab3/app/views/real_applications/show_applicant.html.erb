@@ -1,14 +1,13 @@
 <%# app/views/real_applications/show_applicant.html.erb %>
 
-<h1>Applicant Information</h1>
 
-<!-- Email -->
-<p>Email: <%= @student.student_email.presence || "No email provided" %></p>
 
-<!-- Phone Number -->
-<p>Phone Number: <%= @student.phone_number.presence || "No phone number provided" %></p>
-
-<!-- Other information -->
+<!-- 显示申请人的详细信息 -->
+<div class="form-box" style="text-align:left;">
+<h3>Applicant Information</h3>
+<p>Email: <%=  @student.student_email %></p>
+<p>PhoneNumber: <%=  @student.phone_number %></p>
+<!-- 其他信息 -->
 <h2>Available Times</h2>
 <% if @times.any? %>
   <table>
@@ -44,7 +43,7 @@
     </tbody>
   </table>
 <% else %>
-  <p>No qualified courses found for this applicant.</p>
+  <p>No Qualified courses found for this applicant.</p>
 <% end %>
 
 <h2>Evaluation</h2>
@@ -73,27 +72,7 @@
   <p>No evaluation found for this applicant.</p>
 <% end %>
 
-<% if @recommends.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Recommend By</th>
-        <th>Recommended Course</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @recommends.each do |recommend| %>
-        <tr>
-           <td><%= recommend.faculty_email %></td>
-           <td><%= recommend.course_id %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>No recommend found for this applicant.</p>
-<% end %>
-
 
 
 <%= link_to 'Back to Manage Applications', manage_real_applications_path, class: 'btn btn-primary' %>
+</div>

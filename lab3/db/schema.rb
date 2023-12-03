@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_03_002838) do
     t.string "time_intrested"
   end
 
-  create_table "recommends", id: false, force: :cascade do |t|
+  create_table "recommends", force: :cascade do |t|
     t.string "student_email"
     t.string "faculty_email"
     t.string "admin_email"

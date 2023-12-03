@@ -1,8 +1,8 @@
 
   <%= form_with(url: reload_OSU_API_path, local: true) do |form| %>
   
-    <div class="form-box">
-      <h3 style="margin-bottom:20px;">Load CSE courses from OSU API</h3>
+    <div class="form-box" style="width:50%; margin-bottom:80px;">
+      <h3 style="margin-bottom:20px;">Load data from OSU API</h3>
       <div class="field">
         <h4>Key word:</h4>
         <ul>
@@ -64,10 +64,16 @@
         <br>
         <%= form.submit "Load Data" %>
       </div>
+
+      <div style="margin-top:90px;">
+        <%= link_to "Back to courses", courses_path %>
+      </div>
+
     </div>
+    
  <% end %>
 
-  <div>
+  <div style="margin-top:90px;">
     <%= link_to "Back to courses", courses_path %>
     <%= link_to "Delete all courses and sections", reload_delete_all_path, class: 'action-button' %>
   </div>

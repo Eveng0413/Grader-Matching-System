@@ -20,12 +20,13 @@
 
  .search-inputs {
     margin-top: 100px; /* Move the container down by 200 pixels */
-    display: block;
     color: black;
     padding: 30px 70px;
     text-decoration: none;
     font-size: 17px;
-    width:88%;
+    display:inline-block;
+    width:85%;
+    
 }
 
 .card {
@@ -57,7 +58,7 @@
   
   body {
     font-family: Helvetica, sans-serif;
-  }
+  }x
 
   .form-title {
     display:inline-block;
@@ -146,7 +147,7 @@
     background-color: #857978;
     border: none;
     color: white;
-    font-size:10px;
+    font-size:15px;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -158,12 +159,12 @@
 
   /* Same as action-button but with width added */
   .section-button {
-    width:150px;
+    width:125px;
     background-color: #857978;
     border: none;
     color: white;
-    font-size:10px;
-    padding: 10px 20px;
+    font-size:15px;
+    padding: 10px 0px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -172,7 +173,7 @@
     border-radius: 4px; /* Rounded borders */
   }
 
-  .action-button:hover, edit-button:hover {
+  .action-button:hover, edit-button:hover, .section-button:hover {
     background-color: #ce382b; /* Darker red on hover */
   }
   
@@ -183,7 +184,7 @@
   
   .name-box span {
     margin-left: 60px; /* Some spacing from the mode select */
-    margin-right:100px; /* So logo is more centered */
+    margin-right:10px; /* So logo is more centered */
   }
 
   .courses-box {
@@ -265,13 +266,15 @@
 .logo img {
     width: 300px; /* Adjust the width as needed */
     height: auto; /* Maintain the aspect ratio */
+    position:absolute;
+    left:42%;
 }
   
   .container {
     padding: 6px 16px;
   }
   body {
-    background-color: #be1c1c; /* Scarlet color code */
+    background-color: #a8311f; /* Scarlet color code */
   }
   .add-button,
   .delete-button,

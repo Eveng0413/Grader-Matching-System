@@ -1,12 +1,13 @@
-<h1>Approve Requests</h1>
+
 <%
 =begin%>
 This is the page for approve and deny requests 
 <%
 =end%>
-<div class="card">
+<div class="form-box" style="text-align:center;width:60%;">
+  <h3 style="margin-bottom:20px;">Approve Requests</h3>
   <div class="requestListContainer">
-    <table>
+    <table style="border-spacing:0px 10px;">
       <tr>
         <th>Email</th>
         <th>Role Requested</th>
@@ -15,13 +16,17 @@ This is the page for approve and deny requests
 
       <% @role_requests.each do |request| %>
         <tr>
-          <td style="padding-right: 20px;"><%= request.email %></td>
-          <td style="padding-right: 20px;"><%= request.role_requested %></td>
-          <td style="padding-right: 20px;"><%= request.status %></td>
-          <td>
+          <td style="width:33%;"><%= request.email %></td>
+          <td style="width:33%;"><%= request.role_requested %></td>
+          <td style="width:20%;"><%= request.status %></td>
+          <td style="width:13%;">
             <% if request.status == 'pending' %>
+              <div style="display:flex;">
+                <div style="margin: 0px 10px;">
                 <%= button_to 'Approve', approve_role_request_path(request), method: :put, class: 'btn-approve' %>
+                </div>
                 <%= button_to 'Deny', deny_role_request_path(request), method: :put, class: 'btn-deny' %>
+              </div>
             <% else %>
                 <!--
                 <span>Status: <%= request.status.capitalize %></span>
@@ -32,8 +37,10 @@ This is the page for approve and deny requests
       <% end %>
     </table>
   </div>
+  <div>
+  <br>
+  <%= link_to "Back to courses", courses_path, class: 'back-button' %>
+  </div>
 </div>
 
-<div>
-  <%= link_to "Back to courses", courses_path, class: 'back-button' %>
-</div>
+

@@ -1,12 +1,13 @@
 
+
 <header class="top-bar">
   <!-- Left side -->
   <div class="top-bar-left">
     <div class="name-box">
       <span>Welcome, <%= @person.first_name + " " + @person.last_name%></span>
-      <% if instructor?%>
-        <%= link_to "Recommend Student", new_recommend_path, class: 'action-button' %>
-      <% end%>
+      <%= link_to "Change Account info", edit_user_registration_path, class: 'action-button' %>
+      <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
+      
     </div>
   </div>
   <div class="logo">
@@ -15,11 +16,10 @@
   <!-- Right side -->
   <div class="top-bar-right">
     <!-- notice -->
-    <% if notice %>
-      <p><%= notice %></p>
-    <% end %>
-    <%= link_to "Change Account info", edit_user_registration_path, class: 'action-button' %>
-    <%= link_to 'Logout', destroy_user_session_path, class: 'action-button' %>
+    <%= notice %>
+    <% if instructor?%>
+        <%= link_to "Recommend Student", new_recommend_path, class: 'action-button' %>
+      <% end%>
     <% if student?&&!@has_info %>
     <%= link_to "Information", student_information_path, class: 'action-button' %>
     <% end %>
@@ -51,7 +51,7 @@
 <!-- Search function for correct courses -->
 <div class="search-inputs">
   <%= form_tag(courses_path, method: :get) do %>
-    <%= text_field_tag :search_query, params[:search_query], placeholder: "Search Course Catalog Number", name: 'search_query' %>
+      <%= text_field_tag :search_query, params[:search_query], placeholder: "Search Course Catalog Number", name: 'search_query' %>
     <%= select_tag :academic_career, 
           options_for_select([['All Academic Career', nil]] + @academic_careers.map { |career| [career, career] }, params[:academic_career]), 
           include_blank: false, name: 'academic_career' %>
@@ -63,7 +63,9 @@
     <%= select_tag :grader_needed,
       options_for_select([['Grader Required', nil]] + @grader_needed.map { |num_needed| [num_needed, num_needed] }, params[:grader_needed]), include_blank: false, name: 'grader_needed' %>
     <% end %>
+    <div style="width:20%; display:inline-block;">
     <%= submit_tag "Search" %>
+    </div>
   <% end %>
 </div>
 
@@ -115,15 +117,7 @@
         <div class="section">
           <table>
               <tr>
-                <% if admin? && section.grader_needed.to_i > 0 %>
-                  <tr>
-                    <td colspan="5">
-                      <div class="grader-needed-notice" style="background-color: red; color: white; padding: 10px; text-align: center;">
-                        Need More Grader
-                      </div>
-                    </td>
-                  </tr>
-                <% end %>
+                
                 <td><h4> Section <%= section.section_id %> (<%= section.s_id %>)</h4></td>
                 <td>
                   <% unless section.faculty_email.to_s.empty? %>
@@ -147,6 +141,13 @@
                 <td><%unless section.start_time.to_s.empty?%>
                     <%= section.start_time%> - <%= section.end_time%>
                     <%end %></td>
+                <td>
+                <% if admin? && section.grader_needed.to_i > 0 %>
+                      <div class="grader-needed-notice" style="color: #ce382b;font-weight:bold;">
+                        Need More Grader
+                      </div>
+                <% end %>
+                </td>
                 <td></td>
                 <td>
                   <% if admin?%>

@@ -1,0 +1,54 @@
+.time-entry {
+    margin-bottom: 10px;
+    display: flex; /* Makes the container use flexbox */
+    justify-content: space-between; /* Distributes the space between the items */
+    align-items: center; /* Aligns items vertically */
+}
+
+.form-group {
+    flex: 1; /* Each child takes up equal space */
+    margin: 0 10px; /* Add some space between the items */
+}
+
+.left-right-holder {
+    display:inline-block;
+    margin:auto;
+    width:100%;
+    flex:auto;
+}
+
+.left-box {
+    float:left;
+    margin-left: 4%;
+    width: 45%;
+    padding: 30px;
+    background-color:rgb(256,256,256);
+    font-size:17px;
+    border-radius:5px;
+    color:rgb(60, 60, 60);
+    flex:auto;
+}
+
+.right-box {
+    float:right;
+    margin-right: 4%;
+    width: 45%;
+    padding: 30px;
+    background-color:rgb(255, 238, 214);
+    font-size:18px;
+    border-radius:5px;
+    color:rgb(60, 60, 60);
+    display:flex;
+    flex-direction:column;
+    flex-wrap:auto;
+    justify-content: center;
+    position:relative;
+}
+
+.update-info-title {
+    text-align:center;
+    font-size:40px;
+    font-weight:lighter;
+    color:white;
+    margin:40px;
+}

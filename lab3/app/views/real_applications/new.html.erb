@@ -1,58 +1,65 @@
-<h1>Grader Application Page</h1>
+<h1 style="text-align:center;margin:30px;">Grader Applications</h1>
 
-<%= form_with model: @real_application, url: real_applications_path, local: true do |form| %>
-  <div class="field">
-    <%= form.label :student_email %>
-    <%= form.text_field :student_email %>
-  </div>
+<div class="left-right-holder">
+  <div class="left-box">
+    <%= form_with model: @real_application, url: real_applications_path, local: true do |form| %>
+      <div class="field">
+        <%= form.label :student_email %>
+        <%= form.text_field :student_email %>
+      </div>
 
-  <div class="field">
-    <div class="form-group">
-        <%= label_tag "real_application[course_intrested]", "Course Interested CSE" %>
-        <%= select_tag "real_application[course_intrested]", options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), include_blank: true, class: 'form-control' %>
-    </div>
-
-
-    <div class="field">
+      <div class="field">
+        <div class="form-group">
+            <%= label_tag "real_application[course_intrested]", "Course Interested CSE" %>
+            <%= select_tag "real_application[course_intrested]", options_from_collection_for_select(Course.select(:catalog_number).distinct.order(:catalog_number), :catalog_number, :catalog_number), include_blank: true, class: 'form-control' %>
+        </div>
+      </div>
+      
+      <div class="field">
         <%= form.label :time_intrested, "Time Interested" %>
         <%= form.select :time_intrested, [['Morning', 'morning'], ['Afternoon', 'afternoon'], ['Evening', 'evening']], include_blank: true, class: 'form-control' %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Create a new application and Next Step" %>
+      </div>
     </div>
 
-  <div class="actions">
-    <%= form.submit "Create a new applicaiton and Next Step" %>
-  </div>
-
-  <% if @user_applications.any? %>
-  <h1>Your old applications</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Course Interested</th>
-        <th>Section Interested</th>
-        <th>Time Interested</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user_applications.each do |application| %>
-        <tr>
-          <td><%= application.course_intrested %></td>
-          <td><%= application.section_intrested %></td>
-          <td><%= application.time_intrested %></td>
-          <td><%= application.status %></td>
-          <td>
-            <%= link_to 'Edit', edit_real_application_path(application), class: 'edit-button' %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>You have not submitted any applications.</p>
-<% end %>
+    <div class="right-box">
+      <% if @user_applications.any? %>
+      <h3 style="text-align:center;">Your old applications</h3>
+      <br>
+      <table>
+        <thead>
+          <tr>
+            <th>Course Interested</th>
+            <th>Section Interested</th>
+            <th>Status</th>
+            <!-- 其他需要的列 -->
+          </tr>
+        </thead>
+        <tbody>
+          <% @user_applications.each do |application| %>
+            <tr>
+              <td><%= application.course_intrested %></td>
+              <td><%= application.section_intrested %></td>
+              <td><%= application.status %></td>
+              <td>
+                <%= link_to 'Edit', edit_real_application_path(application), class: 'action-button' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>You have not submitted any applications.</p>
+    <% end %>
 
 
-  <td>
-    <%= link_to 'Back', 'javascript:history.back()', class: 'back-button' %>
-  </td>
-<% end %>
+      <br>
+      <div style="text-align:center;">
+        <%= link_to 'Back', 'javascript:history.back()', class: 'back-button' %>
+      </div>
+    <% end %>
+    </div>
+</div>
