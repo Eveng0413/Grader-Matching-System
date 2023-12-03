@@ -1,4 +1,3 @@
-
 Rails.application.routes.draw do
   resources :requests
   resources :sections
@@ -34,13 +33,7 @@ Rails.application.routes.draw do
   
   #lab3 part
 
-  resources :recommends do
-    member do
-      get 'show_student', to: 'recommends#show_student'
-      put 'approve_request', to: 'recommends#approve_request'
-      put 'deny_request', to: 'recommends#deny_request'
-    end
-  end
+
   
 
   get 'student_information', to: 'students#information', as: 'student_information'
@@ -77,13 +70,21 @@ Rails.application.routes.draw do
     resources :sections
   end
 
+  resources :recommends do
+    member do
+      get 'show_student', to: 'recommends#show_student'
+      put 'approve_request', to: 'recommends#approve_request'
+      put 'deny_request', to: 'recommends#deny_request'
+    end
+  end
+  
   #instructor only: recommends
   get 'recommends/new', to: 'recommends#new'
   # Reset database route
   post '/recommends', to: 'recommends#create'
 
   post 'recommends/:request_id/choose_section/:section_id', to: 'recommends#choose_section', as: 'choose_section_request'
-
+  get 'recommends/show_student/:request_id', to: 'recommends#show_student', as: 'unique_show_student_recommend'
 
   # config/routes.rb
   resources :role_requests do
@@ -124,4 +125,3 @@ Rails.application.routes.draw do
   get '*path', to: redirect('/')
 
 end
-

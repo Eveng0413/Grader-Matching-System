@@ -129,43 +129,62 @@ class RecommendsController < ApplicationController
 
 
   def approve_request
-    @request = Request.find_by(params[:id])
+    # Find the request by ID
+    @request = Request.find_by(id: params[:id])
+  
+    # Check if the request exists
+    if @request.nil?
+      redirect_to manage_real_applications_path, alert: 'Request not found.'
+      return
+    end
+  
+    # Update the request status to 'approved'
     if @request.update(status: 'approved')
+      # Check if the request has an associated section
       if @request.section_id.present?
         section = Section.find_by(s_id: @request.section_id)
+  
         if section
-          # Reduce the grader needed count if applicable
-          section.update(grader_needed: section.grader_needed - 1) if section.grader_needed > 0
-          # Append student email to grader string
-          if section.grader.blank?
-            section.grader = @request.student_email
-          else
-            section.grader += ", " + @request.student_email
-          end
+          # Update section details
+          section.grader_needed -= 1 if section.grader_needed > 0
+          section.grader = if section.grader.blank?
+                             @request.student_email
+                           else
+                             "#{section.grader}, #{@request.student_email}"
+                           end
+  
           section.save
         end
       end
+  
       redirect_to manage_real_applications_path, notice: 'Request approved successfully.'
     else
-      redirect_to manage_real_applications_path, notice: 'Failed to approve Request.'
+      redirect_to courses_path, alert: 'Failed to approve Request.'
+    end
+  end
+  
+
+  def deny_request
+    @request = Request.find_by(id: params[:id])
+  
+    if @request.nil?
+      redirect_to courses_path, alert: 'Request not found.'
+      return
+    end
+  
+    if @request.update(status: 'denied')
+      redirect_to manage_real_applications_path, notice: 'Request denied successfully.'
+    else
+      redirect_to courses_path, notice: 'Failed to deny request.'
     end
   end
 
-  def deny_request
-    @request = Request.find_by(params[:id])
-      if @real_application.update(status: 'denied')
-        redirect_to manage_real_applications_path, notice: 'Request denied successfully.'
-      else
-        redirect_to manage_real_applications_path, notice: 'Failed to deny request.'
-      end
-  end
-
   def show_student
+    @request = Request.find_by_id(params[:request_id])
     # First, ensure that you have a valid request object.
     # If not, redirect or handle the error appropriately.
     if @request.nil?
-      flash[:alert] = "Request not found."
-      redirect_to manage_real_applications_path
+      redirect_to courses_url, notice: 'Student Not found.'
       return
     end
   
@@ -191,7 +210,7 @@ class RecommendsController < ApplicationController
     else
       # Handle the scenario where the student is not found.
       # You can redirect or set a flash message to indicate the student was not found.
-      redirect_to some_path, alert: "Student not found."
+      redirect_to courses_path, alert: "Student not found."
     end
   end
   
