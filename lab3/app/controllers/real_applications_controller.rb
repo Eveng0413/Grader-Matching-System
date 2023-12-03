@@ -133,7 +133,7 @@ class RealApplicationsController < ApplicationController
     private
     
     def real_application_params
-        params.require(:real_application).permit(:student_email, :course_intrested, :section_intrested, :status)
+        params.require(:real_application).permit(:student_email, :course_intrested, :section_intrested, :status, :time_intrested)
     end
 
     def setApplication

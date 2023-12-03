@@ -1,68 +1,90 @@
-
 <h2>Select a Section</h2>
 <%= link_to 'Back to Main Page', courses_path, class: 'btn btn-primary' %>
 <%= link_to 'Back to last Page', 'javascript:history.back()', class: 'back-button' %>
+
 <ul>
   <% @courses.each do |course| %>
     <% count = 0 %>
     <% Section.all.each do |section| %>
-      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) ||  section.course_id == course.c_id %>
-        <% count += 1 %>
-      <% end %>
-    <% end %>  
-    <% if count > 0 %>  
-      <div class="course">
-        <h3>CSE <%= course.catalog_number %></h3> 
-        <h4 ><%= course.course_name %></h4> 
+      <% if section.start_time.present? && section.end_time.present? %>
+        <% start_time = Time.parse(section.start_time) %>
+        <% end_time = Time.parse(section.end_time) %>
+        <% morning = start_time.hour >= 8 && start_time.hour < 12 %>
+        <% afternoon = start_time.hour >= 12 && start_time.hour < 18 %>
+        <% evening = start_time.hour >= 18 %>
 
-        <ul>
-          <li id="cr-label">
-            <%= course.credit_hour %> units <!-- FIXME: replace these with ruby variables-->
-          </li>
-          <li id="program-label">
-            <%= course.academic_career %>
-          </li>
-          <li id="campus-label">
-            <%= course.campus %>
-          </li>
-          <li class="right" style="display:flex;">
-          </li>
-        </ul>
-      </div>
+        <% preference_match = case @real_application.time_intrested
+                             when 'morning' then morning
+                             when 'afternoon' then afternoon
+                             when 'evening' then evening
+                             else true
+                             end %>
+
+        <% if preference_match && ((section.course_id == course.course_id && section.semester_code == course.term && section.campus == course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) || section.course_id == course.c_id) %>
+          <% count += 1 %>
+        <% end %>
+      <% end %>
     <% end %>
 
-    <!-- Run the section and only print the selected sections -->
-    <% Section.all.each do |section| %>
-      <% if (section.course_id == course.course_id && section.semester_code==course.term && section.campus==course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) ||  section.course_id == course.c_id %>
-        <div class="section">
-          <table>
-              <tr>
-                <td><h4> Section <%= section.section_id %> (<%= section.s_id %>)</h4></td>
-                <td>
-                  <% unless section.faculty_email.to_s.empty? %>
-                    <% person = Person.find(section.faculty_email.to_s) %>
-                    <%= person.first_name %> <%= person.last_name %>
-                  <% end %>
-                </td>
-                <td><%= section.weekday.to_s.titleize.delete(",") %></td>
-              </tr>
+    <% if count > 0 %>
+      <div class="course">
+        <h3>CSE <%= course.catalog_number %></h3>
+        <h4><%= course.course_name %></h4>
+        <ul>
+          <li id="cr-label"><%= course.credit_hour %> units</li>
+          <li id="program-label"><%= course.academic_career %></li>
+          <li id="campus-label"><%= course.campus %></li>
+          <li class="right" style="display:flex;"></li>
+        </ul>
+      </div>
 
-              <tr>
-                <td><h5><%= section.semester_code %></h5></td>
-                <td><%= section.faculty_email%></td>
-                <td><%unless section.start_time.to_s.empty?%>
-                    <%= section.start_time%> - <%= section.end_time%>
-                    <%end %></td>
-                <td></td>
-                <td>
-                <%= button_to 'Choose this section', 
-                choose_section_real_application_path(real_application_id: @real_application.id, section_id: section.id), 
-                method: :post, 
-                class: 'choose-section-button' %>
-                </td>
-              </tr>
-          </table>
-        </div>
+      <% Section.all.each do |section| %>
+        <% if section.start_time.present? && section.end_time.present? %>
+          <% start_time = Time.parse(section.start_time) %>
+          <% end_time = Time.parse(section.end_time) %>
+          <% morning = start_time.hour >= 8 && start_time.hour < 12 %>
+          <% afternoon = start_time.hour >= 12 && start_time.hour < 18 %>
+          <% evening = start_time.hour >= 18 %>
+
+          <% preference_match = case @real_application.time_intrested
+                               when 'morning' then morning
+                               when 'afternoon' then afternoon
+                               when 'evening' then evening
+                               else true
+                               end %>
+
+          <% if preference_match && ((section.course_id == course.course_id && section.semester_code == course.term && section.campus == course.campus && (params[:grader_needed].blank? || section.grader_needed.to_i == params[:grader_needed].to_i)) || section.course_id == course.c_id) %>
+            <div class="section">
+              <table>
+                  <tr>
+                    <td><h4> Section <%= section.section_id %> (<%= section.s_id %>)</h4></td>
+                    <td>
+                      <% unless section.faculty_email.to_s.empty? %>
+                        <% person = Person.find(section.faculty_email.to_s) %>
+                        <%= person.first_name %> <%= person.last_name %>
+                      <% end %>
+                    </td>
+                    <td><%= section.weekday.to_s.titleize.delete(",") %></td>
+                  </tr>
+
+                  <tr>
+                    <td><h5><%= section.semester_code %></h5></td>
+                    <td><%= section.faculty_email%></td>
+                    <td><%unless section.start_time.to_s.empty?%>
+                        <%= section.start_time%> - <%= section.end_time%>
+                        <%end %></td>
+                    <td></td>
+                    <td>
+                    <%= button_to 'Choose this section', 
+                    choose_section_real_application_path(real_application_id: @real_application.id, section_id: section.id), 
+                    method: :post, 
+                    class: 'choose-section-button' %>
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

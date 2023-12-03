@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_02_233816) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_12_03_002838) do
   create_table "admins", primary_key: "admin_email", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -82,6 +83,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_02_233816) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "pending"
+    t.string "time_intrested"
   end
 
   create_table "recommends", force: :cascade do |t|
