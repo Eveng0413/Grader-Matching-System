@@ -48,7 +48,50 @@
     </tbody>
   </table>
 
-  <br>
-  <%= link_to 'Back to Main Page', courses_path%>
+   <br><br> <!-- 添加一些空间 -->
+  
+  <h1>Manage Teacher Requests</h1>
+
+  <% if @teacher_requests.empty? %>
+    <p>No requests available.</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th>Faculty Email</th>
+          <th>Student Email</th>
+          <th>Course Interested</th>
+          <th>Section Interested</th>
+          <th>Status</th>
+          <th>Actions</th>
+          <th>Student Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @teacher_requests.each do |request| %>
+        <tr>
+          <td><%= request.faculty_email %></td>
+          <td><%= request.student_email %></td>
+          <td>CSE<%= request.course_id %></td>
+          <td><%= request.section_id %></td>
+          <td><%= request.status %></td>
+          <td>
+            <% if request.status != 'approved' && request.status != 'denied' %>
+              <%= button_to 'Approve', approve_request_recommend_path(request), method: :put, class: 'action-button' %>
+              <%= button_to 'Deny', deny_request_recommend_path(request), method: :put, class: 'action-button' %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'View Details', unique_show_student_recommend_path(request_id: request.id), class: 'action-button' %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+    <br>
+      <%= link_to 'Back to Main Page', courses_path%>
+    </div>
 </div>
+
 
