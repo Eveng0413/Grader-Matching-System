@@ -23,7 +23,8 @@ Once the rails server is running, the user is at the login page, which is our ro
 When the instructor first makes an account, the student view will be present until the admin approves the instructor. Once approved, the instructor can recommend students and evaluate the student.
 -- Recommend student:
    In the nav bar, the button recommend student, the instructor can include the student's name, email, course to recommend, instructor email, and if they want to recommend the student. Once this is submitted it can be viewed in student details in the admin manage applicants button.
-   ![Alt text](<Screenshot 2023-12-03 at 7.32.06 PM.png>)
+   <img width="648" alt="Screenshot 2023-12-03 at 7 32 06 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/beada96d-b015-4dd4-89e3-98cd19042d52">
+
 
 -- Evaluate Student:
    If a student has already been a grader then the instructor can click the evaluate button in the nav bar and enter the student's email, course name, rating,and description. Once submitted it can viewed as student details in the admin page.
