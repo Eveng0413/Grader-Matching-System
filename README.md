@@ -29,6 +29,7 @@ When the instructor first makes an account, the student view will be present unt
    In the nav bar, the button recommend student, the instructor can include the student's name, email, course to recommend, instructor email, and if they want to recommend the student. 
    There are two types of recommendation: one is a request for the upcoming semester, and annother is recommendation for future semester. If it is the request for upcoming semester, after instructor clicked submit, the request will be stored and the instructor will be redirect to the page to select the section(all the sections for the selected course will be shown so the user should mind about the campus and semester associated with the section). If it is recommend for future semester, the instructor only need to put the recommended course. Once this is submitted the request for upcoming semester can be viewed in the admin manage applicants button and the recommendation for future semester can be viewed in student details.
    If the student recommended is not in the system yet, an account will be generated for them with their email address and 123456 as default password.
+   
    <img width="648" alt="Screenshot 2023-12-03 at 7 32 06 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/beada96d-b015-4dd4-89e3-98cd19042d52">
 
 
@@ -49,13 +50,14 @@ The admin view is given the most functionality. When the user logs into the defa
 
    <img width="661" alt="Screenshot 2023-12-03 at 8 26 16 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/f73b77d6-c147-4ebf-89db-830d9c03744d">
 
-   <img width="661" alt="Screenshot 2023-12-03 at 8 26 16 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/123781818/dbc89bd3-d409-4e36-9dff-f66a334b65c2">****
+   <img width="661" alt="Screenshot 2023-12-03 at 8 26 16 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/123781818/dbc89bd3-d409-4e36-9dff-f66a334b65c2">
 
    For requests and applications, once the admin clicks the approve, the grader will be assigned to the section either applied by themselves or recommended by the instructor automatically. By default, when admin is making a decision, there will be a section number and course number shown. If there is a course number without section number, it means there is something error when admin/students select the sections. In that case, the admin have to view the student's information and click edit to assign the proper section manually.
 
 -- Reload data:
    Located in the nav-bar the button reload. This button leads to a page into which section offering information is updated each semester. This is supported by pulling in data from external data sources. The user can load OSU CSE courses from the OSU API. The user enters keywords, term values, campus values, and academic career to reload the database. When loading the data section, an account automatically will be created for the admin. The admin can decide which parameters they want to load.
    The instructor from the sections has been loaded by admin will have an account generated for them with their email address and 123456 as default password.
+   
    <img width="674" alt="Screenshot 2023-12-03 at 7 02 00 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/93fb174d-4ee8-4964-970e-b6422d2551d4">
 
 
