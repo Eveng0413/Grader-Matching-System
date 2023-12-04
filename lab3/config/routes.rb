@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   resources :sections
   resources :evaluations, only: [:create, :new]
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  #define root and devise
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -56,15 +55,12 @@ Rails.application.routes.draw do
   #Redirect show page to course index
   get 'courses/:id', to: 'courses#index'
 
-  # This line will cause add section button not working
-  # get 'courses/:id/sections/:id', to: 'courses#index'
-
-
   # courses/course_id/section/:id route
   resources :courses do
     resources :sections
   end
-
+ 
+  #route for recommends
   resources :recommends, only: [:index, :create, :new] do
     member do
       get 'show_student', to: 'recommends#show_student'
@@ -87,7 +83,7 @@ Rails.application.routes.draw do
       put 'deny'
     end
   end
-
+  #route for applications
   resources :applications , only: [:index, :show] do
     member do
       patch 'approve', to: 'applications#approve'
@@ -95,7 +91,7 @@ Rails.application.routes.draw do
       get 'assign_grader'
     end
   end
-
+  #route for real_application
   resources :real_applications, only: [:new, :create, :edit, :update] do
     collection do
       get 'manage'
@@ -111,8 +107,7 @@ Rails.application.routes.draw do
 
   post 'real_applications/:real_application_id/choose_section/:section_id', to: 'real_applications#choose_section', as: 'choose_section_real_application'
   
-
-
+  #route for reload
   resources :reload, only: [:index] 
   post 'reload_OSU_API', to: 'reload#update'
   get 'reload_delete_all', to: 'reload#delete_all'

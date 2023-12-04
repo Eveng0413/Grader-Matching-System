@@ -1,22 +1,28 @@
 class RealApplicationsController < ApplicationController
+    # Verify user role before any action
     before_action :authenticate_student!, only: [:new, :edit, :create, :update, :destroy, :choose_sections, :show_section]
     before_action :authenticate_admin!, only: [:approve,:deny, :manage, :show_applicant]
+
     def manage
+      #find application and request for manage.html
       @real_applications = RealApplication.all
       @teacher_requests = Request.all
     end
 
     def show_applicant
+      #find application and student
       @application = RealApplication.find(params[:id])
       @student = Student.find_by(student_email: @application.student_email)
-    
+      
+      #handle error 
       if @student.nil?
         flash[:alert] = "Student not found."
         redirect_to manage_real_applications_path and return
       end
-    
+      
       @informationID = GraderApplication.find_by(student_email: @application.student_email)
       
+      #handle case when studnent haven't create any information
       if @informationID
         @times = AvailableTime.where(applications_id: @informationID.id)
         @courses = StudentRequestCourse.where(applications_id: @informationID.id)
@@ -27,11 +33,13 @@ class RealApplicationsController < ApplicationController
     
       @evaluations = Evaluation.where(student_email: @application.student_email)
     rescue ActiveRecord::RecordNotFound
+      #handle error (someone input a wrong id in url)
       flash[:alert] = "Application not found."
       redirect_to manage_real_applications_path
     end
     
     def new
+      #create application
        @real_application = RealApplication.new
        @user_applications = RealApplication.where(student_email: current_user.email)
     end
@@ -40,9 +48,10 @@ class RealApplicationsController < ApplicationController
       @user_applications = RealApplication.where(student_email: current_user.email)
       @real_application = RealApplication.new(real_application_params)
       
+      #limit user access
       session[:accessed_from_edit] = true
       if Student.exists?(student_email: @real_application.student_email)
-        if @real_application.save
+        if @real_application.save #create application
           redirect_to show_section_real_application_path(@real_application)
         else
           render :new
@@ -69,6 +78,7 @@ class RealApplicationsController < ApplicationController
       
     def approve
       @real_application = RealApplication.find(params[:id])
+      #update status
       if @real_application.update(status: 'approved')
         if @real_application.section_intrested.present?
           section = Section.find_by(s_id: @real_application.section_intrested)
@@ -93,7 +103,8 @@ class RealApplicationsController < ApplicationController
       
     def deny
       @real_application = RealApplication.find(params[:id])
-      if @real_application.update(status: 'denied')
+      #update status
+      if @real_application.update(status: 'denied') 
         redirect_to manage_real_applications_path, notice: 'Application denied successfully.'
       else
         redirect_to manage_real_applications_path, notice: 'Failed to deny application.'
@@ -102,6 +113,7 @@ class RealApplicationsController < ApplicationController
     
     
     def choose_section
+        #update/choose section to application
         @real_application = RealApplication.find(params[:real_application_id])
         @section = Section.find(params[:section_id])
       
@@ -119,6 +131,7 @@ class RealApplicationsController < ApplicationController
     end
       
     def update
+      #for update page
       session[:accessed_from_edit] = true
       @real_application = RealApplication.find(params[:id])
       if Student.exists?(student_email: real_application_params[:student_email])

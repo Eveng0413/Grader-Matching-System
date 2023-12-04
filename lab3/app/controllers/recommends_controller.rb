@@ -167,12 +167,13 @@ class RecommendsController < ApplicationController
 
   def deny_request
     @request = Request.find_by(id: params[:id])
-  
+    #handle error
     if @request.nil?
       redirect_to courses_path, alert: 'Request not found.'
       return
     end
-  
+    
+    #update status
     if @request.update(status: 'denied')
       redirect_to manage_real_applications_path, notice: 'Request denied successfully.'
     else

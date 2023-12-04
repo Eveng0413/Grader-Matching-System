@@ -17,9 +17,10 @@ class StudentsController < ApplicationController
     def delete_all_times
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)
-
+      
+      #handle error
       if @grader_info.present?
-        @grader_info.available_times.destroy_all
+        @grader_info.available_times.destroy_all #delete times
         redirect_to student_information_path, notice: 'All time slots have been deleted.'
       else
         redirect_to student_information_path, notice: 'No time slots found to delete.'
@@ -27,6 +28,7 @@ class StudentsController < ApplicationController
     end
 
     def information
+      #find all data
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)
       @has_info = @grader_info.present?
@@ -34,6 +36,7 @@ class StudentsController < ApplicationController
       @time_slots_count = params[:time_slots_count].to_i > 0 ? params[:time_slots_count].to_i : 15
       @times = @grader_info ? @grader_info.available_times.order(:created_at).limit(@time_slots_count) : []
       
+      #set number of courses shown
       if @grader_info
         @course_count = params[:course_count].to_i > 0 ? params[:course_count].to_i : @grader_info.student_request_courses.count
       else
@@ -41,10 +44,11 @@ class StudentsController < ApplicationController
       end
     end
     
-    def setInfo
+    def setInfo # this function will update/create information (in database named as grader_application)
       @user_email = current_user.email
       @grader_info = GraderApplication.find_by(student_email: @user_email)
 
+      #handel empty case
       phone_number = params[:phone_number] || ""  
       time_entries = params[:available_times] ? params[:available_times].values : []
       course_entries = params[:courses] ? params[:courses].values : []
@@ -73,7 +77,7 @@ class StudentsController < ApplicationController
         else
           # Create new information table
           application = GraderApplication.create!(student_email: @student.student_email)
-    
+          
           time_entries.each do |time_entry|
             next unless time_entry_valid?(time_entry)
     
