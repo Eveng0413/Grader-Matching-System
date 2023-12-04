@@ -17,7 +17,9 @@ Once the rails server is running, the user is at the login page, which is our ro
    --Change Account Info button: Students can change their name, last name, and password and apply for instructor or admin access by clicking on this button.   
    --Logout Button: By clicking this button the student will be logged out and will land on the login page.  
    --Grader Application: The Student can select sections and their preferences for the availability(Mornings/Afternoon/Evening) and then apply for the grader position.  
-   --Information Button: The Student can add their availability in this section and also the courses they think they are qualified for being a grader. The availability can be taken into account by the admin when they look through applications.   
+   --Information Button: The Student can add their availability in this section and also the courses they think they are qualified for being a grader. The availability can be taken into account by the admin when they look through applications. 
+   <img width="1369" alt="Screenshot 2023-12-03 at 8 19 27 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/cf881e06-d91e-49cf-a8ac-6e96fbf50208">
+
   
 ### Instructor view:
 When the instructor first makes an account, the student view will be present until the admin approves the instructor. Once approved, the instructor can recommend students and evaluate the student.
@@ -28,6 +30,8 @@ When the instructor first makes an account, the student view will be present unt
 
 -- Evaluate Student:
    If a student has already been a grader then the instructor can click the evaluate button in the nav bar and enter the student's email, course name, rating,and description. Once submitted it can viewed as student details in the admin page.
+   <img width="739" alt="Screenshot 2023-12-03 at 8 53 05 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/7bffb4e7-b0e8-4dc5-a06b-c5c189ad6b89">
+
    
 ### Admin view:
 The admin view is given the most functionality. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. Additionally, admins can manage requests to be able to view the admin view and manage applications from students who apply to be a grader. The default admin user name is admin.1@osu.edu and the password is admin123.
@@ -37,6 +41,7 @@ The admin view is given the most functionality. When the user logs into the defa
    ![Alt text](<Screenshot 2023-12-03 at 6.13.55 PM.png>)
 -- Manage applications:
    All admins can view(shown in image 1) the grader applications that are sent from students. Admins can see the student email, course interested, section interested, time interested, status of the application, and applicat information. The admin can approve or deny a grader application the results will show in the status column(denied, approved, or pending). Once a grader is approved, the course and section applied for will show a grader in the home page. Also, admins can manually edit the amount of graders. In the applicant info column, the admin can click on the view details button for each student and view the student's application and if they have an evaluation (shown in image 2).
+   <img width="661" alt="Screenshot 2023-12-03 at 8 26 16 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/f73b77d6-c147-4ebf-89db-830d9c03744d">
 
 -- Reload data:
    Located in the nav-bar the button reload. This button leads to a page into which section offering information is updated each semester. This is supported by pulling in data from external data sources. The user can load OSU CSE courses from the OSU API. The user enters keywords, term values, campus values, and academic career to reload the database. When loading the data section, an account automatically will be created for the admin. The admin can decide which parameters they want to load.
