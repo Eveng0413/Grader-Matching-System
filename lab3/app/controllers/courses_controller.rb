@@ -8,32 +8,38 @@ class CoursesController < ApplicationController
       @person = Person.find(@user.email)
     else
       redirect_to root_path, notice: 'Login Please!'
+      return # Add return here to prevent further execution after redirect
     end
-    # only the course same as selected params
-    @pagy, @courses = pagy(Course.all)
-    @academic_careers = Course.pluck(:academic_career).uniq.compact
-    @campus = Course.pluck(:campus).uniq.compact
-    @term = Course.pluck(:term).uniq.compact
+    begin
+      # only the course same as selected params
+      @pagy, @courses = pagy(Course.all)
+      @academic_careers = Course.pluck(:academic_career).uniq.compact
+      @campus = Course.pluck(:campus).uniq.compact
+      @term = Course.pluck(:term).uniq.compact
 
-    # Fetch the set of number of grader needed from all sections
-    @grader_needed = Section.where(course_id: @courses.pluck(:course_id)).pluck(:grader_needed).uniq.compact
-    
-    #Up to 500 items will show when searching
-    if params[:academic_career].present?
-      @pagy, @courses = pagy(@courses.where(academic_career: params[:academic_career]), items:500)
+      # Fetch the set of number of grader needed from all sections
+      @grader_needed = Section.where(course_id: @courses.pluck(:course_id)).pluck(:grader_needed).uniq.compact
+      
+      #Up to 500 items will show when searching
+      if params[:academic_career].present?
+        @pagy, @courses = pagy(@courses.where(academic_career: params[:academic_career]), items:500)
+      end
+      
+      if params[:campus].present?
+        @pagy, @courses = pagy(@courses.where(campus: params[:campus]), items:500)
+      end
+      
+      if params[:term].present?
+        @pagy, @courses = pagy(@courses.where(term: params[:term]), items:500)
+      end
+      
+      if params[:search_query].present?
+        @pagy, @courses = pagy(@courses.where("catalog_number LIKE ?","%#{params[:search_query]}%"), items:500)
+      end 
+    rescue Pagy::OverflowError
+      # Handle the overflow error, e.g., by redirecting to the first page
+      redirect_to courses_path(page: 1), alert: "Requested page is out of range. Showing first page instead."
     end
-    
-    if params[:campus].present?
-      @pagy, @courses = pagy(@courses.where(campus: params[:campus]), items:500)
-    end
-    
-    if params[:term].present?
-      @pagy, @courses = pagy(@courses.where(term: params[:term]), items:500)
-    end
-    
-    if params[:search_query].present?
-      @pagy, @courses = pagy(@courses.where("catalog_number LIKE ?","%#{params[:search_query]}%"), items:500)
-    end 
   end
 
   # GET /courses/1 or /courses/1.json
@@ -80,6 +86,7 @@ class CoursesController < ApplicationController
     @course.destroy
     redirect_to courses_url, notice: 'Course was successfully deleted.'
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
