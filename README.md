@@ -76,6 +76,7 @@ This is shown on the instructor page. Instructors can evaluate previous graders 
  3. If the application is taking a long time to load or the application is frozen then, the rails server needs to be terminated and started again. To do that, first type in "lsof -i :3000" to kill the server then the PID of the server shows up when that command is run. for the next command type in the terminal "kill -9 <pid>". After that a message should show up stating that the server was terminated. Then run "rails server" in the terminal to fix the issue at hand.
  4. If logged in as student/instructor but not seeing any data of courses displayed, please make sure admin had already loaded course data into the databases(follow Reload data mentioned above).
  5. If admin reload data but not seeing any data of courses displayed, please make sure the correct params(listed in the reload data page) are used to send the form. If the params sent without any data matching from API, the database will still be empty.
+ 6. If you meet any migration error, make sure you use "rails db:drop" first, then use "rails db:reset" to recreate database
 
 
 
