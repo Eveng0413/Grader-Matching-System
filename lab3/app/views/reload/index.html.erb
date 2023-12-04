@@ -66,17 +66,16 @@
       </div>
 
       <div style="margin-top:90px;">
+        <br>
         <%= link_to "Back to courses", courses_path %>
       </div>
-
+        <div style="text-align: right;">
+          <%= link_to "Delete all courses and sections", reload_delete_all_path, class: 'action-button' %>
+        </div>
     </div>
     
  <% end %>
 
-  <div style="margin-top:90px;">
-    <%= link_to "Back to courses", courses_path %>
-    <%= link_to "Delete all courses and sections", reload_delete_all_path, class: 'action-button' %>
-  </div>
 
 <!-- JavaScript to update the final URL in real-time -->
 <script>
