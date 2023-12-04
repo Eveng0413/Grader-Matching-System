@@ -29,7 +29,7 @@ When the instructor first makes an account, the student view will be present unt
 
 
 -- Evaluate Student:
-   If a student has already been a grader then the instructor can click the evaluate button in the nav bar and enter the student's email, course name, rating,and description. Once submitted it can viewed as student details in the admin page.
+   If a student has already been a grader then the instructor can click the evaluate button in the nav bar and enter the student's email, course name, rating (from 1 to 5),and description. Once submitted it can viewed as student details in the admin page.
    <img width="739" alt="Screenshot 2023-12-03 at 8 53 05 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/7bffb4e7-b0e8-4dc5-a06b-c5c189ad6b89">
 
    
