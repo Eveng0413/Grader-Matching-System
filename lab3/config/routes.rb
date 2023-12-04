@@ -65,8 +65,9 @@ Rails.application.routes.draw do
     resources :sections
   end
 
-  resources :recommends, only: [:show, :new, :create, :update]do
+  resources :recommends, only: [ :new, :create, :update]do
     member do
+      get 'show_section', to: 'recommends#show_section'
       get 'show_student', to: 'recommends#show_student'
       put 'approve_request', to: 'recommends#approve_request'
       put 'deny_request', to: 'recommends#deny_request'

@@ -9,15 +9,21 @@ class RecommendsController < ApplicationController
   end
 
   # GET /recommends/1 or /recommends/1.json
-  def show
-    # Ensure that @request is set
-    @request = Request.find_by_id(params[:id])
+  def show_section
+    if session[:accessed_from_edit]
+      # Ensure that @request is set
+      @request = Request.find_by_id(params[:id])
 
-    if @request.present?
-      @courses = Course.where(catalog_number: @request.course_id)
+      if @request.present?
+        @courses = Course.where(catalog_number: @request.course_id)
+      else
+        # Handle the case where @request is not found
+        redirect_to course_path, alert: "Request not found."
+      end
+      # Reset the session variable
+      session[:accessed_from_edit] = nil
     else
-      # Handle the case where @request is not found
-      redirect_to course_path, alert: "Request not found."
+      redirect_to courses_path, notice: "Direct access is not allowed."
     end
   end
 
@@ -33,10 +39,9 @@ class RecommendsController < ApplicationController
 
   # POST /recommends or /recommends.json
   def create
-    #@recommend = Recommend.find(params[:id])
 
+    session[:accessed_from_edit] = true
     choice = params[:recommend][:choice]
-
     # Create User, Person, and Student only if they don't exist
     user = User.find_or_create_by(email: params[:recommend][:student_email]) do |u|
       u.password = "123456" # Replace with secure password logic
@@ -77,7 +82,7 @@ class RecommendsController < ApplicationController
 
       if @request.new_record?
         if @request.save
-          redirect_to recommend_path(@request), notice: "Request was successfully created and please select your section."
+          redirect_to show_section_recommend_path(@request), notice: "Request was successfully created and please select your section."
         else
           render :new, status: :unprocessable_entity
         end
@@ -90,23 +95,23 @@ class RecommendsController < ApplicationController
 
   #if selected section, update request with that section num
   def choose_section
-    
-    @request = Request.find(params[:request_id])
-    @section = Section.find(params[:section_id])
 
-    if @request && @section
-      @request.update(section_id: @section.id)
-      redirect_to courses_url, notice: 'Section chosen successfully.' 
-    else
-      redirect_to courses_url, alert: 'Failed to choose section.' 
-    end
+        @request = Request.find(params[:request_id])
+        @section = Section.find(params[:section_id])
+
+        if @request && @section
+          @request.update(section_id: @section.id)
+          redirect_to courses_url, notice: 'Section chosen successfully.' 
+        else
+          redirect_to courses_url, alert: 'Failed to choose section.' 
+        end
   end
 
 
   # PATCH/PUT /recommends/1 or /recommends/1.json
   def update
     @request = Request.find(params[:id])
-
+    session[:accessed_from_edit] = true
     respond_to do |format|
       if @recommend.update(recommend_params)
         format.html { redirect_to recommend_url(@recommend), notice: "Request was successfully updated." }
