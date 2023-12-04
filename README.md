@@ -20,21 +20,35 @@ Once the rails server is running, the user is at the login page, which is our ro
    --Information Button: The Student can add their availability in this section and also the courses they think they are qualified for being a grader. The availability can be taken into account by the admin when they look through applications.   
   
 ### Instructor view:
-The in
+When the instructor first makes an account, the student view will be present until the admin approves the instructor. Once approved, the instructor can recommend students and evaluate the student.
+-- Recommend student:
+   In the nav bar, the button recommend student, the instructor can include the student's name, email, course to recommend, instructor email, and if they want to recommend the student. Once this is submitted it can be viewed in student details in the admin manage applicants button.
+   ![Alt text](<Screenshot 2023-12-03 at 7.32.06 PM.png>)
+
+-- Evaluate Student:
+   If a student has already been a grader then the instructor can click the evaluate button in the nav bar and enter the student's email, course name, rating,and description. Once submitted it can viewed as student details in the admin page.
    
 ### Admin view:
-The admin view is given the most functionality. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. Additionally, admins can manage requests to be able to view the admin view and manage applications from students that apply to be a grader. The default admin user name is admin.1@osu.edu and the password is admin123.
+The admin view is given the most functionality. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. Additionally, admins can manage requests to be able to view the admin view and manage applications from students who apply to be a grader. The default admin user name is admin.1@osu.edu and the password is admin123.
 
 -- Manage requests:
-   All admins can view the requests to be an admin or to be an instructor. When an instructor or an admin that is not default signs up a request is automatically sent to the deafult admin. The default admin can click on the manage requests button in the nav-bar and approve or deny users.
+   All admins can view the requests to be an admin or to be an instructor. When an instructor or an admin that is not default signs up a request is automatically sent to the default admin. The default admin can click on the manage requests button in the nav-bar and approve or deny users. The image shows what should be seen after the user clicks on the manage requests button.
    ![Alt text](<Screenshot 2023-12-03 at 6.13.55 PM.png>)
 -- Manage applications:
+   All admins can view(shown in image 1) the grader applications that are sent from students. Admins can see the student email, course interested, section interested, time interested, status of the application, and applicate information. The admin can approve or deny a grader application the results will show in the status column(denied, approved, or pending). Once a grader is approved, the course and section applied for will show a grader in the home page. Also, admins can manually edit the amount of graders. In the applicant info column, the admin can click on the view details button for each student and view the student's application and if they have an evaluation (shown in image 2).
+
+-- Reload data:
+   Located in the nav-bar the button reload. This button leads to a page into which section offering information is updated each semester. This is supported by pulling in data from external data sources. The user can load OSU CSE courses from the OSU API. The user enters keywords, term values, campus values, and academic career to reload the database. 
+   ![Alt text](<Screenshot 2023-12-03 at 7.02.00 PM.png>)
+
 ### Optional Extensions:
+Applicant Preferences: Students can provide their preferences once they click the grader application button in the student page. The student can choose a course, section, and time that they are interested and once submitted, it will show sections that match that criteria and the student can select a section. Then the admin can see what the student is interested in. 
+
+Evaluation:
+This is shown on the instructor page. Instructors can evaluate previous graders and admins can view this in the admin page.
 
 
-The default admin user name is admin.1@osu.edu and the password is admin123. When the user logs into the default admin view they can approve and deny requests from the button called manage requests on the navigation bar which leads to a page to manage the requests. The admin can also reload the data from the reset button on the navigation bar and change their information using the button change my info. The admin can add courses, add sections, edit courses, edit sections, delete courses, and delete sections from the buttons on the course catalog. 
 
-All users can search for courses with the search bar, the academic career drop-down, the campus drop-down, and the term drop-down. When a user is in the course catalog without any inputs in the search parameters, the courses are paginated, and when a user searches for a class all the results of the search will be on one page.
 
 
 ## Installation instructions
@@ -42,12 +56,13 @@ All users can search for courses with the search bar, the academic career drop-d
 2. Clone the repository for project 2
 3. Install Ruby 3.2.0 and Rails 7.0.8 (Instructions are in Setting up a development environment in the modules section in Carmen for class 3901)
 4. In the terminal type 'cd lab2'
-5. Once that is completed, run in the command line in terminal 'bundle' then 'rails db:migrate' then 'rails db:seed'
-6. Finally 'run the rails server' in terminal and click one of the links that are given once the command is run successfully, and it should show the the login page
+5. Once that is completed, run in the command line in terminal 'bundle' then 'rails db: migrate' then 'rails db: seed'
+6. Finally 'run the rails server' in the terminal and click one of the links that are given once the command is run successfully, and it should show the the login page
 
 ## Possible installation issues
- 1. If there is an issue with the steps on installing ruby or rails, try turning off the computer and turning it on the going through the steps again
- 2. If there is some gem that cannot be installed after 'bundle', refer to the Gemfile to make sure correct version of ruby and rails are there
- 3. If the apllication is taking a long time to load or the application is frozen then, the rails server needs to be terminated and started again. To do that, first type in "lsof -i :3000" to kill the server then the PID of the server shows up when that command is run. for the next command type in the terminal "kill -9 <pid>". After that a message should show up stating that the server was terminated. Then run "rails server" in the terminal to fix the issue at hand.
+ 1. If there is an issue with the steps on installing ruby or rails, try turning off the computer and turning it on then going through the steps again
+ 2. If there is some gem that cannot be installed after 'bundle', refer to the Gemfile to make sure the correct version of ruby and rails are there
+ 3. If the application is taking a long time to load or the application is frozen then, the rails server needs to be terminated and started again. To do that, first type in "lsof -i :3000" to kill the server then the PID of the server shows up when that command is run. for the next command type in the terminal "kill -9 <pid>". After that a message should show up stating that the server was terminated. Then run "rails server" in the terminal to fix the issue at hand.
 
 ![alt text](http://url/to/osu.png)
+
