@@ -16,7 +16,9 @@ Once the rails server is running, the user is at the login page, which is our ro
 --Student view: After you are logged in as a student you can search through the course catalog and search by "Course Number" and get all the available Information that you need for that course and available sections.         
    --Change Account Info button: Students can change their name, last name, and password and apply for instructor or admin access by clicking on this button.   
    --Logout Button: By clicking this button the student will be logged out and will land on the login page.  
-   --Grader Application: The Student can select sections and their preferences for the availability(Mornings/Afternoon/Evening) and then apply for the grader position. And the student can review their old application after click grader application and they can modify their existed application by clicking "edit"
+   --Grader Application: The Student can select  their preferences for the availability(Mornings/Afternoon/Evening) and then apply for the grader position. After click submit, the application has been created and the student will be redirect to the page to select the sections they want to apply for(all the sections from the selected course will be shown and the student could take the responsibility to choose the campus and semester they are looking for).
+   And the student can review their old application after click grader application and they can modify their existed application by clicking "edit".
+   
    --Information Button: The Student can add their availability in this section and also the courses they think they are qualified for being a grader. The availability can be taken into account by the admin when they look through applications. 
    <img width="1369" alt="Screenshot 2023-12-03 at 8 19 27 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/cf881e06-d91e-49cf-a8ac-6e96fbf50208">
 
@@ -25,7 +27,7 @@ Once the rails server is running, the user is at the login page, which is our ro
 When the instructor first makes an account, the student view will be present until the admin approves the instructor. Once approved, the instructor can recommend students and evaluate the student.
 -- Recommend student:
    In the nav bar, the button recommend student, the instructor can include the student's name, email, course to recommend, instructor email, and if they want to recommend the student. 
-   There are two types of recommendation: one is request for upcoming semester, and annother is recommendation for future semester. Once this is submitted the request for upcoming semester can be viewed in the admin manage applicants button and the recommendation for future semester can be viewed in student details.
+   There are two types of recommendation: one is request for upcoming semester, and annother is recommendation for future semester. If it is the request for upcoming semester, after instructor clicked submit, the request will be stored and the instructor will be redirect to the page to select the section(all the sections for the selected course will be shown so the user should mind about the campus and semester associated with the section). If it is recommend for future semester, the instructor only need to put the recommended course. Once this is submitted the request for upcoming semester can be viewed in the admin manage applicants button and the recommendation for future semester can be viewed in student details.
    <img width="648" alt="Screenshot 2023-12-03 at 7 32 06 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/beada96d-b015-4dd4-89e3-98cd19042d52">
 
 
