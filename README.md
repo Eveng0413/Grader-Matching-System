@@ -41,6 +41,8 @@ The admin view is given the most functionality. When the user logs into the defa
    ![Alt text](<Screenshot 2023-12-03 at 6.13.55 PM.png>)
 -- Manage applications:
    All admins can view(shown in image 1) the grader applications that are sent from students. Admins can see the student email, course interested, section interested, time interested, status of the application, and applicat information. The admin can approve or deny a grader application the results will show in the status column(denied, approved, or pending). Once a grader is approved, the course and section applied for will show a grader in the home page. Also, admins can manually edit the amount of graders. In the applicant info column, the admin can click on the view details button for each student and view the student's application and if they have an evaluation (shown in image 2).
+   <img width="958" alt="Screenshot 2023-12-03 at 8 57 15 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/5e9c4b41-770a-4904-ab58-60423d723c86">
+
    <img width="661" alt="Screenshot 2023-12-03 at 8 26 16 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/f73b77d6-c147-4ebf-89db-830d9c03744d">
 
 -- Reload data:
