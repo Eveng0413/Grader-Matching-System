@@ -2,12 +2,11 @@
 
 
 
-<!-- 显示申请人的详细信息 -->
+<!-- Display applicant information -->
 <div class="form-box" style="text-align:left;">
 <h3>Applicant Information</h3>
 <p>Email: <%=  @student.student_email %></p>
 <p>PhoneNumber: <%=  @student.phone_number %></p>
-<!-- 其他信息 -->
 <h2>Available Times</h2>
 <% if @times.any? %>
   <table>

@@ -40,7 +40,7 @@ class RealApplicationsController < ApplicationController
       @user_applications = RealApplication.where(student_email: current_user.email)
       @real_application = RealApplication.new(real_application_params)
       
-      session[:accessed_from_edit] = true 
+      session[:accessed_from_edit] = true
       if Student.exists?(student_email: @real_application.student_email)
         if @real_application.save
           redirect_to show_section_real_application_path(@real_application)

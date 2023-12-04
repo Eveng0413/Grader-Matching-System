@@ -34,8 +34,8 @@
           <tr>
             <th>Course Interested</th>
             <th>Section Interested</th>
+            <th>Time Interested</th>
             <th>Status</th>
-            <!-- 其他需要的列 -->
           </tr>
         </thead>
         <tbody>
@@ -43,6 +43,7 @@
             <tr>
               <td><%= application.course_intrested %></td>
               <td><%= application.section_intrested %></td>
+              <td><%= application.time_intrested %></td>
               <td><%= application.status %></td>
               <td>
                 <%= link_to 'Edit', edit_real_application_path(application), class: 'action-button' %>
