@@ -28,6 +28,7 @@ When the instructor first makes an account, the student view will be present unt
 -- Recommend student:
    In the nav bar, the button recommend student, the instructor can include the student's name, email, course to recommend, instructor email, and if they want to recommend the student. 
    There are two types of recommendation: one is request for upcoming semester, and annother is recommendation for future semester. If it is the request for upcoming semester, after instructor clicked submit, the request will be stored and the instructor will be redirect to the page to select the section(all the sections for the selected course will be shown so the user should mind about the campus and semester associated with the section). If it is recommend for future semester, the instructor only need to put the recommended course. Once this is submitted the request for upcoming semester can be viewed in the admin manage applicants button and the recommendation for future semester can be viewed in student details.
+   If the student recommended is not in the system yet, an account will be generated for them with their email address and 123456 as default password.
    <img width="648" alt="Screenshot 2023-12-03 at 7 32 06 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/beada96d-b015-4dd4-89e3-98cd19042d52">
 
 
@@ -50,6 +51,7 @@ The admin view is given the most functionality. When the user logs into the defa
 
 -- Reload data:
    Located in the nav-bar the button reload. This button leads to a page into which section offering information is updated each semester. This is supported by pulling in data from external data sources. The user can load OSU CSE courses from the OSU API. The user enters keywords, term values, campus values, and academic career to reload the database. When loading the data section, an account automatically will be created for the admin. The admin can decide which parameters they want to load.
+   The instructor from the sections has been loaded by admin will have an account generated for them with their email address and 123456 as default password.
    <img width="674" alt="Screenshot 2023-12-03 at 7 02 00 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/93fb174d-4ee8-4964-970e-b6422d2551d4">
 
 
@@ -80,6 +82,7 @@ This is shown on the instructor page. Instructors can evaluate previous graders 
  4. If logged in as student/instructor but not seeing any data of courses displayed, please make sure admin had already loaded course data into the databases(follow Reload data mentioned above).
  5. If admin reload data but not seeing any data of courses displayed, please make sure the correct params(listed in the reload data page) are used to send the form. If the params sent without any data matching from API, the database will still be empty.
  6. If you meet any migration error, make sure you use "rails db:drop" first, then use "rails db:reset" to recreate database
+ 7. If you try to sign up but is noticed as the account already existed, try to log in with email address and 123456 as default password, since the student recommended when not in the system, and instructor from sections loaded by the admin will have an account generated for them by default.
 
 
 
