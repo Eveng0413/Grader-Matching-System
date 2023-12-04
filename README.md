@@ -35,11 +35,12 @@ The admin view is given the most functionality. When the user logs into the defa
    All admins can view the requests to be an admin or to be an instructor. When an instructor or an admin that is not default signs up a request is automatically sent to the default admin. The default admin can click on the manage requests button in the nav-bar and approve or deny users. The image shows what should be seen after the user clicks on the manage requests button.
    ![Alt text](<Screenshot 2023-12-03 at 6.13.55 PM.png>)
 -- Manage applications:
-   All admins can view(shown in image 1) the grader applications that are sent from students. Admins can see the student email, course interested, section interested, time interested, status of the application, and applicate information. The admin can approve or deny a grader application the results will show in the status column(denied, approved, or pending). Once a grader is approved, the course and section applied for will show a grader in the home page. Also, admins can manually edit the amount of graders. In the applicant info column, the admin can click on the view details button for each student and view the student's application and if they have an evaluation (shown in image 2).
+   All admins can view(shown in image 1) the grader applications that are sent from students. Admins can see the student email, course interested, section interested, time interested, status of the application, and applicat information. The admin can approve or deny a grader application the results will show in the status column(denied, approved, or pending). Once a grader is approved, the course and section applied for will show a grader in the home page. Also, admins can manually edit the amount of graders. In the applicant info column, the admin can click on the view details button for each student and view the student's application and if they have an evaluation (shown in image 2).
 
 -- Reload data:
    Located in the nav-bar the button reload. This button leads to a page into which section offering information is updated each semester. This is supported by pulling in data from external data sources. The user can load OSU CSE courses from the OSU API. The user enters keywords, term values, campus values, and academic career to reload the database. 
-   ![Alt text](<Screenshot 2023-12-03 at 7.02.00 PM.png>)
+   <img width="674" alt="Screenshot 2023-12-03 at 7 02 00 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/93fb174d-4ee8-4964-970e-b6422d2551d4">
+
 
 ### Optional Extensions:
 Applicant Preferences: Students can provide their preferences once they click the grader application button in the student page. The student can choose a course, section, and time that they are interested and once submitted, it will show sections that match that criteria and the student can select a section. Then the admin can see what the student is interested in. 
@@ -64,5 +65,5 @@ This is shown on the instructor page. Instructors can evaluate previous graders 
  2. If there is some gem that cannot be installed after 'bundle', refer to the Gemfile to make sure the correct version of ruby and rails are there
  3. If the application is taking a long time to load or the application is frozen then, the rails server needs to be terminated and started again. To do that, first type in "lsof -i :3000" to kill the server then the PID of the server shows up when that command is run. for the next command type in the terminal "kill -9 <pid>". After that a message should show up stating that the server was terminated. Then run "rails server" in the terminal to fix the issue at hand.
 
-![alt text](http://url/to/osu.png)
+
 
