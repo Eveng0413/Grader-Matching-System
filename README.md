@@ -52,6 +52,8 @@ The admin view is given the most functionality. When the user logs into the defa
 
 ### Optional Extensions:
 Applicant Preferences: Students can provide their preferences once they click the grader application button in the student page. The student can choose a course, section, and time that they are interested and once submitted, it will show sections that match that criteria and the student can select a section. Then the admin can see what the student is interested in. 
+<img width="1440" alt="Screenshot 2023-12-03 at 9 01 21 PM" src="https://github.com/cse-3901-sharkey/2023-Au-Team-1-Lab-3/assets/89815958/cd4b3f01-5339-4d1d-88dc-672b2b441299">
+
 
 Evaluation:
 This is shown on the instructor page. Instructors can evaluate previous graders and admins can view this in the admin page.
