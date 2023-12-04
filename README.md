@@ -64,9 +64,9 @@ This is shown on the instructor page. Instructors can evaluate previous graders 
 
 ## Installation instructions
 1. Download VS code
-2. Clone the repository for project 2
+2. Clone the repository for project 3
 3. Install Ruby 3.2.0 and Rails 7.0.8 (Instructions are in Setting up a development environment in the modules section in Carmen for class 3901)
-4. In the terminal type 'cd lab2'
+4. In the terminal type 'cd lab3'
 5. Once that is completed, run in the command line in terminal 'bundle' then 'rails db: migrate' then 'rails db: seed'
 6. Finally 'run the rails server' in the terminal and click one of the links that are given once the command is run successfully, and it should show the the login page
 
